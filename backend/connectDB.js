@@ -1,10 +1,11 @@
 import mysql from 'mysql2'
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'server_mercadoqr',
-    password: '',
-    database: 'mercadoqr_db',
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    port: process.env.DB_PORT,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0

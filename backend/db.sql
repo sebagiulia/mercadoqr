@@ -1,9 +1,3 @@
-CREATE DATABASE IF NOT EXISTS mercadoqr_db;
-
-show databases;
-
-use mercadoqr_db;
-
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     user_id BINARY(16) DEFAULT(UUID_TO_BIN(UUID())),
@@ -81,18 +75,13 @@ CREATE TABLE subscriptions (
 
 DROP TABLE IF EXISTS rolls;
 CREATE TABLE rolls (
-    user_id BINARY(16) NOT NULL,
-    place_id INT NOT NULL,
     roll_id INT AUTO_INCREMENT,
     roll_name VARCHAR(20) NOT NULL,
     roll_color VARCHAR(20) NOT NULL,
-    FOREIGN KEY(user_id) REFERENCES users(user_id),
-    FOREIGN KEY(roll_id) REFERENCES rolls(roll_id),
-    FOREIGN KEY(place_id) REFERENCES places(place_id),
-    PRIMARY KEY(user_id, place_id, roll_id)
+    PRIMARY KEY(roll_id)
 );
 
-DROP TABLE IF EXISTS rolls;
+DROP TABLE IF EXISTS user_rolls;
 CREATE TABLE user_rolls (
     roll_id INT AUTO_INCREMENT,
     place_id INT NOT NULL,
