@@ -1,12 +1,6 @@
 import jwt from 'jsonwebtoken';
 import mysql from 'mysql2/promise'
-
-const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "server_mercadoqr",
-    password: "",
-    database: "mercadoqr_db",
-});
+import connection from '../connectDB';
 
 
 /* por el momento no es middleware */
