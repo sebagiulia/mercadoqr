@@ -1,0 +1,70 @@
+.carousel {
+    padding-left: 24px;
+    padding-right: 24px;
+    display: inline-flex;
+    overflow: auto; /* Permite el desplazamiento cuando es necesario */
+    scroll-snap-type: x mandatory;
+    /* scrollbar-width: thin; 
+    scrollbar-color: transparent transparent; */
+    overflow-y: hidden;
+    white-space: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+}
+
+
+.prod_carousel {
+    width: 90vw;
+    max-width: 350px;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255);
+    scroll-snap-align: center;   
+    flex-shrink: 0;
+    margin: 5px;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.prod_carousel > img {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    width: 100%;
+    height: 200px;
+}
+
+.prod_carousel_header {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: black;
+    color: white;
+}
+
+.product_img {
+    width: 100%;
+}
+
+.product_img > img {
+    width: 250px;
+    height: 250px;
+}
+
+.name {
+    margin: 10px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.price {
+    margin: 10px;
+    background-color: white;
+    padding: 0 5px;
+    display: flex;
+    color: black;
+    justify-content:space-between;
+    font-size: 20px; 
+    width: 100px;
+    border-radius: 3px;
+}

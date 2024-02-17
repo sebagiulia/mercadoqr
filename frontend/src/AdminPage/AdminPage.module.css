@@ -1,0 +1,149 @@
+.login_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.intruder_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.login_inputs {
+    max-width: 300px;
+    width: 95%;
+}
+
+.login_inputs > button{
+    background-color: black;
+    width: 100%; 
+    color: white;
+    border-radius: 20px;
+    border: none;
+    padding: 5px 10px;
+}
+
+.logo > img {
+    width: 150px;
+    height: 150px;
+}
+
+.header {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    border-bottom: 2px solid rgb(94, 94, 94);
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid black;
+}
+
+.edition_panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.newprod_button {
+    background-color: rgb(77, 77, 77);
+    color: white;
+    border-radius: 20px;
+    border: 2px solid black;
+    padding: 5px 10px;
+    width: 200px;
+}
+
+.rolls_button {
+    background-color: rgb(95, 88, 2);
+    color: white;
+    border-radius: 20px;
+    border: 2px solid black;
+    padding: 5px 10px;
+    width: 200px;
+}
+
+.subs_button {
+    background-color: rgb(108, 33, 33);
+    color: white;
+    border-radius: 20px;
+    border: 2px solid rgb(72, 0, 0);
+    padding: 5px 10px;
+    width: 200px; 
+}
+
+.products_button {
+    background-color: rgb(22, 4, 92);
+    color: white;
+    border-radius: 20px;
+    border: 2px solid rgb(1, 10, 50);
+    padding: 5px 10px;
+    width: 200px; 
+}
+
+.newprod_container {
+    max-height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: scroll;
+    padding: 30px;
+    max-width: 300px;
+    width: 95%;
+    gap: 20px;
+}
+
+.raise_product_button {
+    width: 100%;
+    background-color: black;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 20px;
+    border: none;
+
+}
+
+.file {
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 10px;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.newprod_container > .img {
+    height: 100%;
+    width: 100%;
+}
+
+.inputimg {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}

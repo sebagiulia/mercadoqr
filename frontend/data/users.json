@@ -1,0 +1,57 @@
+[
+  {
+    "name": "sebastian",
+    "lastname": "giulianelli",
+    "email": "sebastiangiulianelli02@gmail.com",
+    "balance": 918000,
+    "subscriptions": 0,
+    "places": 0,
+    "qrs": 0,
+    "id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+    "passwordHash": "$2b$10$tJrRM7sIIFyJOETVrvC7o.gSGpzTANw2JNN9UQdeF7tu8PprWtYsy"
+  },
+  {
+    "name": "marisa",
+    "lastname": "prefacio ",
+    "email": "prefaciomari@hotmail.com",
+    "balance": 0,
+    "subscriptions": 0,
+    "places": 0,
+    "qrs": 0,
+    "id": "38d8554e-f52f  -4f1f-bf16-82de4fb52ebd",
+    "passwordHash": "$2b$10$Em5Vlq7qXBtlnsYUVBRxn.D7KqCPbvQf2JP5H0Y7pmCCv8RNNUbF6"
+  },
+  {
+    "name": "daniel",
+    "lastname": "giulianelli",
+    "email": "danielgiulianelli@gmail.com",
+    "balance": 0,
+    "subscriptions": 0,
+    "places": 0,
+    "qrs": 0,
+    "id": "6c14dfda-48c8-430f-bf58-84a493dde302",
+    "passwordHash": "$2b$10$0k9vmPoZgTnbK4R/4zhPwu5FtT9vhrZcSYjmZZDAtxwjtlwW0KqmO"
+  },
+  {
+    "name": "aaaaaaa",
+    "lastname": "efefefjej",
+    "email": "deed@gma.com",
+    "balance": 0,
+    "subscriptions": 0,
+    "places": 0,
+    "qrs": 0,
+    "id": "b0ca1d48-0b09-4a70-a5a8-285e1a4c6806",
+    "passwordHash": "$2b$10$5OzRVnCKQaJ.BXs6Wrw2POnVQsV9nyUH7WPvwbvxkcOK6wezBk/8q"
+  },
+  {
+    "name": "mateo",
+    "lastname": "romagnali",
+    "email": "mateo@gmail.com",
+    "balance": 0,
+    "subscriptions": 0,
+    "places": 0,
+    "qrs": 0,
+    "id": "aa59f340-2427-4f5f-8203-90bea99d6d58",
+    "passwordHash": "$2b$10$Q6AxvOkpuX670KwCc2vNwudmkaPCVKUEdR1qPug5xToIFnarzlhYe"
+  }
+]

@@ -1,0 +1,10 @@
+.place_profile_header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 30px;
+    border-bottom: solid 1px rgb(73, 39, 184);
+    background-color: white;
+    cursor: pointer;
+    z-index: 2;
+}

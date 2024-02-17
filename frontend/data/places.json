@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844" ,
+        "name": "pueblolimite",
+        "location": "Av. Brasil 2020",
+        "description": "Boliche para pasarla espectacular",
+        "img": "place.jpeg"
+    },
+    {
+        "id": 2,
+        "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+        "name": "anana",
+        "location": "Av. Colon(mdq) 1111",
+        "description": "Boliche Veraniego",
+        "img": "place.jpeg"
+    },
+    {
+        "id": 3,
+        "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+        "name": "creanbeach",
+        "location": "Isla verde (Rosario)",
+        "description": "AfterBeach",
+        "img": "place.jpeg"
+    },
+    {
+        "id": 4,
+        "user_id": "6c14dfda-48c8-430f-bf58-84a493dde302",
+        "name": "puntaarena",
+        "location": "Capitan Bermudez",
+        "description": "Fiesta bajo las estrellas",
+        "img": "place.jpeg"
+    }
+]

@@ -1,0 +1,29 @@
+.reg_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.link {
+    margin-bottom: 20px;
+}
+
+.link > * {
+    margin: 0;
+}
+
+.form {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form > * {
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 15px;
+}

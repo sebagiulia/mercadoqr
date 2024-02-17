@@ -1,0 +1,114 @@
+[
+    {
+        "place_id": 1,
+        "category_id": 1,
+        "prod_id": 1,
+        "prod_name": "Combo Absolute",
+        "price": 15000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 1,
+        "category_id": 2,
+        "prod_id": 2,
+        "prod_name": "Botella Agua",
+        "price": 1000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 1,
+        "category_id": 2,
+        "prod_id": 3,
+        "prod_name": "Coca Cola",
+        "price": 1000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 1,
+        "category_id": 2,
+        "prod_id": 4,
+        "prod_name": "Speed",
+        "price": 1000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 1,
+        "category_id": 3,
+        "prod_id": 5,
+        "prod_name": "Baron B",
+        "price": 20000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 1,
+        "category_id": 3,
+        "prod_id": 6,
+        "prod_name": "Chandon",
+        "price": 15000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 1,
+        "category_id": 4,
+        "prod_id": 7,
+        "prod_name": "Honey",
+        "price": 1000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 1,
+        "category_id": 4,
+        "prod_id": 8,
+        "prod_name": "Ipa",
+        "price": 1000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 1,
+        "category_id": 4,
+        "prod_id": 9,
+        "prod_name": "Negra",
+        "price": 1000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 2,
+        "category_id": 1,
+        "prod_id": 1,
+        "prod_name": "Pulsera Vip Cielo (+25)",
+        "price": 5000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 2,
+        "category_id": 1,
+        "prod_id": 2,
+        "prod_name": "Pulsera Vip Simple (+18)",
+        "price": 2000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 2,
+        "category_id": 2,
+        "prod_id": 3,
+        "prod_name": "Cuba libre",
+        "price": 8000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 2,
+        "category_id": 2,
+        "prod_id": 4,
+        "prod_name": "Daiquiri",
+        "price": 7000,
+        "img": "../place.jpeg"
+    },
+    {
+        "place_id": 3,
+        "category_id": 1,
+        "prod_id": 1,
+        "prod_name": "Entrada Preventa",
+        "price": 5000,
+        "img": "../place.jpeg"
+    }
+]

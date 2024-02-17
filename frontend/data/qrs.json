@@ -1,0 +1,77 @@
+[
+  {
+    "code": "A A T G G",
+    "color": "yellow",
+    "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+    "place_id": 1,
+    "qr_id": "614aef30-8772-412c-8062-c6055c9fad55",
+    "product_id": 1,
+    "name": "Combo Absolute",
+    "date": "Mon Feb 05 2024",
+    "expiration": 7
+  },
+  {
+    "code": "A A T G G",
+    "color": "yellow",
+    "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+    "place_id": 1,
+    "qr_id": "e633b7da-eb1f-4a6e-afa3-24440f6ed89a",
+    "product_id": 2,
+    "name": "Botella Agua",
+    "date": "Mon Feb 05 2024",
+    "expiration": 7
+  },
+  {
+    "code": "LCDICE",
+    "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+    "place_id": 1,
+    "qr_id": "9570eea1-a188-414f-9fa5-5ed710b1a2f8",
+    "product_id": 7,
+    "name": "Honey",
+    "date": "Mon Feb 05 2024",
+    "expiration": 7
+  },
+  {
+    "code": "GAMBDG",
+    "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+    "place_id": 1,
+    "qr_id": "af7a6800-fb41-4f1d-a9fd-f508d6c7fef3",
+    "product_id": 3,
+    "name": "Coca Cola",
+    "date": "Mon Feb 05 2024",
+    "expiration": 7
+  },
+  {
+    "code": "QANQTB",
+    "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+    "place_id": 2,
+    "qr_id": "278c284a-ae9e-4c51-abce-75b7c3ecc383",
+    "product_id": 4,
+    "name": "Daiquiri",
+    "date": "Mon Feb 05 2024",
+    "expiration": 7,
+    "quantity": "4"
+  },
+  {
+    "code": "BGULAU",
+    "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+    "place_id": 2,
+    "qr_id": "8e8c999c-ca8b-455c-b6cf-77b653b48a23",
+    "product_id": 1,
+    "name": "Pulsera Vip Cielo (+25)",
+    "date": "Mon Feb 05 2024",
+    "expiration": 7,
+    "quantity": 1
+  },
+  {
+    "code": "QNVIPV",
+    "user_id": "621eeaa2-a4e5-424f-bbaf-0c5ece286844",
+    "place_id": 1,
+    "qr_id": "6055ff11-5768-4c45-91ad-4dbdf1053a3c",
+    "product_id": 5,
+    "name": "Baron B",
+    "date": "Sun Feb 11 2024",
+    "expiration": 7,
+    "quantity": 1
+  }
+]
