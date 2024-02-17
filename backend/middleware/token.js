@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import connection from '../connectDB';
+import connection from '../connectDB.js';
 
 
 /* por el momento no es middleware */
