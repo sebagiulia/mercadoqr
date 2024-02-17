@@ -18,5 +18,5 @@ app.get('/*', function (req, res) {
   });
 
 app.listen(process.env.REACT_APP_PORT, () => {
-    console.log("Escuchando en puerto" + process.env.REACT_APP_PORT)
+    console.log("Escuchando en puerto" + process.env.PORT)
 });
