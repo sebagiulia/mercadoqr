@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = process.env.SERVER_URL + "/token";
+const baseUrl = process.env.REACT_APP_SERVER_URL + "/token";
 
 let token = null;
 

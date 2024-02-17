@@ -1,7 +1,7 @@
 import axios from 'axios'
-const baseUrl = process.env.SERVER_URL + + "/api/qrs";
-const subsUrl = process.env.SERVER_URL + + "/api/subs";
-const placesUrl = process.env.SERVER_URL + + "/api/userplaces";
+const baseUrl = process.env.REACT_APP_SERVER_URL + + "/api/qrs";
+const subsUrl = process.env.REACT_APP_SERVER_URL + + "/api/subs";
+const placesUrl = process.env.REACT_APP_SERVER_URL + + "/api/userplaces";
 
 const getqrs = async user_id => {
     const { data } = await axios.post(baseUrl, { user_id });

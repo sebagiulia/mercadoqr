@@ -13,8 +13,6 @@ import { Search } from './Search/Search.js'
 import tokenServices from './services/tokenServices.js';
 import { CreatePlace } from './Place/Create/CreatePlace';
 import { AdminPage } from './AdminPage/AdminPage.js' 
-
-
 library.add(fas, faTwitter, faFontAwesome)
 
 class User extends React.Component {

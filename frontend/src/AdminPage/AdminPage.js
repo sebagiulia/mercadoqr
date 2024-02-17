@@ -17,17 +17,6 @@ function Subs() {
     );
 }
 
-function NewRoll() {
-    return (
-        <div className={styles.newprod_container}>
-            <input type='text' placeholder='Nombre del roll' />
-            <input type='text' placeholder='Capacidades' />
-            <input type='text' placeholder='Color' />
-            <button>Lanzar Roll</button>
-        </div>
-    );
-}
-
 function NewProduct({ close, place_id, products, rolls }) {
     const [product, setProduct] = useState({
         name: '',

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import tokenServices from './tokenServices.js'
-const raiseProdUrl =  process.env.SERVER_URL +  "/api/raiseprod"
+const raiseProdUrl =  process.env.REACT_APP_SERVER_URL +  "/api/raiseprod"
 
 const raiseProduct = async (place_id, product) => {
     try {

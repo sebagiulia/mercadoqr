@@ -1,12 +1,12 @@
 import axios from 'axios'
 import tokenServices from './tokenServices.js'
-const baseUrl = process.env.SERVER_URL + "/api/place/";
-const userplaceUrl = process.env.SERVER_URL + "/api/userplace";
-const qrsUrl = process.env.SERVER_URL + "/api/qrplace";
-const subscribeUrl = process.env.SERVER_URL + "/api/subscribe"
-const unsubscribeUrl = process.env.SERVER_URL + "/api/unsubscribe"
-const buyqrUrl = process.env.SERVER_URL + "/api/buyqr"
-const createUrl = process.env.SERVER_URL + "/api/create"
+const baseUrl = process.env.REACT_APP_SERVER_URL + "/api/place/";
+const userplaceUrl = process.env.REACT_APP_SERVER_URL + "/api/userplace";
+const qrsUrl = process.env.REACT_APP_SERVER_URL + "/api/qrplace";
+const subscribeUrl = process.env.REACT_APP_SERVER_URL + "/api/subscribe"
+const unsubscribeUrl = process.env.REACT_APP_SERVER_URL + "/api/unsubscribe"
+const buyqrUrl = process.env.REACT_APP_SERVER_URL + "/api/buyqr"
+const createUrl = process.env.REACT_APP_SERVER_URL + "/api/create"
 
 const getQrListFromUserId = async ({ place_id, user_id }) => {
     try {
