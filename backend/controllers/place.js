@@ -83,7 +83,7 @@ export class PlaceController {
         const placeData = req.body;
         delete placeData.user_id
 
-        const img = "http://mercadoqr-server.onrender.com/profile-images/" + file.filename;
+        const img = "http://" + prodcess.env.SERVER_URL + "/profile-images/" + file.filename;
 
         const result = validatePlace({img, ...placeData});
 

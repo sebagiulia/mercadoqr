@@ -40,7 +40,7 @@ export class UserModel {
             if (result[0].length > 0) return true;
             return false;
         } catch (e) {
-            console.error("Error en la busqueda de email");
+            console.error("Error en la busqueda de email" + e);
             return { error: true };
         }
 
