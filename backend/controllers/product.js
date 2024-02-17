@@ -8,7 +8,7 @@ export class ProductController {
         const data = {...req.body}
         const { place_id, user_id } = req.body;
         const file = req.file;
-        const img = "http://192.168.0.19:1234/product-images/" + file.filename;
+        const img = "http://mercadoqr-server.onrender.com/product-images/" + file.filename;
         data.img = img;
         data.price = parseInt(data.price, 10);
         delete data.place_id;
