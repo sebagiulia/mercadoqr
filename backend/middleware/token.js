@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import mysql from 'mysql2/promise'
 import connection from '../connectDB';
 
 
