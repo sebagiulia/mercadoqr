@@ -83,8 +83,9 @@ export class PlaceController {
         const placeData = req.body;
         delete placeData.user_id
 
-        const img = "http://" + prodcess.env.SERVER_URL + "/profile-images/" + file.filename;
-
+        let img = null;
+        if(file) img="http://" + prodcess.env.SERVER_URL + "/profile-images/" + file.filename;
+        else img="http://" + prodcess.env.SERVER_URL + "/profile-images/defaultimage.png"; 
         const result = validatePlace({img, ...placeData});
 
         if (!result.success) {
