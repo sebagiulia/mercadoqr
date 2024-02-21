@@ -13,23 +13,9 @@ dotenv.config();
 
 import multer from 'multer'
 // Configuración de multer
-const storageProfile = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/places/profile'); // Directorio donde se guardarán las imágenes
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    },
-});
+const storageProfile = multer.memoryStorage();
 
-const storageProduct = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/places/products'); // Directorio donde se guardarán las imágenes
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    },
-});
+const storageProduct = multer.memoryStorage();
 
 
 
@@ -40,9 +26,9 @@ const srv = express();
 
 // Middleware para servir archivos estáticos (en este caso, imágenes)
 srv.use(express.static('public'));
-srv.use('/profile-images', express.static('public/places/profile'));
-srv.use('/product-images', express.static('public/places/products'));
-
+srv.use('/profile-images/:img_id', PlaceController.getPlaceProfileImg);
+/* srv.use('/product-images', ProductController.getPlaceProductImg);
+ */
 srv.use(urlencoded({ extended: true }));
 srv.use(json());
 srv.use(cors());

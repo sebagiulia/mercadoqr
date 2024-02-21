@@ -1,6 +1,6 @@
 import { generarPalabraAleatoria } from '../../randomword.js'
 import connection from '../../connectDB.js'
-
+import path from 'path';
 
 export class PlaceModel {
 
@@ -258,22 +258,47 @@ export class PlaceModel {
         }
     }
 
-    static createPlace = async (place, user_id) => {
+    static createPlace = async (place, user_id, file) => {
+        
+        const { buffer, mimetype} = file;
         const { name, description, location, instagram, img } = place;
         try {
-            await connection.query(`
+            const img_id = Date.now() + '.' + mimetype.split('/')[1];
+            console.log(img_id)
+            const [resultImg, fieldsImg] = await connection.query(`
             INSERT INTO places (place_name, place_location, place_description, place_social, place_img, user_id)
-            VALUES (?, ?, ?, ?, ?, UUID_TO_BIN(?))`, [name, description, location, instagram, img, user_id]
+            VALUES (?, ?, ?, ?, ?, UUID_TO_BIN(?))`, [name, description, location, instagram, img_id, user_id]
             )
+
+            await connection.query(`
+            INSERT INTO profile_images (img_id, img_data, place_id)
+            VALUES (?, ?, ?)`, [img_id, buffer, resultImg.insertId]
+            )
+
             return {
                 success: true,
                 ...place
             }
         } catch (e) {
-            console.error("Error Creating Place" + e);
+            console.error("Error Creating Place " + e);
             return { error: true }
         }
 
     }
 
+    static getPlaceProfileImg = async ({ img_id }) => {
+        try {
+            const result = await connection.query(
+                `SELECT img_data FROM profile_images WHERE
+                    img_id = ?`, [img_id]
+            )
+            if(result[0].length === 0) return { error: true }
+            return { success: true,
+                     img_data: result[0][0].img_data,
+                     img_format: path.extname(img_id)}
+        } catch(e) {
+            console.error('Error Get Profile Img ' + e);
+            return {error: true}
+        }
+    }
 }

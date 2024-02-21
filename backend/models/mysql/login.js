@@ -26,7 +26,7 @@ export class LoginModel {
             return ({ error: { password: true } })
 
         } catch(e) {
-            console.error("Error login DB");
+            console.error("Error login DB " + e);
             return { error: true }
         }
     }

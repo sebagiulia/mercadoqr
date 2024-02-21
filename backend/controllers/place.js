@@ -23,21 +23,21 @@ export class PlaceController {
 
     static getPlaceDataByPlaceName = async (req, res) => {
 
-        const place_data = await PlaceModel.getPlaceDataByPlaceName({ name: req.params.place_name});
+        const place_data = await PlaceModel.getPlaceDataByPlaceName({ name: req.params.place_name });
 
         return res.json(place_data)
     }
 
     static getQrListFromUserId = async (req, res) => {
         const { place_id, user_id } = req.body;
-        const qr_list = await PlaceModel.getQrListFromUserId({place_id, user_id});
+        const qr_list = await PlaceModel.getQrListFromUserId({ place_id, user_id });
         return res.json(qr_list);
     }
 
     static subscribeToPlace = async (req, res) => {
         const { place_id, user_id } = req.body;
         const result = await PlaceModel.subscribeToPlace({ place_id, user_id });
-        if(result.success)
+        if (result.success)
             console.log(user_id + ' se a subscripto a ' + place_id)
         return res.json(result);
     }
@@ -45,7 +45,7 @@ export class PlaceController {
     static unsubscribeToPlace = async (req, res) => {
         const { place_id, user_id } = req.body;
         const result = await PlaceModel.unsubscribeToPlace({ place_id, user_id });
-        if(result.success)
+        if (result.success)
             console.log(user_id + ' se a desubscripto de ' + place_id)
         return res.json(result);
     }
@@ -75,26 +75,36 @@ export class PlaceController {
     }
 
     static createPlace = async (req, res) => {
-        
         /* Separamos los difentes datos */
         const file = req.file;
-        const data = {...req.body}
+        const data = { ...req.body }
         const user_id = data.user_id;
         const placeData = req.body;
         delete placeData.user_id
 
         let img = null;
-        if(file) img="http://" + prodcess.env.SERVER_URL + "/profile-images/" + file.filename;
-        else img="http://" + prodcess.env.SERVER_URL + "/profile-images/defaultimage.png"; 
-        const result = validatePlace({img, ...placeData});
+        if (file) img = "http://" + process.env.SERVER_URL + "/profile-images/" + file.filename;
+        else img = "http://" + prodcess.env.SERVER_URL + "/profile-images/defaultimage.png";
+        const result = validatePlace({ img, ...placeData });
 
         if (!result.success) {
             return res.status(400).json({ error: JSON.parse(result.error.message) });
         }
-        const place = await PlaceModel.createPlace(result.data, user_id);
-        if(place.success) {
-            console.log("Place created [" + placeData.name  + "] by " + user_id);
+        const place = await PlaceModel.createPlace(result.data, user_id, file);
+        if (place.success) {
+            console.log("Place created [" + placeData.name + "] by " + user_id);
         }
         return res.json(place);
+    }
+
+    static getPlaceProfileImg = async (req, res) => {
+        const img_id = req.params.img_id;
+        const result = await PlaceModel.getPlaceProfileImg({ img_id });
+        if (result.success) {
+            res.setHeader('Content-Type', 'image/' + result.img_format);
+            res.send(result.img_data);
+        }
+        return result;
+
     }
 }
