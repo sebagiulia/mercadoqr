@@ -1,0 +1,21 @@
+{
+  "name": "mercadoqrback",
+  "version": "1.0.0",
+  "description": "backend del mvp de mercadoqr",
+  "main": "srv.js",
+  "scripts": {
+    "test": "npx tsc --resolveJSONModule && node ./dist/srv.js"
+  },
+  "author": "Sebastian Giulianelli",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.6",
+    "typescript": "^5.7.3"
+  }
+}

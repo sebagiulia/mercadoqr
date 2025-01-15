@@ -1,0 +1,86 @@
+.place {
+    width: 100%;
+    height: 100vh;
+}
+
+.place_img {
+    border-radius: 25%;
+    background-color: black;
+}
+
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 200px;
+    color: black;
+    border-bottom: 1px solid rgb(69, 69, 69);
+}
+
+.place_name {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.place_address {
+    font-size: 15px;
+    color: rgb(69, 69, 69);
+}
+
+.catalog {
+    background-color: rgb(205, 205, 205);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 15px;
+    padding: 15px;
+    overflow-y: scroll;
+}
+
+.product {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content:center;
+    background-color: white;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* Sombra básica */
+}
+
+.product_image{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.product_info {
+    height: 70px;
+    background-color: black;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.product_name {
+    color: white;
+    font-size: 25px;
+}
+
+.product_price {
+    background-color: white;
+    font-size: 20px;
+    padding: 5px;
+    color: black;
+}

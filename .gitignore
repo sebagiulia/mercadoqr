@@ -1,0 +1,42 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/mercadoqrF/node_modules
+/mercadoqrF/.pnp
+/mercadoqrF/.pnp.*
+/mercadoqrF/.yarn/*
+/mercadoqrF/!.yarn/patches
+/mercadoqrF/!.yarn/plugins
+/mercadoqrF/!.yarn/releases
+/mercadoqrF/!.yarn/versions
+
+# testing
+/mercadoqrF/coverage
+
+# next.js
+/mercadoqrF/.next/
+/mercadoqrF/out/
+/mercadoqrB/node_modules
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
