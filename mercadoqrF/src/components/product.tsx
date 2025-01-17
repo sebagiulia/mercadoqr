@@ -3,24 +3,17 @@
 import styles from './product.module.css';
 import ProductType from '../models/product';
 import UserPaymentDataForm from './userPaymentDataForm';
+import { useDependencies } from "utils/dependencyContext";
+import { useRouter } from 'next/navigation';
 
-export default function Product({ product }: { product: ProductType }) {
+export default function Product({ product, place }: { product: ProductType, place:string }) {
+    const { paymentService, qrService } = useDependencies();
+    const  router = useRouter();
     const handleClientSubmit = async (formData: any) => {
         try {
-            const result = await fetch('http://localhost:1024/api/payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            /* if (!result.ok) {
-                throw new Error('Error en el servidor al procesar el pago.');
-            } */
-            const responseData = await result.json();
-            console.log('Respuesta del servidor:', responseData);
-            alert('Pago realizado con éxito.');
+            
+            const result = await paymentService.processPayment({...formData, place_id: product.place_id, prod_id: product.id})
+            router.push('/' + place + '/' + product.name + '/' + result.transactionId);
         } catch (error) {
             console.error('Error al enviar los datos:', error);
             alert('Ocurrió un error al procesar el pago.');

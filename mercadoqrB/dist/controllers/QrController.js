@@ -10,30 +10,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const respondeUtil_1 = require("../utils/respondeUtil");
-class PaymentController {
-    constructor(paymentService) {
-        this.paymentService = paymentService;
-        this.processPayment = this.processPayment.bind(this);
-        this.refund = this.refund.bind(this);
-        console.log('Servicio de pagos activo');
+class QrController {
+    constructor(qrService) {
+        this.qrService = qrService;
+        this.getQrByCode = this.getQrByCode.bind(this);
+        this.getQrById = this.getQrById.bind(this);
+        console.log('Servicio de qr activo');
     }
-    processPayment(req, res, next) {
+    getQrByCode(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('Procesando pago');
-            const paymentDetails = req.body;
+            console.log('solicitud getQrByCode');
+            const qrCode = req.params.qr;
             try {
-                const result = yield this.paymentService.processPayment(-1, 'ar', paymentDetails);
-                (0, respondeUtil_1.sendSuccess)(res, result);
+                const qr = yield this.qrService.getQrByCode(qrCode);
+                (0, respondeUtil_1.sendSuccess)(res, qr);
             }
             catch (error) {
                 next(error);
             }
         });
     }
-    refund(req, res) {
+    getQrById(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            // do nothing
+            console.log('solicitud getQrById');
+            const qrId = req.params.qr;
+            try {
+                const qr = yield this.qrService.getQrById(qrId);
+                (0, respondeUtil_1.sendSuccess)(res, qr);
+            }
+            catch (error) {
+                next(error);
+            }
         });
     }
 }
-exports.default = PaymentController;
+exports.default = QrController;

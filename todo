@@ -1,0 +1,8 @@
+Cambios cercanos:
+--> Que todos los servicios del frontend devuelvan ErrorType
+-->Sacar el campo Repeat Email del formulario de compra cuando se envia.
+-->Arreglar tema de id y code de qrCode
+
+Cambios lejanos:
+
+Ideas:

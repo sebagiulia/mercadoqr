@@ -11,7 +11,8 @@ export default class PaymentController {
         console.log('Servicio de pagos activo');
     }
     async processPayment(req: Request, res: Response, next:NextFunction) : Promise<void> {
-        const paymentDetails = req.body as unknown as { userData: any, productData: any };
+        console.log('Procesando pago');
+        const paymentDetails = req.body;
         try {
             const result = await this.paymentService.processPayment(-1, 'ar', paymentDetails);
             sendSuccess(res, result);

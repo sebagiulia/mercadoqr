@@ -55,6 +55,7 @@ function App() {
 
   return (
     <ErrorProvider>
+      <DependencyProvider>
       <div className={styles.page}>
         <main className={styles.main}>
           <Image
@@ -90,6 +91,7 @@ function App() {
           )}
         </main>
       </div>
+      </DependencyProvider>
     </ErrorProvider>
   );
 } 

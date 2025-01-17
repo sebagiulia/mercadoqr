@@ -1,5 +1,5 @@
 export default interface Qr {
-    id: number;
+    id: string;
     prod_id: number;
     place_id: number;
     expiration: string;

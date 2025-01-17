@@ -9,31 +9,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const respondeUtil_1 = require("../utils/respondeUtil");
-class PaymentController {
-    constructor(paymentService) {
-        this.paymentService = paymentService;
-        this.processPayment = this.processPayment.bind(this);
-        this.refund = this.refund.bind(this);
-        console.log('Servicio de pagos activo');
+const errors_1 = require("../../errors/errors");
+class QrServiceImp {
+    constructor(qrRepository) {
+        this.qrRepository = qrRepository;
     }
-    processPayment(req, res, next) {
+    getQrByCode(qrCode) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('Procesando pago');
-            const paymentDetails = req.body;
-            try {
-                const result = yield this.paymentService.processPayment(-1, 'ar', paymentDetails);
-                (0, respondeUtil_1.sendSuccess)(res, result);
+            const qr = yield this.qrRepository.getQrByCode(qrCode);
+            if (!qr) {
+                throw new errors_1.NotFoundError('Qr not found');
             }
-            catch (error) {
-                next(error);
+            else {
+                return qr;
             }
         });
     }
-    refund(req, res) {
+    getQrById(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
-            // do nothing
+            const qr = yield this.qrRepository.getQrById(qrId);
+            if (!qr) {
+                throw new errors_1.NotFoundError('Qr not found');
+            }
+            else {
+                return qr;
+            }
         });
     }
 }
-exports.default = PaymentController;
+exports.default = QrServiceImp;

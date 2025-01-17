@@ -1,14 +1,15 @@
 import Place from "@/components/place"; 
-import PlaceService from "servicios/placeServiceJSONImp";
 import { notFound } from "next/navigation";
 import { ErrorProvider } from "errors/ErrorContext";
+import PlaceServiceApiImp from "@/servicios/placeServiceApiImp";
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ sucursal: string }>
 }) {
-  const placeService = new PlaceService() 
+  
+  const placeService = new PlaceServiceApiImp();
   const sucursal = (await params).sucursal
   const place = await placeService.getPlace(sucursal)
     if (place === null) {

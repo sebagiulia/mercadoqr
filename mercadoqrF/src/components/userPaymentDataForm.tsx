@@ -71,7 +71,6 @@ const Formulario : React.FC<FormularioProps> = ({ price, handleSubmit2 } ) => {
       setError(null);
       handleSubmit2(formData);
       console.log('Formulario enviado:', formData);
-      alert('Formulario enviado exitosamente');
     };
     
     const handleMedioPagoChange = (payment_method: string) => {

@@ -11,6 +11,10 @@ const endpoints = {
     payment: {
       processPayment: dn + '/payment'
     },
+    qr: {
+      qrByCode: (code: string) => dn + `/qrcode/${code}`,
+      qrById: (id: string) => dn + `/qrid/${id}`
+    }
   };
   
   export default endpoints;

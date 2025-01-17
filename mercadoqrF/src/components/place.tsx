@@ -1,7 +1,5 @@
 'use client'
 import styles from './place.module.css';
-import Image from 'next/image';
-import Logo from '@/public/mercadoqr-logo.svg';
 import  PlaceType from '../models/place';
 import  ProductType from '../models/product';
 import { useRouter } from "next/navigation";
@@ -54,7 +52,7 @@ function PlaceCatalog({products, placename}: { products: ProductType[], placenam
 
 export default function Place({place, products}: { place: PlaceType, products: ProductType[] }) {
     return (<div className={styles.place}>
-        <PlaceHeader place={Object.assign({}, place)}/>
+        <PlaceHeader place={place}/>
         <PlaceCatalog placename={place.name} products={products}/>
         </div>);
 }

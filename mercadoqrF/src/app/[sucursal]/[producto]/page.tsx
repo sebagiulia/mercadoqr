@@ -1,21 +1,24 @@
+'use client'
 import { notFound } from "next/navigation"
-import PlaceService from "servicios/placeServiceJSONImp"
 import Product from "@/components/product"
 import { ErrorProvider } from "errors/ErrorContext"
+import { DependencyProvider, useDependencies } from "utils/dependencyContext"
 export default async function Page({
   params,
 }: {
   params: Promise<{ sucursal: string, producto:string }>
 }) {
-  const placeService = new PlaceService()
+  const { placeService } = useDependencies()
   const sucursal = (await params).sucursal
   const producto = (await params).producto
   const product = await placeService.getProduct(sucursal, producto)
-  if(product === null){
+  if(!product){
     notFound()
   } else {
     return (<ErrorProvider>
-            <Product product={Object.assign({},product)} />
+      <DependencyProvider>
+            <Product product={product} place={sucursal} />
+      </DependencyProvider>
           </ErrorProvider>)
   }
 }
