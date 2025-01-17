@@ -19,8 +19,15 @@ const qrController = new QrController(qrService)
 
 import PlaceController from './controllers/PlaceController'
 import PlaceServiceJSON from './services/imp/PlaceServiceJSON'
-const placeService = new PlaceServiceJSON()
+import PlaceRepositoryJSON from './repositories/imp/placeRepositoryJSON'
+const placeRepository = new PlaceRepositoryJSON()
+const placeService = new PlaceServiceJSON(placeRepository)
 const placeController = new PlaceController(placeService)
+
+import ScannController from './controllers/ScannConstroller'
+import ScannServiceJSON from './services/imp/ScannServiceJSON'
+const scannService = new ScannServiceJSON(qrRepository, placeRepository)
+const scannController = new ScannController(scannService)
 
 import cors from 'cors'
 
@@ -35,10 +42,10 @@ app.use(urlencoded({ extended: true }));
 app.get('/api/place/:place', placeController.getPlace)
 app.get('/api/places/:place', placeController.getPlaces)
 app.get('/api/product/:place/:product', placeController.getProduct)
+app.get('/api/products/:id', placeController.getProducts)
 app.get('/api/qrid/:qr', qrController.getQrById)
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+app.get('/api/scann/consume/:id', scannController.consumeQrByQrId)
+app.get('/api/scann/getprod/:id', scannController.getProdByQrId)
 
 // POST
 app.post('/api/payment', paymentController.processPayment)

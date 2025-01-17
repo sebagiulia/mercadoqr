@@ -9,29 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class PlaceServiceImp {
-    constructor(placeRepository) {
+class ScannServiceJSON {
+    constructor(qrRepository, placeRepository) {
+        this.qrRepository = qrRepository;
         this.placeRepository = placeRepository;
     }
-    getPlace(placeName) {
+    getProdByQrId(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.placeRepository.getPlace(placeName);
+            const qr = yield this.qrRepository.getQrById(qrId);
+            const prod = yield this.placeRepository.getProduct(qr.place_id.toString(), qr.prod_id.toString());
+            return prod;
         });
     }
-    getPlaces(placeName) {
+    consumeQrByQrId(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.placeRepository.getPlaces(placeName);
-        });
-    }
-    getProducts(placeId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.placeRepository.getProducts(placeId.toString());
-        });
-    }
-    getProduct(placeName, productName) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.placeRepository.getProduct(placeName, productName);
+            return this.qrRepository.deleteQr(qrId);
         });
     }
 }
-exports.default = PlaceServiceImp;
+exports.default = ScannServiceJSON;

@@ -1,42 +1,28 @@
 import Place from '../../schemas/Place'
 import Product from '../../schemas/Product'
-import PlaceRepository from '../PlaceService'
-import places from '../../data/places.json'
-import products from '../../data/products.json'
-import { NotFoundError } from '../../errors/errors'
+import PlaceService from '../PlaceService'
+import PlaceRepository from '../../repositories/placeRepository'
 
-export default class PlaceRepositoryJSON implements PlaceRepository {
-    private places: Place[]
-    private products: Product[]
+export default class PlaceServiceImp implements PlaceService {
+    private placeRepository: PlaceRepository
 
-    constructor() {
-        this.places = places
-        this.products = products
+    constructor(placeRepository: PlaceRepository) {
+        this.placeRepository = placeRepository
     }
     
-    async getPlace(placeName: string): Promise<Place | null> {
-        const place = this.places.find(place => place.name === placeName)
-        if (!place) throw new NotFoundError('Place not found')
-        return place
+    async getPlace(placeName: string): Promise<Place> {
+        return this.placeRepository.getPlace(placeName)
     }
 
     async getPlaces(placeName: string): Promise<Place[]> {
-        const places = this.places.filter(place => place.name.includes(placeName))
-        if (places.length > 0) return places
-        throw new NotFoundError('Places not found')
+        return this.placeRepository.getPlaces(placeName)
     }
 
     async getProducts(placeId: number): Promise<Product[]> {
-        const products = this.products.filter(product => product.place_id === placeId)
-        if (products.length > 0) return products
-        throw new NotFoundError('Products not found')
+        return this.placeRepository.getProducts(placeId.toString())
     }
 
-    async getProduct(placeName: string, productName: string): Promise<Product | null> {
-        const place = await this.getPlace(placeName)
-        if (!place) throw new NotFoundError('Place not found')
-        const product = this.products.find(product => product.place_id === place.id && product.name === productName)
-        if (!product) throw new NotFoundError('Product not found')
-        return product
+    async getProduct(placeName: string, productName: string): Promise<Product> {
+        return this.placeRepository.getProduct(placeName, productName)
     }
 }

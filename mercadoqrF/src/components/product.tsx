@@ -3,16 +3,15 @@
 import styles from './product.module.css';
 import ProductType from '../models/product';
 import UserPaymentDataForm from './userPaymentDataForm';
-import { useDependencies } from "utils/dependencyContext";
 import { useRouter } from 'next/navigation';
+import PaymentService from 'services/paymentService';
 
 export default function Product({ product, place }: { product: ProductType, place:string }) {
-    const { paymentService, qrService } = useDependencies();
     const  router = useRouter();
     const handleClientSubmit = async (formData: any) => {
         try {
             
-            const result = await paymentService.processPayment({...formData, place_id: product.place_id, prod_id: product.id})
+            const result = await PaymentService.processPayment({...formData, place_id: product.place_id, prod_id: product.id})
             router.push('/' + place + '/' + product.name + '/' + result.transactionId);
         } catch (error) {
             console.error('Error al enviar los datos:', error);

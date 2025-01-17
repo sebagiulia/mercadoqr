@@ -1,8 +1,13 @@
 Cambios cercanos:
---> Que todos los servicios del frontend devuelvan ErrorType
--->Sacar el campo Repeat Email del formulario de compra cuando se envia.
--->Arreglar tema de id y code de qrCode
+
+--> Sacar el campo Repeat Email del formulario de compra cuando se envia.
+--> Arreglar tema de id y code de qrCode
+--> Arreglar nombres de clases ..JSON por ..Api donde corresponda
+--> Hacer con Post los scanneos
 
 Cambios lejanos:
+hacer el frontend del scann
 
 Ideas:
+Pago grupal
+Mapa de locales abiertos

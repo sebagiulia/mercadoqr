@@ -3,20 +3,21 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import qrdefault from '@/public/qr-code-default.svg';
 import { ErrorProvider } from 'errors/ErrorContext';
-import { useDependencies } from 'utils/dependencyContext';
+import QrService from 'services/qrService';
 export default async function Page({
     params,
   }: {
     params: Promise<{ qrcode:string }>
   }) {
-    const { qrService } = useDependencies()
     const qrid = (await params).qrcode
 
-    const qr = await qrService.getQrById(qrid)
-    if(!qr) { notFound() }
-
-    return (
-      <ErrorProvider>
+    const response = await QrService.getQrById(qrid)
+    if(!response.success || !response.data) { 
+      notFound()
+    } else {
+      const qr = response.data
+      return (
+        <ErrorProvider>
     <div className={styles.page}>
       <div className={styles.thank}>Gracias por tu compra!</div>
       <div>Este es tu QR</div>
@@ -29,4 +30,5 @@ export default async function Page({
     </div>
     </ErrorProvider>
   );
+}
 }

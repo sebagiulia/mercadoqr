@@ -25,11 +25,21 @@ export default class QrRepositoryJSON implements QrRepository {
         addQr(qr);
         return uid
     }
-    async getQrById(qrId: string): Promise<Qr | null> {
-        return this.qrs.find((qr:Qr) => qr.id === qrId) || null;
+    async getQrById(qrId: string): Promise<Qr> {
+        const qr = this.qrs.find((qr:Qr) => qr.id === qrId);
+        if (!qr) {
+            throw new NotFoundError("QR not found");
+        } else {
+            return qr 
+        }
     }
-    async getQrByCode(qrCode: string): Promise<Qr | null> {
-        return this.qrs.find((qr:Qr) => qr.code === qrCode) || null;
+    async getQrByCode(qrCode: string): Promise<Qr> {
+        const qr = this.qrs.find((qr:Qr) => qr.code === qrCode);
+        if (!qr) {
+            throw new NotFoundError("QR not found");
+        } else {
+            return qr 
+        }
     }
     async updateQr(qr: Qr): Promise<void> {
         const qrIndex = this.qrs.findIndex((qrItem:Qr) => qrItem.id === qr.id);

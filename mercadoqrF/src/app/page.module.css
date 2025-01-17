@@ -38,12 +38,14 @@
   padding: 5px;
   margin: 0;
   width: 100%;
-  height: 30px;
+  height: 40px;
   background-color: #ffffff;
   color:black;
   font-size: 15px;
   border-radius: 20px;
   text-align: center;
+  width: 300px;
+  position:static;
 
 }
 
@@ -181,7 +183,45 @@ a.secondary {
 }
 
 .suggestion {
-  background-color: blue;
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  border: 1px solid rgb(0, 0, 0);
   width: 300px;
-  height: 30px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;  
+  align-items: center;
+  padding: 0 10px;
+  cursor: pointer;
 }
+
+.suggestion:active {
+  background-color: rgb(186, 186, 186);
+  transition: .2s;
+}
+
+.suggestion_img {
+  background-color: black;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.suggestion_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
+.suggestion_address {
+  font-size: 12px;
+  color: gray;
+}
+
+.suggestion_name {
+  font-size: 16px;
+  font-weight: bold;
+}
+

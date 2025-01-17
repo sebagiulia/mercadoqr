@@ -2,18 +2,13 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import Logo from "@/public/mercadoqr-logo.svg";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ErrorProvider } from "errors/ErrorContext";
-import { DependencyProvider, useDependencies } from "utils/dependencyContext";
 import Place from "@/models/place";
+import PlaceService from "services/placeService";
 
 export default function Home() {
-  return <DependencyProvider><App /></DependencyProvider>;
-}
-
-function App() {
-  const { placeService } = useDependencies();
   const router = useRouter();
   
   const [inputValue, setInputValue] = useState("");
@@ -30,8 +25,12 @@ function App() {
     const timer = setTimeout(async () => {
       setIsLoading(1);
       try {
-        const placesData = await placeService.getPlaces(inputValue);
-        setPlaces(placesData);          
+        const response = await PlaceService.getPlaces(inputValue);
+        if(!response.success || !response.data) {
+          notFound();
+        } else {
+          setPlaces(response.data);          
+        }
         setIsLoading(2);
       } catch (error) {
         setIsLoading(3);
@@ -55,7 +54,6 @@ function App() {
 
   return (
     <ErrorProvider>
-      <DependencyProvider>
       <div className={styles.page}>
         <main className={styles.main}>
           <Image
@@ -78,20 +76,38 @@ function App() {
                 <div>Loading...</div> // Puedes poner un spinner o mensaje de carga aquí
                :  isLoading === 2 ?  (
                 places.map((place, index) => (
-                  <div
+                  <Suggestion
                     key={index}
-                    className={styles.suggestion}
                     onClick={() => handlePlaceClick(place)}
-                  >
-                    {place.name}
-                  </div>
+                    place={place}
+                  />
                 ))
               ): isLoading === 3 ? <div>No existe sucursal con ese nombre</div> : <></> }
             </div>
           )}
         </main>
       </div>
-      </DependencyProvider>
     </ErrorProvider>
   );
-} 
+}
+
+function Suggestion({ place, onClick }: { place: Place; onClick: any }) {
+  return (
+    <div className={styles.suggestion} onClick={onClick}>
+      <div className={styles.suggestion_img}>
+        <img className={styles.suggestion_img}
+          src={place.img}
+          alt=""
+        />
+      </div>
+      <div className={styles.suggestion_info}>
+        <div className={styles.suggestion_name}>
+        {place.name}
+        </div>
+        <div className={styles.suggestion_address}>
+          {place.address}
+        </div>
+      </div>
+    </div>
+  );
+}

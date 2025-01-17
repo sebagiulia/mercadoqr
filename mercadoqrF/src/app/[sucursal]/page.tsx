@@ -1,7 +1,7 @@
 import Place from "@/components/place"; 
 import { notFound } from "next/navigation";
 import { ErrorProvider } from "errors/ErrorContext";
-import PlaceServiceApiImp from "@/servicios/placeServiceApiImp";
+import PlaceService from "services/placeService";
 
 export default async function Page({
   params,
@@ -9,15 +9,20 @@ export default async function Page({
   params: Promise<{ sucursal: string }>
 }) {
   
-  const placeService = new PlaceServiceApiImp();
   const sucursal = (await params).sucursal
-  const place = await placeService.getPlace(sucursal)
-    if (place === null) {
+  const response = await PlaceService.getPlace(sucursal)
+    if (!response.success || !response.data) {
       notFound()
     } else {
-      const products = await placeService.getProducts(place.id) 
+      const place = response.data
+      const responseP = await PlaceService.getProducts(place.id) 
+      if(!responseP.success || !responseP.data) {
+        notFound()
+      } else {
+        const products = responseP.data
       return (<ErrorProvider>
               <Place place={place} products={products} />
               </ErrorProvider>)
+      }
     }
 }

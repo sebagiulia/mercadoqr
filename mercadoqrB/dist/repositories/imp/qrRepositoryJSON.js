@@ -71,12 +71,24 @@ class QrRepositoryJSON {
     }
     getQrById(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.qrs.find((qr) => qr.id === qrId) || null;
+            const qr = this.qrs.find((qr) => qr.id === qrId);
+            if (!qr) {
+                throw new errors_1.NotFoundError("QR not found");
+            }
+            else {
+                return qr;
+            }
         });
     }
     getQrByCode(qrCode) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.qrs.find((qr) => qr.code === qrCode) || null;
+            const qr = this.qrs.find((qr) => qr.code === qrCode);
+            if (!qr) {
+                throw new errors_1.NotFoundError("QR not found");
+            }
+            else {
+                return qr;
+            }
         });
     }
     updateQr(qr) {

@@ -51,8 +51,14 @@ const qrService = new QrServiceApi_1.default(qrRepository);
 const qrController = new QrController_1.default(qrService);
 const PlaceController_1 = __importDefault(require("./controllers/PlaceController"));
 const PlaceServiceJSON_1 = __importDefault(require("./services/imp/PlaceServiceJSON"));
-const placeService = new PlaceServiceJSON_1.default();
+const placeRepositoryJSON_1 = __importDefault(require("./repositories/imp/placeRepositoryJSON"));
+const placeRepository = new placeRepositoryJSON_1.default();
+const placeService = new PlaceServiceJSON_1.default(placeRepository);
 const placeController = new PlaceController_1.default(placeService);
+const ScannConstroller_1 = __importDefault(require("./controllers/ScannConstroller"));
+const ScannServiceJSON_1 = __importDefault(require("./services/imp/ScannServiceJSON"));
+const scannService = new ScannServiceJSON_1.default(qrRepository, placeRepository);
+const scannController = new ScannConstroller_1.default(scannService);
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const port = 1024;
@@ -63,10 +69,10 @@ app.use((0, express_1.urlencoded)({ extended: true }));
 app.get('/api/place/:place', placeController.getPlace);
 app.get('/api/places/:place', placeController.getPlaces);
 app.get('/api/product/:place/:product', placeController.getProduct);
+app.get('/api/products/:id', placeController.getProducts);
 app.get('/api/qrid/:qr', qrController.getQrById);
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+app.get('/api/scann/consume/:id', scannController.consumeQrByQrId);
+app.get('/api/scann/getprod/:id', scannController.getProdByQrId);
 // POST
 app.post('/api/payment', paymentController.processPayment);
 // Middleware de errores
