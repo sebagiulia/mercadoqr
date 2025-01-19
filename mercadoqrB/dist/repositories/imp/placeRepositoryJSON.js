@@ -44,9 +44,12 @@ class PlaceRepositoryJSON {
             throw new errors_1.NotFoundError('Products not found');
         });
     }
-    getProduct(placeId, productId) {
+    getProduct(placeName, productName) {
         return __awaiter(this, void 0, void 0, function* () {
-            const product = this.products.find(product => product.place_id.toString() === placeId && product.id.toString() === productId);
+            const place = this.places.find(place => place.name === placeName);
+            if (!place)
+                throw new errors_1.NotFoundError('Place not found');
+            const product = this.products.find(product => product.place_id === place.id && product.name === productName);
             if (product)
                 return product;
             throw new errors_1.NotFoundError('Product not found');

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/public/mercadoqr-logo.svg";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,10 +25,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+  return (  
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <header>
+          <Link href="/" >
+            <Image
+              src={Logo}
+              alt="MercadoQR logo"
+              width={50}
+              height={50}
+              style={{ objectFit: "contain"}}
+            />
+          </Link>
+        </header>
+        <main>{children}</main>
       </body>
     </html>
   );

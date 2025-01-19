@@ -24,6 +24,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -40,3 +41,15 @@ a {
     color-scheme: dark;
   }
 }
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px; /* Altura fija */
+  padding: 10px; /* Espaciado interno */
+  background-color: #f4f4f4; /* Fondo claro */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+  position: sticky; /* Ajustar si necesitas sticky más adelante */
+}
+
