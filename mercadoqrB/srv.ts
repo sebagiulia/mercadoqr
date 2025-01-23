@@ -26,7 +26,9 @@ const placeController = new PlaceController(placeService)
 
 import ScannController from './controllers/ScannConstroller'
 import ScannServiceJSON from './services/imp/ScannServiceJSON'
-const scannService = new ScannServiceJSON(qrRepository, placeRepository)
+import ScannRepositoryJSON from './repositories/imp/scannRepositoryJSON'
+const scannRepository = new ScannRepositoryJSON()
+const scannService = new ScannServiceJSON(qrRepository, placeRepository, scannRepository)
 const scannController = new ScannController(scannService)
 
 import cors from 'cors'
@@ -49,6 +51,7 @@ app.get('/api/scann/getprod/:id', scannController.getProdByQrId)
 
 // POST
 app.post('/api/payment', paymentController.processPayment)
+app.post('/api/scann/validate', scannController.validateScanner)
 
 // Middleware de errores
 app.use(errorHandler);

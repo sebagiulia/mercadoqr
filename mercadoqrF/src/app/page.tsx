@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { ErrorProvider } from "errors/ErrorContext";
 import Place from "@/models/place";
 import PlaceService from "services/placeService";
+import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
@@ -47,7 +48,7 @@ export default function Home() {
 
   const handlePlaceClick = (place: Place) => {
     // Navegar a la URL de la sucursal correspondiente
-    router.push(`/${place.name}`);
+    router.push(`/local/${place.name}`);
     setInputValue(place.name); // Opcionalmente, puedes colocar el nombre de la sucursal en el input
     setPlaces([]); // Limpiar las sugerencias
   };
@@ -85,6 +86,10 @@ export default function Home() {
               ): isLoading === 3 ? <div>No existe sucursal con ese nombre</div> : <></> }
             </div>
           )}
+
+          <div className={styles.footer}>
+            <Link href="/scann">Escanear</Link>
+          </div>
         </main>
       </div>
     </ErrorProvider>

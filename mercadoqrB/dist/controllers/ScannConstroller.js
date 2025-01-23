@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const respondeUtil_1 = require("../utils/respondeUtil");
 class ScannController {
     constructor(scannService) {
-        this.scannService = scannService;
         this.getProdByQrId = this.getProdByQrId.bind(this);
         this.consumeQrByQrId = this.consumeQrByQrId.bind(this);
+        this.scannService = scannService;
         console.log("Servicio de scann activo");
     }
     getProdByQrId(req, res, next) {
@@ -37,6 +37,19 @@ class ScannController {
             try {
                 const prod = yield this.scannService.consumeQrByQrId(qrId);
                 (0, respondeUtil_1.sendSuccess)(res, prod);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    }
+    validateScanner(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("solicitud validateScanner");
+            const { localName, validationCode } = req.body;
+            try {
+                const isValid = yield this.scannService.validate(localName, validationCode);
+                (0, respondeUtil_1.sendSuccess)(res, isValid);
             }
             catch (error) {
                 next(error);

@@ -8,30 +8,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class ScannServiceJSON {
-    constructor(qrRepository, placeRepository, scannRepository) {
-        this.qrRepository = qrRepository;
-        this.placeRepository = placeRepository;
-        this.scannRepository = scannRepository;
-    }
-    getProdByQrId(qrId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrById(qrId);
-            const prod = yield this.placeRepository.getProduct(qr.place_id.toString(), qr.prod_id.toString());
-            return prod;
-        });
-    }
-    consumeQrByQrId(qrId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.qrRepository.deleteQr(qrId);
-        });
-    }
+const scann_json_1 = __importDefault(require("../../data/scann.json"));
+const places_json_1 = __importDefault(require("../../data/places.json"));
+class ScannRepositoryJSON {
     validate(localName, validationCode) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Validando scanner en servicio");
-            return this.scannRepository.validate(localName, validationCode);
+            console.log("Validando scanner en repositorio");
+            const place = places_json_1.default.find((place) => place.name === localName);
+            if (!place)
+                return false;
+            else {
+                const placeId = place.id;
+                const result = scann_json_1.default.find((scann) => scann.place_id === placeId && scann.validationCode === validationCode);
+                if (!result)
+                    return false;
+                return true;
+            }
         });
     }
 }
-exports.default = ScannServiceJSON;
+exports.default = ScannRepositoryJSON;
