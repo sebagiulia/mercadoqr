@@ -4,6 +4,7 @@ Cambios cercanos:
 --> Arreglar tema de id y code de qrCode
 --> Arreglar nombres de clases ..JSON por ..Api donde corresponda
 --> Hacer con Post los scanneos
+--> Cargar los productos de el local en scann antes de escanear, no traerlos por api
 
 Cambios lejanos:
 hacer el frontend del scann

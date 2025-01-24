@@ -7,6 +7,7 @@ export const errorHandler = (err: unknown, req: Request, res: Response, next: Ne
   if (err instanceof AppError) {
     sendError(res, err.statusCode.toString(), err.message);
   } else {
+    console.log('Error inesperado: ' + err);
     sendError(res, '500', 'Internal Server Error');
   }
 };

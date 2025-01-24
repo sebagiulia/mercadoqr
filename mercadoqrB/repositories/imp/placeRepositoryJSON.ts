@@ -13,6 +13,12 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
         this.places = places
         this.products = products
     }
+
+    async getPlaceById(placeId: number): Promise<Place> {
+        const place = this.places.find(place => place.id === placeId)
+        if (place) return place
+        throw new NotFoundError('Place not found')
+    }
     
     async getPlace(placeName: string): Promise<Place> {
         const place = this.places.find(place => place.name === placeName)
@@ -36,6 +42,12 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
         const place = this.places.find(place => place.name === placeName)
         if (!place) throw new NotFoundError('Place not found')
         const product = this.products.find(product => product.place_id === place.id && product.name === productName)
+        if (product) return product
+        throw new NotFoundError('Product not found')
+    }
+    
+    async getProductById(placeId: number, prodId: number): Promise<Product> {
+        const product = this.products.find(product => product.id === prodId && product.place_id === placeId)
         if (product) return product
         throw new NotFoundError('Product not found')
     }

@@ -55,12 +55,12 @@ const placeRepositoryJSON_1 = __importDefault(require("./repositories/imp/placeR
 const placeRepository = new placeRepositoryJSON_1.default();
 const placeService = new PlaceServiceJSON_1.default(placeRepository);
 const placeController = new PlaceController_1.default(placeService);
-const ScannConstroller_1 = __importDefault(require("./controllers/ScannConstroller"));
+const ScannController_1 = __importDefault(require("./controllers/ScannController"));
 const ScannServiceJSON_1 = __importDefault(require("./services/imp/ScannServiceJSON"));
 const scannRepositoryJSON_1 = __importDefault(require("./repositories/imp/scannRepositoryJSON"));
 const scannRepository = new scannRepositoryJSON_1.default();
 const scannService = new ScannServiceJSON_1.default(qrRepository, placeRepository, scannRepository);
-const scannController = new ScannConstroller_1.default(scannService);
+const scannController = new ScannController_1.default(scannService);
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const port = 1024;
@@ -78,6 +78,8 @@ app.get('/api/scann/getprod/:id', scannController.getProdByQrId);
 // POST
 app.post('/api/payment', paymentController.processPayment);
 app.post('/api/scann/validate', scannController.validateScanner);
+app.post('/api/scann/consume', scannController.consumeQrByQrCode);
+app.post('/api/scann/getscann', scannController.getProdByQrCode);
 // Middleware de errores
 app.use(errorHandler_1.errorHandler);
 app.listen(port, () => {

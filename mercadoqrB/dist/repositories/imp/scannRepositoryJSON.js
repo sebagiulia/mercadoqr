@@ -14,19 +14,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const scann_json_1 = __importDefault(require("../../data/scann.json"));
 const places_json_1 = __importDefault(require("../../data/places.json"));
+const errors_1 = require("../../errors/errors");
 class ScannRepositoryJSON {
+    constructor() {
+        this.scanns = scann_json_1.default;
+        this.scanns = scann_json_1.default;
+    }
     validate(localName, validationCode) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Validando scanner en repositorio");
             const place = places_json_1.default.find((place) => place.name === localName);
             if (!place)
-                return false;
+                throw new errors_1.NotFoundError('Place not found');
             else {
                 const placeId = place.id;
-                const result = scann_json_1.default.find((scann) => scann.place_id === placeId && scann.validationCode === validationCode);
+                const result = this.scanns.find((scann) => scann.place_id === placeId && scann.validationCode === validationCode);
                 if (!result)
-                    return false;
-                return true;
+                    new errors_1.ValidationError('Credenciales invalidas');
+                return place;
             }
         });
     }

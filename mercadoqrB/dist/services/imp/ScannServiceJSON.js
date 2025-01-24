@@ -15,11 +15,26 @@ class ScannServiceJSON {
         this.placeRepository = placeRepository;
         this.scannRepository = scannRepository;
     }
+    getProdByQrCode(qrCode) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const qr = yield this.qrRepository.getQrByCode(qrCode);
+            const place = yield this.placeRepository.getPlaceById(qr.place_id);
+            const prod = yield this.placeRepository.getProductById(place.id, qr.prod_id);
+            return prod;
+        });
+    }
     getProdByQrId(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
             const qr = yield this.qrRepository.getQrById(qrId);
-            const prod = yield this.placeRepository.getProduct(qr.place_id.toString(), qr.prod_id.toString());
+            const place = yield this.placeRepository.getPlace(qr.place_id.toString());
+            const prod = yield this.placeRepository.getProduct(place.name, qr.prod_id.toString());
             return prod;
+        });
+    }
+    consumeQrByQrCode(qrCode) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const qr = yield this.qrRepository.getQrByCode(qrCode);
+            return this.qrRepository.deleteQr(qr.id);
         });
     }
     consumeQrByQrId(qrId) {
@@ -29,7 +44,6 @@ class ScannServiceJSON {
     }
     validate(localName, validationCode) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Validando scanner en servicio");
             return this.scannRepository.validate(localName, validationCode);
         });
     }

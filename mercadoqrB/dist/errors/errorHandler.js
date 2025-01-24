@@ -9,6 +9,7 @@ const errorHandler = (err, req, res, next) => {
         (0, respondeUtil_1.sendError)(res, err.statusCode.toString(), err.message);
     }
     else {
+        console.log('Error inesperado: ' + err);
         (0, respondeUtil_1.sendError)(res, '500', 'Internal Server Error');
     }
 };
