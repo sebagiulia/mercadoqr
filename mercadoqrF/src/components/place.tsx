@@ -23,7 +23,7 @@ function PlaceHeader({place}: { place: PlaceType }) {
 function Product({product, placename}: { product: ProductType, placename: string }) {
     const router = useRouter();
     const handleClick = () => {
-        router.push('/' + placename + '/'  + product.name);
+        router.push('/local/' + placename + '/'  + product.name);
     };
 
     return (

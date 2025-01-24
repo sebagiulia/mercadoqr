@@ -16,7 +16,9 @@ const endpoints = {
       qrById: (id: string) => dn + `/qrid/${id}`
     },
     scann: {
-        validate : dn + '/scann/validate'
+        validate : dn + '/scann/validate',
+        getScann : dn + '/scann/getScann',
+        consume: dn + '/scann/consume'
     }
   };
   

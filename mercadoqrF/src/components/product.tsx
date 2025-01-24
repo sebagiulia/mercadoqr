@@ -12,7 +12,7 @@ export default function Product({ product, place }: { product: ProductType, plac
         try {
             
             const result = await PaymentService.processPayment({...formData, place_id: product.place_id, prod_id: product.id})
-            router.push('/' + place + '/' + product.name + '/' + result.transactionId);
+            router.push('/local' + place + '/' + product.name + '/' + result.transactionId);
         } catch (error) {
             console.error('Error al enviar los datos:', error);
             alert('Ocurrió un error al procesar el pago.');
