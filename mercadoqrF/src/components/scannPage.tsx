@@ -18,57 +18,61 @@ export default function ScanPage({ place }:{place: Place}) {
 
     const openPopup = (product:Product) => {
         setProduct(product);
-        // Lógica para abrir el popup con los botones "Seguir escaneando" y "Consumir"
     };
 
     const handleNext = async () => {
         // Lógica para procesar el código ingresado y avanzar a la siguiente página
-        const response = await ScannService.getScann(code, place.id)
-        if (!response.success) {
+        try {
+            const {success, data, error } = await ScannService.getScann(code, place.id)
+            if (success) {
+                openPopup(data as Product);
+            } else {
+                setError(error?.message || 'Error al escanear el código');
+            } 
+        } catch (error) {
             setError('Error al escanear el código');
-        } 
-        else if (response.error) {
-            setError(response.error.message);
-        } else {
-            if(response.data) openPopup(response.data);
         }
 
     };
 
     return (
         <div className={styles.scannPage_container}>
-            {product && <PopUpScann product={product} qrcode={code}/>}
+            {product && <PopUpScann product={product} qrcode={code} setProduct={setProduct}/>}
             <h1>Scanner de {place.name}</h1>
             <div className={styles.camera}> <p>ENFOCAR QR</p></div>
-            <input type="text" value={code} onChange={handleCodeChange} placeholder='codigo' />
+            <input type="text" value={code} onChange={handleCodeChange} placeholder='código' />
             <button onClick={handleNext}>Buscar</button>
         </div>
     );
 };
 
-function PopUpScann({ product, qrcode }:{product: Product, qrcode:string}) {
+function PopUpScann({ product, qrcode, setProduct }:{product: Product, qrcode:string, setProduct:Function}) {
     const { error, setError } = useError();
-    const [popup, setPopup] = useState(false);
+    const [scanned, setScanned] = useState(false);
 
     const handleConsume = async () => {
         // Lógica para consumir el producto escaneado
-        const response = await ScannService.consume(qrcode);
-        if (!response.success) {
+        try {
+            const {success, error } = await ScannService.consume(qrcode);
+            if (success) {
+                setScanned(true);
+            } else {
+                setError(error?.message || 'Error al consumir el producto');
+            }
+        } catch (error) {
             setError('Error al consumir el producto');
-        } 
-        else if (response.error) {
-            setError(response.error.message);
-        } else {
-            setPopup(false);
         }
     };
 
     return (
         <div className={styles.popup_container}>
-            <h1>Producto escaneado</h1>
-            <p>{product.name}</p>
-            <button onClick={handleConsume}>Consumir</button>
-            <button onClick={() => setPopup(false)}>Seguir escaneando</button>
+        <div className={styles.popup_data}>
+            <h3>{product.name}</h3>
+            <img src={product.img} alt={product.name} />
+            <p>{product.description}</p>
+            {scanned ? <span>Consumido</span> :<button onClick={handleConsume}>Consumir</button> }
+            <button onClick={() => setProduct(null)}>Seguir escaneando</button>
+        </div>
         </div>
     );
 }

@@ -17,7 +17,20 @@ class PlaceController {
         this.getPlaces = this.getPlaces.bind(this);
         this.getProducts = this.getProducts.bind(this);
         this.getProduct = this.getProduct.bind(this);
+        this.getTendences = this.getTendences.bind(this);
         console.log('Servicio de places activo');
+    }
+    getTendences(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('solicitud getTendences');
+            try {
+                const tendences = yield this.placeService.getTendences();
+                (0, respondeUtil_1.sendSuccess)(res, tendences);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
     getPlace(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {

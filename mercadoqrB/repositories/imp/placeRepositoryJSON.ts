@@ -4,6 +4,7 @@ import PlaceRepository from '../placeRepository'
 import places from '../../data/places.json'
 import products from '../../data/products.json'
 import { NotFoundError } from '../../errors/errors'
+import { transformToSpaceCase } from '../../utils/clean'
 
 export default class PlaceRepositoryJSON implements PlaceRepository {
     private places: Place[]
@@ -28,7 +29,7 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
 
     async getPlaces(placeName: string): Promise<Place[]> {
         const places = this.places.filter(place => place.name.includes(placeName))
-        if (places.length > 0) return places
+        if (places.length > 0) return places.slice(0, 4)
         throw new NotFoundError('Places not found')
     }
 
@@ -36,9 +37,11 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
         const products = this.products.filter(product => product.place_id.toString() === placeId)
         if (products.length > 0) return products
         throw new NotFoundError('Products not found')
-    }
+    }   
 
-    async getProduct(placeName: string, productName: string): Promise<Product> {
+    async getProduct(placeName: string, prodName: string): Promise<Product> {
+        const productName = transformToSpaceCase(prodName)
+        console.log(productName)
         const place = this.places.find(place => place.name === placeName)
         if (!place) throw new NotFoundError('Place not found')
         const product = this.products.find(product => product.place_id === place.id && product.name === productName)

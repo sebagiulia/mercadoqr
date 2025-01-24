@@ -9,6 +9,11 @@ export default class PlaceServiceImp implements PlaceService {
     constructor(placeRepository: PlaceRepository) {
         this.placeRepository = placeRepository
     }
+
+    async getTendences(): Promise<Place[]> {
+        const places = await this.placeRepository.getPlaces("")
+        return places.sort((a, b) => b.id - a.id).slice(0, 4)
+    }
     
     async getPlace(placeName: string): Promise<Place> {
         return this.placeRepository.getPlace(placeName)

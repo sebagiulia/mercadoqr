@@ -41,6 +41,7 @@ app.use(json());
 app.use(urlencoded({ extended: true }));
 
 // GET
+app.get('/api/tendences', placeController.getTendences)
 app.get('/api/place/:place', placeController.getPlace)
 app.get('/api/places/:place', placeController.getPlaces)
 app.get('/api/product/:place/:product', placeController.getProduct)

@@ -41,11 +41,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const qrs_json_1 = __importDefault(require("../../data/qrs.json"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
 const crypto_1 = require("crypto");
@@ -53,13 +49,15 @@ const errors_1 = require("../../errors/errors");
 const filePath = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/qrs.json');
 // Función para agregar datos al JSON
 function addQr(newQr) {
-    const newQrs = qrs_json_1.default;
+    const qrsString = fs.readFileSync(filePath, 'utf-8');
+    const newQrs = JSON.parse(qrsString);
     newQrs.push(newQr);
     fs.writeFileSync(filePath, JSON.stringify(newQrs, null, 2));
 }
 class QrRepositoryJSON {
     constructor() {
-        this.qrs = qrs_json_1.default;
+        const qrsString = fs.readFileSync(filePath, 'utf-8');
+        this.qrs = JSON.parse(qrsString);
     }
     createQr(qr) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -71,6 +69,8 @@ class QrRepositoryJSON {
     }
     getQrById(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
+            const qrsString = fs.readFileSync(filePath, 'utf-8');
+            this.qrs = JSON.parse(qrsString);
             const qr = this.qrs.find((qr) => qr.id === qrId);
             if (!qr) {
                 throw new errors_1.NotFoundError("QR not found");
@@ -82,6 +82,8 @@ class QrRepositoryJSON {
     }
     getQrByCode(qrCode) {
         return __awaiter(this, void 0, void 0, function* () {
+            const qrsString = fs.readFileSync(filePath, 'utf-8');
+            this.qrs = JSON.parse(qrsString);
             const qr = this.qrs.find((qr) => qr.code === qrCode);
             if (!qr) {
                 throw new errors_1.NotFoundError("QR not found");
@@ -93,6 +95,8 @@ class QrRepositoryJSON {
     }
     updateQr(qr) {
         return __awaiter(this, void 0, void 0, function* () {
+            const qrsString = fs.readFileSync(filePath, 'utf-8');
+            this.qrs = JSON.parse(qrsString);
             const qrIndex = this.qrs.findIndex((qrItem) => qrItem.id === qr.id);
             if (qrIndex === -1) {
                 throw new errors_1.NotFoundError("QR not found");
@@ -103,6 +107,8 @@ class QrRepositoryJSON {
     }
     deleteQr(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
+            const qrsString = fs.readFileSync(filePath, 'utf-8');
+            this.qrs = JSON.parse(qrsString);
             const qrIndex = this.qrs.findIndex((qr) => qr.id === qrId);
             if (qrIndex === -1) {
                 throw new errors_1.NotFoundError("QR not found");

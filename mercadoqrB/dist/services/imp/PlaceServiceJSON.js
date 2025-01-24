@@ -13,6 +13,12 @@ class PlaceServiceImp {
     constructor(placeRepository) {
         this.placeRepository = placeRepository;
     }
+    getTendences() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const places = yield this.placeRepository.getPlaces("");
+            return places.sort((a, b) => b.id - a.id).slice(0, 4);
+        });
+    }
     getPlace(placeName) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.placeRepository.getPlace(placeName);

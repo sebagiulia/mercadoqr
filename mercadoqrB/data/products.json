@@ -1,7 +1,7 @@
 [{
     "id": 1,
     "place_id": 1,
-    "name": "combo-absolut",
+    "name": "Combo absolut",
     "price": 200,
     "description": "Absolut + 4 speed",
     "img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrujTfJQItaRY2-gm4SaW1NzhiAUZ4-iu4OA&s"
@@ -9,7 +9,7 @@
 {
     "id":2,
     "place_id": 1,
-    "name":"combo-fernet",
+    "name":"Combo fernet",
     "price": 150,
     "description": "Fernet + 2 Coca cola",
     "img":"https://laprovedeampip.com.ar/wp-content/uploads/2024/11/Combo-Fernet.png"
@@ -17,7 +17,7 @@
 {
     "id":3,
     "place_id": 1,
-    "name": "cerveza-corona",
+    "name": "Cerveza corona",
     "price": 100,
     "description": "Cerveza corona 1L",
     "img": "https://grupoelvalor.com/wp-content/uploads/2018/12/corona-media-clara.png"

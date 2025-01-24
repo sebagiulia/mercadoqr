@@ -35,7 +35,7 @@ function Product({product, placename}: { product: ProductType, placename: string
                height={200}/>
         </div>
         <div className={styles.product_info}>
-            <div className={styles.product_name}>{product.name}</div>
+            <div className={styles.product_name}>{(product.name)}</div>
             <div className={styles.product_price}>$ {product.price}</div>
         </div>
       </div>

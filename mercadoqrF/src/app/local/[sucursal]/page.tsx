@@ -2,6 +2,8 @@ import Place from "@/components/place";
 import { notFound } from "next/navigation";
 import { ErrorProvider } from "errors/ErrorContext";
 import PlaceService from "services/placeService";
+import PlaceType from "@/models/place";
+import ProductType from "@/models/product";
 
 export default async function Page({
   params,
@@ -10,19 +12,21 @@ export default async function Page({
 }) {
   
   const sucursal = (await params).sucursal
-  const response = await PlaceService.getPlace(sucursal)
-    if (!response.success || !response.data) {
+  try {
+    const {success, data} = await PlaceService.getPlace(sucursal)
+    
+    if (!success) {
       notFound()
     } else {
-      const place = response.data
-      const responseP = await PlaceService.getProducts(place.id) 
-      if(!responseP.success || !responseP.data) {
-        notFound()
-      } else {
-        const products = responseP.data
+      const place = data as PlaceType
+      const response = await PlaceService.getProducts(place.id) 
+      const products = response.success ? response.data as ProductType[] : [] as ProductType[] 
       return (<ErrorProvider>
               <Place place={place} products={products} />
               </ErrorProvider>)
       }
-    }
+    } catch (error) {
+    notFound()
+  }
+
 }

@@ -4,7 +4,6 @@ exports.errorHandler = void 0;
 const errors_1 = require("./errors");
 const respondeUtil_1 = require("../utils/respondeUtil");
 const errorHandler = (err, req, res, next) => {
-    console.log(err);
     if (err instanceof errors_1.AppError) {
         (0, respondeUtil_1.sendError)(res, err.statusCode.toString(), err.message);
     }

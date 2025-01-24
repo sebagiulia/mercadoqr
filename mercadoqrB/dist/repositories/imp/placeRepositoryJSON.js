@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const places_json_1 = __importDefault(require("../../data/places.json"));
 const products_json_1 = __importDefault(require("../../data/products.json"));
 const errors_1 = require("../../errors/errors");
+const clean_1 = require("../../utils/clean");
 class PlaceRepositoryJSON {
     constructor() {
         this.places = places_json_1.default;
@@ -52,8 +53,10 @@ class PlaceRepositoryJSON {
             throw new errors_1.NotFoundError('Products not found');
         });
     }
-    getProduct(placeName, productName) {
+    getProduct(placeName, prodName) {
         return __awaiter(this, void 0, void 0, function* () {
+            const productName = (0, clean_1.transformToSpaceCase)(prodName);
+            console.log(productName);
             const place = this.places.find(place => place.name === placeName);
             if (!place)
                 throw new errors_1.NotFoundError('Place not found');

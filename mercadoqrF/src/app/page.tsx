@@ -1,8 +1,6 @@
 'use client'
-import Image from "next/image";
 import styles from "./page.module.css";
-import Logo from "@/public/mercadoqr-logo.svg";
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ErrorProvider } from "errors/ErrorContext";
 import Place from "@/models/place";
@@ -26,15 +24,15 @@ export default function Home() {
     const timer = setTimeout(async () => {
       setIsLoading(1);
       try {
-        const response = await PlaceService.getPlaces(inputValue);
-        if(!response.success || !response.data) {
-          notFound();
+        const {success, error, data} = await PlaceService.getPlaces(inputValue);
+        if(success) {
+          setPlaces(data as Place[]);          
+          setIsLoading(2);
         } else {
-          setPlaces(response.data);          
+          setIsLoading(3);
         }
-        setIsLoading(2);
       } catch (error) {
-        setIsLoading(3);
+          setIsLoading(3);
       } 
     }, 400); // 0.4 segundos de espera
 
@@ -43,6 +41,8 @@ export default function Home() {
   }, [inputValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(isLoading === 3)
+      setIsLoading(0);  
     setInputValue(e.target.value);
   };
 
@@ -56,41 +56,38 @@ export default function Home() {
   return (
     <ErrorProvider>
       <div className={styles.page}>
-        <main className={styles.main}>
-          <Image
-            src={Logo}
-            alt=""
-            width={200}
-            height={200}
-          />
-          Comprá ahora, retirá después
-          <input
-            className={styles.search}
-            type="text"
-            placeholder="Buscar sucursal"
-            value={inputValue}
-            onChange={handleInputChange}
-          />
-          {places.length >= 0 && (
-            <div className={styles.suggestions}>
-              {isLoading === 1 ? 
-                <div>Loading...</div> // Puedes poner un spinner o mensaje de carga aquí
-               :  isLoading === 2 ?  (
-                places.map((place, index) => (
-                  <Suggestion
-                    key={index}
-                    onClick={() => handlePlaceClick(place)}
-                    place={place}
-                  />
-                ))
-              ): isLoading === 3 ? <div>No existe sucursal con ese nombre</div> : <></> }
+          <div className={styles.info}>
+            <h2>mercadoQR.</h2>
+            <p>Comprá ahora, retirá después</p>
+            <div className={styles.search}>
+              <input
+                type="text"
+                placeholder="Buscar sucursal"
+                value={inputValue}
+                onChange={handleInputChange}
+                />
+              {places.length >= 0 && (
+                <div className={styles.suggestions}>
+                  {isLoading === 1 ? 
+                    <div>Loading...</div> // Puedes poner un spinner o mensaje de carga aquí
+                   :  isLoading === 2 ?  (
+                     places.map((place, index) => (
+                       <Suggestion
+                       key={index}
+                        onClick={() => handlePlaceClick(place)}
+                        place={place}
+                        />
+                      ))
+                  ): isLoading === 3 ? <div>No existe sucursal con ese nombre</div> : null }
+                </div>
+              )}
             </div>
-          )}
-
+          </div>
+            
+          <Tendences onClick={handlePlaceClick}/>
           <div className={styles.footer}>
             <Link href="/scann">Escanear</Link>
           </div>
-        </main>
       </div>
     </ErrorProvider>
   );
@@ -112,6 +109,37 @@ function Suggestion({ place, onClick }: { place: Place; onClick: any }) {
         <div className={styles.suggestion_address}>
           {place.address}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function Tendences({onClick}: {onClick: any}) {
+  const [tendences, setTendences] = useState<Place[]>([]);
+  const [error, setError] = useState(false);
+  const fetchData = async () => {
+    try {
+      const { success, data } = await PlaceService.getTendences();
+      if (success) {
+        setTendences(data as Place[]);
+      } else {
+        setError(true);
+      }
+    } catch (error) {
+      setError(true);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <div className={styles.tendences}>
+      <p>Sucursales con mayor actividad</p>
+      <div className={styles.tendences_list}>
+        {error? <div>Error al cargar las tendencias</div> : 
+        tendences.map((place, index) => <Suggestion key={index} place={place} onClick={() => onClick(place)} />)}
       </div>
     </div>
   );

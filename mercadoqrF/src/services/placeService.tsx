@@ -20,4 +20,8 @@ export default class PlaceService {
     static async getProduct(placeName: string, productName: string):Promise<ErrorType<Product>> {
         return apiClient(endpoints.places.getProduct(placeName, productName))
     }
+
+    static async getTendences():Promise<ErrorType<Place[]>> {
+        return apiClient(endpoints.places.getTendences())
+    }
 }

@@ -7,6 +7,7 @@ const endpoints = {
       getPlaces: (place: string) => dn + `/places/${place}`,
       getProduct: (place: string, prod: string) => dn + `/product/${place}/${prod}`,
       getProducts: (placeid: number) => dn + `/products/${placeid}`,
+      getTendences: () => dn + '/tendences'
     },
     payment: {
       processPayment: dn + '/payment'
