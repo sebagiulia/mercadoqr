@@ -41,7 +41,7 @@ class PlaceRepositoryJSON {
         return __awaiter(this, void 0, void 0, function* () {
             const places = this.places.filter(place => place.name.includes(placeName));
             if (places.length > 0)
-                return places;
+                return places.slice(0, 4);
             throw new errors_1.NotFoundError('Places not found');
         });
     }
