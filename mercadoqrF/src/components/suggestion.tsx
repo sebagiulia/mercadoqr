@@ -1,36 +1,24 @@
 import Place from "@/models/place";
 import styles from "./suggestion.module.css";
-import PlaceService from "services/placeService";
+import Link from "next/link";
 
-export async function Suggestions({ placename }: { placename: string }) {
-  if(placename === "") {
-    return <div></div>
-  } 
-  try {
-      const {success, data, error} = await PlaceService.getPlaces(placename);
-      if(success) {
-        const places = data || [];
+export function Suggestions({ places }: { places: Place[] }) {
+
         return (
           <div className={styles.suggestions}>
             {places.map((place) => (
+              <Link key={place.id} href={'/local/' + place.name} >
               <Suggestion key={place.id} place={place} />
+              </Link>
             ))}
           </div>
         );
-      } else {
-        return <div>No existe sucursal</div>
-      }
-    } catch (error) {
-      return <div>No existe sucursal</div>
-    }
   }
 
 export function SuggestionsSkeleton() {
       return (
         <div className={styles.suggestions}>
-          <div className={styles.suggestionSk_item}>Item</div>
-          <div className={styles.suggestionSk_item}>Item</div>
-          <div className={styles.suggestionSk_item}>Item</div>
+          <div className={styles.suggestionSk_item}>Loading...</div>
         </div>
       );
 }

@@ -10,7 +10,6 @@ export default class PlaceService {
     }
 
     static async getPlaces(placeName: string):Promise<ErrorType<Place[]>> {
-        console.log('getPlaces')    
         return apiClient(endpoints.places.getPlaces(placeName))
     }
 
@@ -23,7 +22,6 @@ export default class PlaceService {
     }
 
     static async getTendences():Promise<ErrorType<Place[]>> {
-        console.log('getTendences')
         return apiClient(endpoints.places.getTendences() )
     }
 }

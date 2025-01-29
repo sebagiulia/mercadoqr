@@ -21,4 +21,61 @@
         "price": 100,
         "description": "Cerveza corona 1L",
         "img": "https://grupoelvalor.com/wp-content/uploads/2018/12/corona-media-clara.png"
-    }]
+    },
+    {
+        "id": 4,
+        "place_id": 2,
+        "name": "LOR: La comunidad del anillo",
+        "price": 500,
+        "description": "La comunidad del anillo",
+        "img": "https://tienda.planetadelibros.com.ar/cdn/shop/files/ElSenordelosAnillosn_01.LaComunidaddelAnillo_Fte_1024x.jpg?v=1693598478"
+    },
+    {
+        "id": 5,
+        "place_id": 2,
+        "name": "Game of thrones",
+        "price": 1000,
+        "description": "Dancing Dragons",
+        "img": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/d1/c8/70/d1c870eb-f87b-7bd5-6fa5-588c6a758ff1/9780007378425.jpg/1200x900wz.jpg"
+    },
+    {
+        "id": 6,
+        "place_id": 2,
+        "name": "Padre rico Padre pobre",
+        "price": 300,
+        "description": "Padre rico Padre pobre",
+        "img": "https://bobyads.com/wp-content/uploads/2024/01/standing-book-mockup-2-1024x768.png"
+    },
+    {
+        "id": 7,
+        "place_id": 4,
+        "name": "Placar bambú",
+        "price": 2000,
+        "description": "Placar bambú",
+        "img": "https://images.fravega.com/f300/f4af9fb47efc3cfe78d8e9fe449a4823.jpg"
+    },
+    {
+        "id": 8,
+        "place_id": 4,
+        "name": "Ropero 4 puertas",
+        "price": 3000,
+        "description": "Ropero 4 puertas",
+        "img": "https://dcdn.mitiendanube.com/stores/001/183/780/products/56497-placard-24-dakar-melamina-tabaco-cerrado1-889bc348b510d8b0b616537551823423-1024-1024-6ca9a53a021cd6fd1816903206549279-1024-1024.jpg"
+    },
+    {
+        "id": 9,
+        "place_id": 3,
+        "name": "Entrada común",
+        "price": 500,
+        "description": "Sin beneficios",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE4M_cyjFew0TUdRADpP633gLuuwGJcLv1rQ&s"
+    },
+    {
+        "id": 10,
+        "place_id": 3,
+        "name": "Entrada VIP",
+        "price": 1000,
+        "description": "Con beneficios",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE4M_cyjFew0TUdRADpP633gLuuwGJcLv1rQ&s"
+    }
+]

@@ -54,5 +54,12 @@
     "expiration": "2025-01-16T22:29:18.129Z",
     "code": "MGODIX",
     "id": "31db1c34-ae69-482b-86b7-f65344721d30"
+  },
+  {
+    "place_id": 1,
+    "prod_id": 1,
+    "expiration": "2025-01-29T21:33:21.795Z",
+    "code": "XZKZSH",
+    "id": "9182f26b-b50a-45f3-b577-c934634c9d8c"
   }
 ]

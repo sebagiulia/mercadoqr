@@ -1,6 +1,7 @@
 import PlaceService from "services/placeService";
 import styles from "./tendences.module.css";
 import Place from "@/models/place";
+import Link from "next/link";
 
 export async function Tendences() {
       try {
@@ -11,7 +12,9 @@ export async function Tendences() {
                 <div className={styles.tendences}>
                   <p>Sucursales con mayor actividad</p>
                   <div className={styles.tendences_list}>
-                    {tendences.map((place, index) => <TendenceItem key={index} place={place} />)}
+                    {tendences.map((place, index) => <Link key={index} href={'/local/'+ place.name }>
+                                                        <TendenceItem  place={place} />
+                                                     </Link>)}
                   </div>
                 </div>
               );
@@ -29,9 +32,9 @@ export function TendenceSkeleton() {
         <div className={styles.tendences}>
           <p>Sucursales con mayor actividad</p>
           <div className={styles.tendences_list}>
-            <div className={styles.tendenceSK_item}>Item</div>
-            <div className={styles.tendenceSK_item}>Item</div>
-            <div className={styles.tendenceSK_item}>Item</div>
+            <div className={styles.tendenceSK_item}>Loading...</div>
+            <div className={styles.tendenceSK_item}>Loading...</div>
+            <div className={styles.tendenceSK_item}>Loading...</div>
           </div>
         </div>
       );
