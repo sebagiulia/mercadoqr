@@ -1,8 +1,9 @@
 import Place from "@/models/place";
 import styles from "./suggestion.module.css";
-import Link from "next/link";
 import ButtonPlace from "./buttonPlace";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@mui/material";
+import Stack from '@mui/material/Stack';
 
 export function Suggestions({ places }: { places: Place[] }) {
 
@@ -20,7 +21,18 @@ export function Suggestions({ places }: { places: Place[] }) {
 export function SuggestionsSkeleton() {
       return (
         <div className={styles.suggestions}>
-          <div className={styles.suggestionSk_item}>Loading...</div>
+          <Stack direction={'row'} spacing={'20px'} alignItems={'center'}>
+            <Skeleton variant="circular" width={40} height={40} />
+            <Skeleton variant="rectangular" width={200} height={30} />
+          </Stack>
+          <Stack direction={'row'} spacing={'20px'} alignItems={'center'}>
+          <Skeleton variant="circular" width={40} height={40} />
+          <Skeleton variant="rectangular" width={200} height={30} />
+          </Stack>
+          <Stack direction={'row'} spacing={'20px'} alignItems={'center'}>
+          <Skeleton variant="circular" width={40} height={40} />
+          <Skeleton variant="rectangular" width={200} height={30} />
+          </Stack>
         </div>
       );
 }

@@ -2,6 +2,7 @@ import PlaceService from "services/placeService";
 import styles from "./tendences.module.css";
 import Place from "@/models/place";
 import Link from "next/link";
+import { Skeleton, Stack } from "@mui/material";
 
 export async function Tendences() {
       try {
@@ -29,17 +30,17 @@ export async function Tendences() {
 
 export function TendenceSkeleton() {
     return (
-        <div className={styles.tendences}>
+      <div className={styles.tendences}>
           <p>Sucursales con mayor actividad</p>
-          <div className={styles.tendences_list}>
-            <div className={styles.tendenceSK_item}>Loading...</div>
-            <div className={styles.tendenceSK_item}>Loading...</div>
-            <div className={styles.tendenceSK_item}>Loading...</div>
-          </div>
-        </div>
+        <Stack direction={'column'} spacing={'10px'} alignItems={'center'}>
+          <Skeleton variant="rounded" width={300} height={40} />
+          <Skeleton variant="rounded" width={300} height={40} />
+          <Skeleton variant="rounded" width={300} height={40} />
+          <Skeleton variant="rounded" width={300} height={40} />
+        </Stack>
+      </div>
       );
 } 
-
 function TendenceItem({place}:{place:Place}) {
   return (
   <div className={styles.tendence_item}>

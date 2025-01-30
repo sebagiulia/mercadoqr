@@ -1,4 +1,4 @@
-const server = 'http://192.168.0.100:1024';
+const server = 'http://localhost:1024';
 const dn = server + '/api';
 
 
