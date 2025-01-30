@@ -61,5 +61,12 @@
     "expiration": "2025-01-29T21:33:21.795Z",
     "code": "XZKZSH",
     "id": "9182f26b-b50a-45f3-b577-c934634c9d8c"
+  },
+  {
+    "place_id": 4,
+    "prod_id": 8,
+    "expiration": "2025-01-30T00:00:54.848Z",
+    "code": "VXUPOU",
+    "id": "8f50ddfa-6dff-4159-8f45-a1ca726d5384"
   }
 ]

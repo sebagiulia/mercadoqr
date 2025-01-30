@@ -1,15 +1,17 @@
 import Place from "@/models/place";
 import styles from "./suggestion.module.css";
 import Link from "next/link";
+import ButtonPlace from "./buttonPlace";
+import { useRouter } from "next/navigation";
 
 export function Suggestions({ places }: { places: Place[] }) {
 
+
+        const router = useRouter();
         return (
           <div className={styles.suggestions}>
             {places.map((place) => (
-              <Link key={place.id} href={'/local/' + place.name} >
-              <Suggestion key={place.id} place={place} />
-              </Link>
+              <ButtonPlace key={place.id} place={place} router={router}/>
             ))}
           </div>
         );
@@ -22,26 +24,3 @@ export function SuggestionsSkeleton() {
         </div>
       );
 }
-
-
-
-function Suggestion({ place}: { place: Place}) {
-    return (
-      <div className={styles.suggestion} >
-        <div className={styles.suggestion_img}>
-          <img className={styles.suggestion_img}
-            src={place.img}
-            alt=""
-          />
-        </div>
-        <div className={styles.suggestion_info}>
-          <div className={styles.suggestion_name}>
-          {place.name}
-          </div>
-          <div className={styles.suggestion_address}>
-            {place.address}
-          </div>
-        </div>
-      </div>
-    );
-  }

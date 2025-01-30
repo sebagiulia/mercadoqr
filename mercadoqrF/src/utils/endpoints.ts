@@ -1,4 +1,6 @@
-const dn = 'http://localhost:1024/api';
+const server = 'http://192.168.0.100:1024';
+const dn = server + '/api';
+
 
 const endpoints = {
     server: 'http://localhost:1024',

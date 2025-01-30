@@ -25,7 +25,7 @@
 {
     "id":4,
     "place_id": 2,
-    "name": "LOR: La comunidad del anillo",
+    "name": "El señor de los anillos: La comunidad del anillo",
     "price": 500,
     "description": "La comunidad del anillo",
     "img": "https://tienda.planetadelibros.com.ar/cdn/shop/files/ElSenordelosAnillosn_01.LaComunidaddelAnillo_Fte_1024x.jpg?v=1693598478"
@@ -68,7 +68,7 @@
     "name": "Entrada común",
     "price": 500,
     "description": "Sin beneficios",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE4M_cyjFew0TUdRADpP633gLuuwGJcLv1rQ&s"
+    "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360"
 },
 {
     "id":10,
@@ -76,6 +76,6 @@
     "name": "Entrada VIP",
     "price": 1000,
     "description": "Con beneficios",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE4M_cyjFew0TUdRADpP633gLuuwGJcLv1rQ&s"
+    "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360"
 }
 ]

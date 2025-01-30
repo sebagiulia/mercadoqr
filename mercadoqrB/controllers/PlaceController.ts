@@ -16,7 +16,6 @@ export default class PlaceController {
     }
 
     async getTendences(req: Request, res: Response, next:NextFunction): Promise<void> {
-        console.log('solicitud getTendences');
         try {
             const tendences = await this.placeService.getTendences()
             sendSuccess(res, tendences)
@@ -26,7 +25,6 @@ export default class PlaceController {
     }
 
     async getPlace(req: Request, res: Response, next:NextFunction): Promise<void> {
-        console.log('solicitud getPlace');
         const placeName = req.params.place
         try {
             const place = await this.placeService.getPlace(placeName)
@@ -37,7 +35,6 @@ export default class PlaceController {
     }
 
     async getPlaces(req:Request, res:Response, next:NextFunction): Promise<void> {
-        console.log('solicitud getPlaces');
         const placeName = req.params.place;
         try {
             const places = await this.placeService.getPlaces(placeName)
@@ -48,7 +45,6 @@ export default class PlaceController {
         }
     }
     async getProducts(req: Request, res: Response, next:NextFunction): Promise<void> {
-        console.log('solicitud getProducts');
         const placeId = req.params.id;
         try {
             const products = await this.placeService.getProducts(parseInt(placeId, 10));
@@ -58,7 +54,6 @@ export default class PlaceController {
         }    
     }
     async getProduct(req: Request, res: Response, next:NextFunction): Promise<void> {
-        console.log('solicitud getProduct');
         const placeName = req.params.place;
         const productName = req.params.product;
         try {

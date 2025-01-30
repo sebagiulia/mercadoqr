@@ -41,7 +41,6 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
 
     async getProduct(placeName: string, prodName: string): Promise<Product> {
         const productName = transformToSpaceCase(prodName)
-        console.log(productName)
         const place = this.places.find(place => place.name === placeName)
         if (!place) throw new NotFoundError('Place not found')
         const product = this.products.find(product => product.place_id === place.id && product.name === productName)

@@ -29,9 +29,11 @@ export default function Search({placeholder}:
                     setIsLoading(false);
                 } else {
                     setMsg(error?.message || 'No existe sucursal');
+                    setIsLoading(false);
                 }
             } catch (error) {
                 setMsg('No se pudo cargar datos');
+                setIsLoading(false);
             }
         };
 

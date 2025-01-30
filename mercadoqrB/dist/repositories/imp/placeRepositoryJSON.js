@@ -56,7 +56,6 @@ class PlaceRepositoryJSON {
     getProduct(placeName, prodName) {
         return __awaiter(this, void 0, void 0, function* () {
             const productName = (0, clean_1.transformToSpaceCase)(prodName);
-            console.log(productName);
             const place = this.places.find(place => place.name === placeName);
             if (!place)
                 throw new errors_1.NotFoundError('Place not found');
