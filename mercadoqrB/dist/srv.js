@@ -61,6 +61,10 @@ const scannRepositoryJSON_1 = __importDefault(require("./repositories/imp/scannR
 const scannRepository = new scannRepositoryJSON_1.default();
 const scannService = new ScannServiceJSON_1.default(qrRepository, placeRepository, scannRepository);
 const scannController = new ScannController_1.default(scannService);
+const MercadoPagoController_1 = __importDefault(require("./controllers/MercadoPagoController"));
+const MercadoPagoServiceDefault_1 = __importDefault(require("./services/imp/MercadoPagoServiceDefault"));
+const mercadoPagoService = new MercadoPagoServiceDefault_1.default(placeRepository);
+const mercadoPagoController = new MercadoPagoController_1.default(mercadoPagoService);
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const port = 1024;
@@ -77,10 +81,13 @@ app.get('/api/qrid/:qr', qrController.getQrById);
 app.get('/api/scann/consume/:id', scannController.consumeQrByQrId);
 app.get('/api/scann/getprod/:id', scannController.getProdByQrId);
 // POST
-app.post('/api/payment', paymentController.processPayment);
+//app.post('/api/payment', paymentController.processPayment)
 app.post('/api/scann/validate', scannController.validateScanner);
 app.post('/api/scann/consume', scannController.consumeQrByQrCode);
 app.post('/api/scann/getscann', scannController.getProdByQrCode);
+// MercadoPago
+app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint);
+app.post('/api/notification_url', paymentController.processPayment);
 // Middleware de errores
 app.use(errorHandler_1.errorHandler);
 app.listen(port, () => {

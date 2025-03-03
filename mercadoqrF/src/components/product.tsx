@@ -2,27 +2,34 @@
 
 import styles from './product.module.css';
 import ProductType from '../models/product';
+import PlaceType from '../models/place';
 import UserPaymentDataForm from './userPaymentDataForm';
-import { useRouter } from 'next/navigation';
-import PaymentService from 'services/paymentService';
-import { useError } from 'errors/ErrorContext';
+import { useEffect, useState } from 'react';
+import MercadoPagoService from 'services/mercadoPagoService';
 
-export default function Product({ product, place }: { product: ProductType, place:string }) {
-    const  router = useRouter();
-    const {error, setError} = useError();
-    const handleClientSubmit = async (formData: any) => {
-        try {
-            const response = await PaymentService.processPayment({...formData, place_id: product.place_id, prod_id: product.id})
-            if(response.success) {
-                router.push('/local/' + place + '/' + product.name + '/' + response.data?.transactionId);
-            } else {
-                setError(response.error?.message || 'Error al procesar el pago');
+
+export default function Product({ product, place }: { product: ProductType, place:PlaceType }) {
+    const [initPoint, setInitPoint] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPreferenceId = async () => {
+            try {
+                const response = await MercadoPagoService.getInitPoint(product);
+                if(!response.success) {
+                    //undefined
+                } else {
+                    const url = response.data as string
+                    console.log(url);
+                    setInitPoint(url);
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                console.error('Error al enviar los datos:', error);
             }
-        } catch (error) {
-            console.error('Error al enviar los datos:', error);
-            alert('Ocurrió un error al procesar el pago.');
         }
-    };
+        fetchPreferenceId();
+    }, []);
 
     return (
         <div className={styles.page}>
@@ -34,7 +41,9 @@ export default function Product({ product, place }: { product: ProductType, plac
                 <div className={styles.name_product}>{product.name}</div>
                 <div className={styles.description_product}>{product.description}</div>
             </div>
-            <UserPaymentDataForm price={product.price} handleSubmit2={handleClientSubmit} />
+            {isLoading? <div>Cargando...</div>:
+            <UserPaymentDataForm place={place} price={product.price} initPoint={initPoint} />
+            }
         </div>
     );
 }

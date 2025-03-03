@@ -11,11 +11,9 @@ export default class PaymentController {
         console.log('Servicio de pagos activo');
     }
     async processPayment(req: Request, res: Response, next:NextFunction) : Promise<void> {
-        console.log('Procesando pago');
-        const paymentDetails = req.body;
         try {
-            const result = await this.paymentService.processPayment(-1, 'ar', paymentDetails);
-            sendSuccess(res, result);
+            const { query } = req;
+            /* Logica */
         } catch (error) {
             next(error)   
         }

@@ -9,9 +9,5 @@ export default interface PaymentProduct {
     total: number;
 
     /* User Info */
-    name: string;
-    lastname: string;
     email: string;
-    phone: string;
-    nationalid: string;
 } 

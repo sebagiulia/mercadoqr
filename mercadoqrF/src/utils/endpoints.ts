@@ -1,9 +1,9 @@
-const server = 'http://localhost:1024';
+const server = 'http://192.168.0.100:1024';
 const dn = server + '/api';
 
 
 const endpoints = {
-    server: 'http://localhost:1024',
+    server: 'http://192.168.0.100:1024',
     places: {
       getPlace: (place: string) => dn + `/place/${place}`,
       getPlaces: (place: string) => dn + `/places/${place}`,
@@ -22,6 +22,9 @@ const endpoints = {
         validate : dn + '/scann/validate',
         getScann : dn + '/scann/getScann',
         consume: dn + '/scann/consume'
+    },
+    mp:{
+      getInitPoint: dn + '/mp/getInitPoint'
     }
   };
   

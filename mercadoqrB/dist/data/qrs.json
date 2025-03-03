@@ -68,5 +68,12 @@
         "expiration": "2025-01-30T00:00:54.848Z",
         "code": "VXUPOU",
         "id": "8f50ddfa-6dff-4159-8f45-a1ca726d5384"
+    },
+    {
+        "place_id": 4,
+        "prod_id": 7,
+        "expiration": "2025-03-01T22:17:44.343Z",
+        "code": "QTDEPR",
+        "id": "58b125b8-c9c6-4034-b8c3-9e79888ab358"
     }
 ]

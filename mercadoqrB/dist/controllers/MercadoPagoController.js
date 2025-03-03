@@ -9,28 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class PaymentController {
-    constructor(paymentService) {
-        this.paymentService = paymentService;
-        this.processPayment = this.processPayment.bind(this);
-        this.refund = this.refund.bind(this);
-        console.log('Servicio de pagos activo');
+const respondeUtil_1 = require("../utils/respondeUtil");
+class MercadoPagoController {
+    constructor(mercadoPagoService) {
+        this.mercadoPagoService = mercadoPagoService;
+        this.getInitPoint = this.getInitPoint.bind(this);
     }
-    processPayment(req, res, next) {
+    getInitPoint(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('getInitPoint');
+            const { place_id, prod_id } = req.body;
             try {
-                const { query } = req;
-                /* Logica */
+                const preferenceId = yield this.mercadoPagoService.getInitPoint(place_id, prod_id, 1);
+                (0, respondeUtil_1.sendSuccess)(res, preferenceId);
             }
             catch (error) {
                 next(error);
             }
         });
     }
-    refund(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // do nothing
-        });
-    }
 }
-exports.default = PaymentController;
+exports.default = MercadoPagoController;

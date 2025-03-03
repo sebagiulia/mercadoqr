@@ -36,4 +36,10 @@ export class AppError extends Error {
           super(message, 500, details);
         }
     }
+
+    export class MercadoPagoError extends AppError {
+      constructor(message = 'Error de preferencia', details?: unknown) {
+        super(message, 500, details);
+      }
+    }
   

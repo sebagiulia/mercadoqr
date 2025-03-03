@@ -1,29 +1,35 @@
+'use client'
+
 import styles from "./page.module.css";
-import {Tendences, TendenceSkeleton} from "@/components/tendences"
-import SearchSuggestions from "@/components/searchSuggestions";
-import { Suspense } from "react";
 import Link from "next/link";
+import Search from "@/components/search";
+import { useRouter } from "next/navigation";
 
-export default async function Home( ) {
+export default function Home( ) {
 
-  return (
+
+    const router = useRouter();
+
+    const handleSearchSubmit = (searchQuery: string) => {
+      // Perform search logic here
+      // For example, you can navigate to a search results page with the search query as a parameter
+      router.push(`/search?l=${searchQuery}`);
+    };
+
+    return (
       <div className={styles.page}>
-          <div className={styles.info}>
-            <h2>mercadoQR.</h2>
-            <p>Comprá ahora, retirá después</p>
-          </div>
-            <SearchSuggestions placeholder={'Buscar local'} />
-
-          <Suspense fallback={<TendenceSkeleton />}>
-            <Tendences/>
-          </Suspense>
-            
-          <div className={styles.footer}>
-            <Link href="/scann">Escanear</Link>
-          </div>
+        <div className={styles.info}>
+          <h2>mercadoQR.</h2>
+          <p>Reservá ahora, consumí después</p>
+        </div>
+        <Search onSubmit={handleSearchSubmit} />
+        <div className={styles.footer}>
+          <Link href="/scann">Escanear</Link>
+        </div>
       </div>
-  );
-}
+    );
+  }
+
 
 
 

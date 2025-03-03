@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/public/mercadoqr-logo.svg";
+import Logo from "@/public/qrcodelogo.svg";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +35,7 @@ export default function RootLayout({
               alt="MercadoQR logo"
               width={50}
               height={50}
-              style={{ objectFit: "contain"}}
+              style={{ objectFit: "contain" }}
             />
           </Link>
         </header>

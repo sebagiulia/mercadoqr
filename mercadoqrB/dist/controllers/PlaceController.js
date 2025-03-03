@@ -22,7 +22,6 @@ class PlaceController {
     }
     getTendences(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield new Promise((resolve) => setTimeout(resolve, 3000));
             try {
                 const tendences = yield this.placeService.getTendences();
                 (0, respondeUtil_1.sendSuccess)(res, tendences);
@@ -34,7 +33,6 @@ class PlaceController {
     }
     getPlace(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield new Promise((resolve) => setTimeout(resolve, 3000));
             const placeName = req.params.place;
             try {
                 const place = yield this.placeService.getPlace(placeName);
@@ -47,7 +45,6 @@ class PlaceController {
     }
     getPlaces(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield new Promise((resolve) => setTimeout(resolve, 2000));
             const placeName = req.params.place;
             try {
                 const places = yield this.placeService.getPlaces(placeName);
@@ -72,7 +69,6 @@ class PlaceController {
     }
     getProduct(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield new Promise((resolve) => setTimeout(resolve, 1000));
             const placeName = req.params.place;
             const productName = req.params.product;
             try {

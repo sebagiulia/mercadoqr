@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PaymentError = exports.InternalServerError = exports.NotFoundError = exports.ValidationError = exports.AppError = void 0;
+exports.MercadoPagoError = exports.PaymentError = exports.InternalServerError = exports.NotFoundError = exports.ValidationError = exports.AppError = void 0;
 class AppError extends Error {
     constructor(message, statusCode, details) {
         super(message);
@@ -36,3 +36,9 @@ class PaymentError extends AppError {
     }
 }
 exports.PaymentError = PaymentError;
+class MercadoPagoError extends AppError {
+    constructor(message = 'Error de preferencia', details) {
+        super(message, 500, details);
+    }
+}
+exports.MercadoPagoError = MercadoPagoError;

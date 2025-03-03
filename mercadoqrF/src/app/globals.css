@@ -1,13 +1,13 @@
 :root {
-  --background: #000000;
-  --foreground: #f2f2f2;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #f2f2f2;
-    --foreground: #000000;
-  }
+  --background: #080f28;
+  --foreground: #ffffff;
+  --foreground-light: #c9c9c9;
+  --secondary: #192b47;
+  --secondary-active:#1e3252;
+  --input-color: #8da0bc;
+  --catalog: #dedede;
+  --product: #ffffff;
+  --button: #0790ea;
 }
 
 html,
@@ -48,7 +48,6 @@ header {
   align-items: center;
   height: 80px; /* Altura fija */
   padding: 10px; /* Espaciado interno */
-  background-color: #f4f4f4; /* Fondo claro */
+  background-color: var(--secondary); /* Fondo claro */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
-  position: sticky; /* Ajustar si necesitas sticky más adelante */
 }

@@ -4,4 +4,6 @@ export default interface Place {
     description: string;
     address: string;
     img: string;
+    credential: string;
+    public_key: string;
 }
