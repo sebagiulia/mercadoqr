@@ -1,21 +1,22 @@
 Cambios cercanos:
 
 Frontend
---> Sacar el campo Repeat Email del formulario de compra cuando se envia.
 --> Agregar ventanas deslizantes al clickear sobre el producto que lleve a compra rápida
     |_ En esta ventana se pueden ver mas imagenes del producto con un carrousel (Cambio futuro)
---> Arreglar la estetica de la lupa de buscar local
 --> corregir las incongruencias entre los estilos globales y locales, dar un orden de jerarquia
---> arreglar tema de imagenes de productos
 --> agregar un esqueleto para cada bloque asincrono
+--> Agregar mensajes legales y de responsabilidad en la parte de compra
+--> Agregar seleccion de cantidad cuando clickean sobre un producto
 
 Backend
+--> Agregar datos soliciados por los vendedores por categoria
 --> Arreglar tema de id y code de qrCode
 --> Arreglar nombres de clases ..JSON por ..Api donde corresponda
 --> Hacer con Post los scanneos
 --> Cargar los productos de el local en scann antes de escanear, no traerlos por api
 --> Darle semantica a las tendencias en funcion de la cantidad de ventas y hacerla eficiente
 --> conexion con mercadopago
+--> Agregar un service_price por cada local
 
 Cambios lejanos:
 --> Hacer la App de Scann

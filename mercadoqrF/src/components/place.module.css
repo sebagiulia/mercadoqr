@@ -94,6 +94,6 @@
 
 .product_cat {
     font-size: 10px;
-    color: rgb(150, 102, 47);
+    color: var(--category);
     text-align: center;
 }
