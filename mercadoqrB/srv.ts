@@ -40,7 +40,7 @@ const mercadoPagoController = new MercadoPagoController(mercadoPagoService)
 import cors from 'cors'
 
 const app = express()
-const port = 1024
+const port = 1025
 
 app.use(cors())
 app.use(json());

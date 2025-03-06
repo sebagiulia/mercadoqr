@@ -77,5 +77,53 @@
         "price": 1000,
         "description": "Con beneficios",
         "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360"
+    },
+    {
+        "id": 11,
+        "place_id": 1,
+        "name": "Combo Jaggermaister",
+        "price": 700,
+        "description": "Jagger 750ml + 4 speed",
+        "img": "https://http2.mlstatic.com/D_712218-MLA48482719970_122021-C.jpg"
+    },
+    {
+        "id": 12,
+        "place_id": 1,
+        "name": "Combo Black Label",
+        "price": 1000,
+        "description": "Black Label 750ml + 4 Red Bull",
+        "img": "https://cardapioseguro.com.br/xodozin/wp-content/uploads/2022/06/COMBO-BLACK.jpg"
+    },
+    {
+        "id": 13,
+        "place_id": 1,
+        "name": "Cerveza Budweiser",
+        "price": 100,
+        "description": "Cerveza Budweiser 350ml",
+        "img": "https://vinopremier.com/media/catalog/product/cache/8a40897d7c88cd1f7459b457be2eac5e/c/e/cerveza-budweiser-33cl-vinopremier.jpg"
+    },
+    {
+        "id": 14,
+        "place_id": 1,
+        "name": "Chandon Demi",
+        "price": 1000,
+        "description": "Champagne Chandon Demi Botella 750ml",
+        "img": "https://www.conyntra.com/cdn/shop/files/4085U_Espumante_Demi_Sec_750_ml_00f7b6ca-853f-433b-a1b3-e7eecc3f575f.png?v=1739290996"
+    },
+    {
+        "id": 15,
+        "place_id": 1,
+        "name": "Mumm",
+        "price": 500,
+        "description": "Champagne Mumm Botella 750ml",
+        "img": "https://http2.mlstatic.com/D_758363-MLU69116442770_042023-C.jpg"
+    },
+    {
+        "id": 16,
+        "place_id": 1,
+        "name": "Agua mineral",
+        "price": 50,
+        "description": "Agua 600ml",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLH6OzJxJ77xktok4Rcjw6DJNbIZELAxjIKQ&s"
     }
 ]

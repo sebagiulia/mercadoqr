@@ -1,9 +1,9 @@
-const server = 'http://192.168.0.100:1024';
+const server = 'http://192.168.0.100:1025';
 const dn = server + '/api';
 
 
 const endpoints = {
-    server: 'http://192.168.0.100:1024',
+    server: 'http://192.168.0.100:1025',
     places: {
       getPlace: (place: string) => dn + `/place/${place}`,
       getPlaces: (place: string) => dn + `/places/${place}`,

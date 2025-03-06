@@ -28,13 +28,12 @@ function Product({product, placename}: { product: ProductType, placename: string
 
     return (
       <div onClick={handleClick} className={styles.product}>
-        <div className={styles.product_image}>
-            <img src={product.img} /* product.img */ 
+            <img className={styles.product_image} src={product.img} /* product.img */ 
                alt=""
                width={200}
                height={200}/>
-        </div>
         <div className={styles.product_info}>
+            <div className={styles.product_cat}>Categoria</div>
             <div className={styles.product_name}>{(product.name)}</div>
             <div className={styles.product_price}>$ {product.price}</div>
         </div>

@@ -1,4 +1,16 @@
 :root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --foreground-light: #c9c9c9;
+  --secondary: #1b1b1b;
+  --secondary-active:#2d2d2d;
+  --input-color: #c8c8c8;
+  --catalog: #dedede;
+  --product: #ffffff;
+  --button: #e6e6e6;
+}
+
+/* :root {
   --background: #080f28;
   --foreground: #ffffff;
   --foreground-light: #c9c9c9;
@@ -8,7 +20,7 @@
   --catalog: #dedede;
   --product: #ffffff;
   --button: #0790ea;
-}
+} */
 
 html,
 body {
@@ -22,6 +34,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column; /* Para apilar los elementos de arriba a abajo */
+  height: 100vh; /* Contenedor ocupa toda la altura de la pantalla */
+}
+
+main {
+  height: 100%;
+  flex-grow: 1; /* Toma el máximo espacio disponible */
 }
 
 

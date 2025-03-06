@@ -24,7 +24,8 @@ export default function Home( ) {
         </div>
         <Search onSubmit={handleSearchSubmit} />
         <div className={styles.footer}>
-          <Link href="/scann">Escanear</Link>
+          <Link href="/escanear">Escanear</Link>
+          <Link href="/crear">Crear</Link>
         </div>
       </div>
     );

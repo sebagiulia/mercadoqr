@@ -1,5 +1,5 @@
 .buttonPlace {
-    background-color: rgb(40, 53, 94);
+    background-color:var(--secondary);
     border-radius: 20px;
     width: 100%;
     height: 100px;
