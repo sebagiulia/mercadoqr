@@ -11,11 +11,11 @@ import MercadoPagoService from 'services/mercadoPagoService';
 export default function Product({ product, place }: { product: ProductType, place:PlaceType }) {
     const [initPoint, setInitPoint] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [step, setStep] = useState(0);
-    const etiquetasComprador = ["Nombre y Apellido", "DNI"];
+    const etiquetasComprador:any[] = [];
     const etiquetasEnvio = ["Email", "Telefono"];
+    const [step, setStep] = useState(etiquetasComprador.length > 0 ? 0 : 1);
     
-    const [cant, setCant] = useState("");
+    const [cant, setCant] = useState("1");
     
     // Estado para manejar los valores de los inputs
     const [datosComprador, setDatosComprador] = useState(
@@ -95,6 +95,10 @@ export default function Product({ product, place }: { product: ProductType, plac
         setStep(step);
     }
 
+    const handleCompra = () => {
+        alert("Compra realizada");
+    }
+
     return (
         <div className={styles.page}>
             <div className={styles.title}><p>{product.name}</p></div>
@@ -105,7 +109,7 @@ export default function Product({ product, place }: { product: ProductType, plac
                 </div>
                 <div className={styles.description_product}>{product.description}</div>
             </div>
-            {step === 0? 
+            {step === 0 ? 
                 <Block  title={"Datos del comprador"}
                         description={"Estos datos son solicitados directamente por el vendedor"} 
                         form={datosComprador}
@@ -115,7 +119,7 @@ export default function Product({ product, place }: { product: ProductType, plac
                         change={handleChangeDatosComprador} />
 
             :
-            step === 1?    
+            step === 1 ?    
                 <Block title={"Datos de envío"}
                         description={"Rellene correctamente los campos del envío, mercadoqr le enviará su QR a estos destinos"} 
                         form={datosEnvio}
@@ -139,7 +143,7 @@ export default function Product({ product, place }: { product: ProductType, plac
                  items={[{name: product.name, price: product.price, cant: parseInt(cant)}]}
                  service_price={1000}
                  button='Comprar'
-                 buttonAction={() => alert('Compra')}
+                 buttonAction={handleCompra}
                  setStep={handleStep}
                 />
             }
@@ -182,16 +186,23 @@ function DetalleCompra({title, datosComprador, datosEnvio, items, service_price,
 return(
 <div className={styles.block}>
  <p className={styles.block_title}>{title}</p>
-<div className={styles.block_section}><p>Datos del comprador</p><span onClick={setStep(0)}>Modificar</span></div>
+
+
+{Object.keys(datosComprador).length > 0 && 
+   <div className={styles.block_section}>
+<div className={styles.block_section_hd}><p>Datos del comprador</p><span onClick={setStep(0)}>Modificar</span></div>
 <div className={styles.block_data_block}>
 
-{datosComprador !== undefined && Object.entries(datosComprador).map(([key, value]: [string, string], index: number) => <div key={index} className={styles.block_item} >
-                                <p className={styles.block_item_name}>{key}</p>
-                                <p className={styles.block_item_value}>{value}</p>
-                              </div>  
-                                )}
+       {Object.entries(datosComprador).map(([key, value]: [string, string], index: number) => <div key={index} className={styles.block_item} >
+                                       <p className={styles.block_item_name}>{key}</p>
+                                       <p className={styles.block_item_value}>{value}</p>
+                                     </div>  
+                                       )}
                                 </div>
-<div className={styles.block_section}><p>Datos del envío</p><span onClick={setStep(1)}>Modificar</span></div>
+   </div>
+     }
+     <div className={styles.block_section}>
+<div className={styles.block_section_hd}><p>Datos del envío</p><span onClick={setStep(1)}>Modificar</span></div>
 <div className={styles.block_data_block}>
  {Object.entries(datosEnvio).map(([key,value], index) => <div key={index} className={styles.block_item} >
                                 <p className={styles.block_item_name}>{key}</p>
@@ -199,8 +210,9 @@ return(
                               </div>  
                                 )}
                                 </div>
-
- <div className={styles.block_section}><p>Detalle de la compra</p><span onClick={setStep(2)}>Modificar</span></div>
+</div>
+     <div className={styles.block_section}>
+     <div className={styles.block_section_hd}><p>Detalle de la compra</p><span onClick={setStep(2)}>Modificar</span></div>
 <div className={styles.block_data_block}>
 {items.map((item, index) => <div key={index} className={styles.block_item} >
                                 <p className={styles.block_item_name}>{item.name} x {item.cant}</p>
@@ -212,7 +224,9 @@ return(
                                 <p className={styles.block_item_value}>$ {service_price}</p>
                               </div>
                               </div>
+</div>
     <div className={styles.block_total}>
+
         <p className={styles.block_total_name}>Total</p>
         <p className={styles.block_total_value}>$ {items.reduce((acc, item) => acc + item.price * item.cant, 0) + service_price} </p> 
     </div>

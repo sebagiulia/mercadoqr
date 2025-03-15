@@ -47,11 +47,11 @@ app.use(json());
 app.use(urlencoded({ extended: true }));
 
 // GET
-app.get('/api/tendences', placeController.getTendences)
 app.get('/api/place/:place', placeController.getPlace)
 app.get('/api/places/:place', placeController.getPlaces)
 app.get('/api/product/:place/:product', placeController.getProduct)
-app.get('/api/products/:id', placeController.getProducts)
+app.get('/api/products/:id/:category', placeController.getProducts)
+app.get('/api/categories/:place', placeController.getCategories)
 app.get('/api/qrid/:qr', qrController.getQrById)
 app.get('/api/scann/consume/:id', scannController.consumeQrByQrId)
 app.get('/api/scann/getprod/:id', scannController.getProdByQrId)

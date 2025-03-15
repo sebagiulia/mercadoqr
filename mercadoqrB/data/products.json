@@ -1,130 +1,146 @@
-[{
-    "id": 1,
-    "place_id": 1,
-    "name": "Combo absolut",
-    "price": 200,
-    "description": "Absolut + 4 speed",
-    "img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrujTfJQItaRY2-gm4SaW1NzhiAUZ4-iu4OA&s"
-},
-{
-    "id":2,
-    "place_id": 1,
-    "name":"Combo fernet",
-    "price": 150,
-    "description": "Fernet + 2 Coca cola",
-    "img":"https://laprovedeampip.com.ar/wp-content/uploads/2024/11/Combo-Fernet.png"
-},
-{
-    "id":3,
-    "place_id": 1,
-    "name": "Cerveza corona",
-    "price": 100,
-    "description": "Cerveza corona 1L",
-    "img": "https://grupoelvalor.com/wp-content/uploads/2018/12/corona-media-clara.png"
-},
-{
-    "id":4,
-    "place_id": 2,
-    "name": "El señor de los anillos: La comunidad del anillo",
-    "price": 500,
-    "description": "La comunidad del anillo",
-    "img": "https://tienda.planetadelibros.com.ar/cdn/shop/files/ElSenordelosAnillosn_01.LaComunidaddelAnillo_Fte_1024x.jpg?v=1693598478"
-},
-{
-    "id":5,
-    "place_id": 2,
-    "name": "Game of thrones",
-    "price": 1000,
-    "description": "Dancing Dragons",
-    "img": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/d1/c8/70/d1c870eb-f87b-7bd5-6fa5-588c6a758ff1/9780007378425.jpg/1200x900wz.jpg"
-},
-{
-    "id":6,
-    "place_id": 2,
-    "name": "Padre rico Padre pobre",
-    "price": 300,
-    "description": "Padre rico Padre pobre",
-    "img": "https://bobyads.com/wp-content/uploads/2024/01/standing-book-mockup-2-1024x768.png"
-},
-{
-    "id":7,
-    "place_id": 4,
-    "name": "Placar bambú",
-    "price": 2000,
-    "description": "Placar bambú",
-    "img": "https://images.fravega.com/f300/f4af9fb47efc3cfe78d8e9fe449a4823.jpg"
-},
-{
-    "id":8,
-    "place_id": 4,
-    "name": "Ropero 4 puertas",
-    "price": 3000,
-    "description": "Ropero 4 puertas",
-    "img": "https://dcdn.mitiendanube.com/stores/001/183/780/products/56497-placard-24-dakar-melamina-tabaco-cerrado1-889bc348b510d8b0b616537551823423-1024-1024-6ca9a53a021cd6fd1816903206549279-1024-1024.jpg"
-},
-{
-    "id":9,
-    "place_id": 3,
-    "name": "Entrada común",
-    "price": 500,
-    "description": "Sin beneficios",
-    "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360"
-},
-{
-    "id":10,
-    "place_id": 3,
-    "name": "Entrada VIP",
-    "price": 1000,
-    "description": "Con beneficios",
-    "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360"
-},
-{
-    "id":11,
-    "place_id": 1,
-    "name": "Combo Jaggermaister",
-    "price": 700,
-    "description": "Jagger 750ml + 4 speed",
-    "img": "https://http2.mlstatic.com/D_712218-MLA48482719970_122021-C.jpg"
-},
-{
-    "id":12,
-    "place_id": 1,
-    "name": "Combo Black Label",
-    "price": 1000,
-    "description": "Black Label 750ml + 4 Red Bull",
-    "img": "https://cardapioseguro.com.br/xodozin/wp-content/uploads/2022/06/COMBO-BLACK.jpg"
-},
-{
-    "id":13,
-    "place_id": 1,
-    "name": "Cerveza Budweiser",
-    "price": 100,
-    "description": "Cerveza Budweiser 350ml",
-    "img": "https://vinopremier.com/media/catalog/product/cache/8a40897d7c88cd1f7459b457be2eac5e/c/e/cerveza-budweiser-33cl-vinopremier.jpg"
-},
-{
-    "id":14,
-    "place_id": 1,
-    "name": "Chandon Demi",
-    "price": 1000,
-    "description": "Champagne Chandon Demi Botella 750ml",
-    "img": "https://www.conyntra.com/cdn/shop/files/4085U_Espumante_Demi_Sec_750_ml_00f7b6ca-853f-433b-a1b3-e7eecc3f575f.png?v=1739290996"
-},
-{
-    "id":15,
-    "place_id": 1,
-    "name": "Mumm",
-    "price": 500,
-    "description": "Champagne Mumm Botella 750ml",
-    "img": "https://http2.mlstatic.com/D_758363-MLU69116442770_042023-C.jpg"
-},
-{
-    "id":16,
-    "place_id": 1,
-    "name": "Agua mineral",
-    "price": 50,
-    "description": "Agua 600ml",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLH6OzJxJ77xktok4Rcjw6DJNbIZELAxjIKQ&s"
-}
-
+[
+    {
+        "id": 1,
+        "place_id": 1,
+        "name": "Combo absolut",
+        "price": 200,
+        "description": "Absolut + 4 speed",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrujTfJQItaRY2-gm4SaW1NzhiAUZ4-iu4OA&s",
+        "category": "Combos"
+    },
+    {
+        "id": 2,
+        "place_id": 1,
+        "name": "Combo fernet",
+        "price": 150,
+        "description": "Fernet + 2 Coca cola",
+        "img": "https://laprovedeampip.com.ar/wp-content/uploads/2024/11/Combo-Fernet.png",
+        "category": "Combos"
+    },
+    {
+        "id": 3,
+        "place_id": 1,
+        "name": "Cerveza corona",
+        "price": 100,
+        "description": "Cerveza corona 1L",
+        "img": "https://grupoelvalor.com/wp-content/uploads/2018/12/corona-media-clara.png",
+        "category": "Cervezas"
+    },
+    {
+        "id": 4,
+        "place_id": 2,
+        "name": "El señor de los anillos: La comunidad del anillo",
+        "price": 500,
+        "description": "La comunidad del anillo",
+        "img": "https://tienda.planetadelibros.com.ar/cdn/shop/files/ElSenordelosAnillosn_01.LaComunidaddelAnillo_Fte_1024x.jpg?v=1693598478",
+        "category": "Fantasia"
+    },
+    {
+        "id": 5,
+        "place_id": 2,
+        "name": "Game of thrones",
+        "price": 1000,
+        "description": "Dancing Dragons",
+        "img": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/d1/c8/70/d1c870eb-f87b-7bd5-6fa5-588c6a758ff1/9780007378425.jpg/1200x900wz.jpg",
+        "category": "Fantasia"
+    },
+    {
+        "id": 6,
+        "place_id": 2,
+        "name": "Padre rico Padre pobre",
+        "price": 300,
+        "description": "Padre rico Padre pobre",
+        "img": "https://bobyads.com/wp-content/uploads/2024/01/standing-book-mockup-2-1024x768.png",
+        "category": "Finanzas"
+    },
+    {
+        "id": 7,
+        "place_id": 4,
+        "name": "Placar bambú",
+        "price": 2000,
+        "description": "Placar bambú",
+        "img": "https://images.fravega.com/f300/f4af9fb47efc3cfe78d8e9fe449a4823.jpg",
+        "category": "Placares"
+    },
+    {
+        "id": 8,
+        "place_id": 4,
+        "name": "Ropero 4 puertas",
+        "price": 3000,
+        "description": "Ropero 4 puertas",
+        "img": "https://dcdn.mitiendanube.com/stores/001/183/780/products/56497-placard-24-dakar-melamina-tabaco-cerrado1-889bc348b510d8b0b616537551823423-1024-1024-6ca9a53a021cd6fd1816903206549279-1024-1024.jpg",
+        "category": "Placares"
+    },
+    {
+        "id": 9,
+        "place_id": 3,
+        "name": "Entrada común",
+        "price": 500,
+        "description": "Sin beneficios",
+        "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360",
+        "category": "Entradas"
+    },
+    {
+        "id": 10,
+        "place_id": 3,
+        "name": "Entrada VIP",
+        "price": 1000,
+        "description": "Con beneficios",
+        "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360",
+        "category": "Entradas"
+    },
+    {
+        "id": 11,
+        "place_id": 1,
+        "name": "Combo Jaggermaister",
+        "price": 700,
+        "description": "Jagger 750ml + 4 speed",
+        "img": "https://http2.mlstatic.com/D_712218-MLA48482719970_122021-C.jpg",
+        "category": "Combos"
+    },
+    {
+        "id": 12,
+        "place_id": 1,
+        "name": "Combo Black Label",
+        "price": 1000,
+        "description": "Black Label 750ml + 4 Red Bull",
+        "img": "https://cardapioseguro.com.br/xodozin/wp-content/uploads/2022/06/COMBO-BLACK.jpg",
+        "category": "Combos"
+    },
+    {
+        "id": 13,
+        "place_id": 1,
+        "name": "Cerveza Budweiser",
+        "price": 100,
+        "description": "Cerveza Budweiser 350ml",
+        "img": "https://vinopremier.com/media/catalog/product/cache/8a40897d7c88cd1f7459b457be2eac5e/c/e/cerveza-budweiser-33cl-vinopremier.jpg",
+        "category": "Cervezas"
+    },
+    {
+        "id": 14,
+        "place_id": 1,
+        "name": "Chandon Demi",
+        "price": 1000,
+        "description": "Champagne Chandon Demi Botella 750ml",
+        "img": "https://www.conyntra.com/cdn/shop/files/4085U_Espumante_Demi_Sec_750_ml_00f7b6ca-853f-433b-a1b3-e7eecc3f575f.png?v=1739290996",
+        "category": "Espumantes"
+    },
+    {
+        "id": 15,
+        "place_id": 1,
+        "name": "Mumm",
+        "price": 500,
+        "description": "Champagne Mumm Botella 750ml",
+        "img": "https://http2.mlstatic.com/D_758363-MLU69116442770_042023-C.jpg",
+        "category": "Espumantes"
+    },
+    {
+        "id": 16,
+        "place_id": 1,
+        "name": "Agua mineral",
+        "price": 50,
+        "description": "Agua 600ml",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLH6OzJxJ77xktok4Rcjw6DJNbIZELAxjIKQ&s",
+        "category": "Sin alcohol"
+    }
 ]

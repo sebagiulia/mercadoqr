@@ -3,9 +3,10 @@ import styles from './place.module.css';
 import  PlaceType from '../models/place';
 import  ProductType from '../models/product';
 import { useRouter } from "next/navigation";
+import { useState } from 'react';
 
 
-function PlaceHeader({place}: { place: PlaceType }) {
+export function PlaceHeader({place}: { place: PlaceType }) {
     return (
       <div className={styles.header}>
           <div className={styles.place_img}>
@@ -33,7 +34,7 @@ function Product({product, placename}: { product: ProductType, placename: string
                width={200}
                height={200}/>
         <div className={styles.product_info}>
-            <div className={styles.product_cat}>Categoria</div>
+            <div className={styles.product_cat}>{product.category}</div>
             <div className={styles.product_name}>{(product.name)}</div>
             <div className={styles.product_price}>$ {product.price}</div>
         </div>
@@ -41,18 +42,33 @@ function Product({product, placename}: { product: ProductType, placename: string
     );
 }
 
-function PlaceCatalog({products, placename}: { products: ProductType[], placename: string }) {
-    return (
-      <div className={styles.catalog}>
-        {products.map(element => <Product placename={placename} key={element.id} product={element} />)}
-      </div>
-    );
+export function PlaceCategories({categories, selectedCategory, changeCategory}: { categories: string[], selectedCategory: string, changeCategory: any }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpen = () => {
+    setIsOpen(!isOpen);
+  }
+
+  const handleClose = (element: string): React.MouseEventHandler<HTMLDivElement> => (event) => {
+    changeCategory(element);
+    setIsOpen(false);
+  }
+
+  return (<div className={styles.place_categories_container}>
+    {!isOpen ? <div onClick={handleOpen}>Categoria: {selectedCategory}</div>
+                 :
+               <div>
+                {[...categories, "Todo"].map((element, index) => <div onClick={handleClose(element)} key={index} className={styles.catalog_category}>{element}</div>)}
+              </div>}
+
+
+  </div>) 
 }
 
-export default function Place({place, products}: { place: PlaceType, products: ProductType[] }) {
-    return (<div className={styles.place}>
-        <PlaceHeader place={place}/>
-        <PlaceCatalog placename={place.name} products={products}/>
-        </div>);
+export function PlaceCatalog({products, place}:{products: ProductType[], place: PlaceType}) {
+    return (
+      <div className={styles.catalog}>
+        {products.map(element => <Product placename={place.name} key={element.id} product={element} />)}
+      </div>
+    );
 }
 

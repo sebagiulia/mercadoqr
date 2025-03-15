@@ -199,6 +199,11 @@
 }
 
 .block_section {
+    height: fit-content;
+    width: 100%;
+}
+
+.block_section_hd {
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -212,7 +217,7 @@
 }
 
 
-.block_section span {
+.block_section_hd span {
     color: var(--foreground);
     font-size: 12px;
     background-color: var(--background);

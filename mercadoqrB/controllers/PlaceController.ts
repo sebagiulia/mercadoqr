@@ -10,18 +10,9 @@ export default class PlaceController {
         this.getPlaces = this.getPlaces.bind(this);
         this.getProducts = this.getProducts.bind(this);
         this.getProduct = this.getProduct.bind(this);
-        this.getTendences = this.getTendences.bind(this);
+        this.getCategories = this.getCategories.bind(this);
         console.log('Servicio de places activo');
 
-    }
-
-    async getTendences(req: Request, res: Response, next:NextFunction): Promise<void> {
-        try {
-            const tendences = await this.placeService.getTendences()
-            sendSuccess(res, tendences)
-        } catch (error) {
-            next(error)
-        }
     }
 
     async getPlace(req: Request, res: Response, next:NextFunction): Promise<void> {
@@ -46,8 +37,9 @@ export default class PlaceController {
     }
     async getProducts(req: Request, res: Response, next:NextFunction): Promise<void> {
         const placeId = req.params.id;
+        const category = req.params.category;
         try {
-            const products = await this.placeService.getProducts(parseInt(placeId, 10));
+            const products = await this.placeService.getProducts(parseInt(placeId, 10), category);
             sendSuccess(res, products);
         } catch (error) {
             next(error)
@@ -59,6 +51,16 @@ export default class PlaceController {
         try {
             const product = await this.placeService.getProduct(placeName, productName);
             sendSuccess(res, product);
+        } catch (error) {
+            next(error)        
+        }
+    }
+
+    async getCategories(req: Request, res: Response, next:NextFunction): Promise<void> {
+        const placeName = req.params.place;
+        try {
+            const categories = await this.placeService.getCategories(placeName);
+            sendSuccess(res, categories);
         } catch (error) {
             next(error)        
         }

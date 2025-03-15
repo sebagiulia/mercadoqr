@@ -29,14 +29,27 @@ class PlaceServiceImp {
             return this.placeRepository.getPlaces(placeName);
         });
     }
-    getProducts(placeId) {
+    getProducts(placeId, category) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.placeRepository.getProducts(placeId.toString());
+            const prods = yield this.placeRepository.getProducts(placeId.toString());
+            if (category == "Todo")
+                return prods;
+            return prods.filter((prod) => prod.category === category);
         });
     }
     getProduct(placeName, productName) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.placeRepository.getProduct(placeName, productName);
+        });
+    }
+    getCategories(placeName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const place = yield this.placeRepository.getPlace(placeName);
+            const products = this.placeRepository.getProducts(place.id.toString());
+            return products.then((products) => {
+                const categories = products.map((product) => product.category);
+                return [...new Set(categories)];
+            });
         });
     }
 }

@@ -17,19 +17,8 @@ class PlaceController {
         this.getPlaces = this.getPlaces.bind(this);
         this.getProducts = this.getProducts.bind(this);
         this.getProduct = this.getProduct.bind(this);
-        this.getTendences = this.getTendences.bind(this);
+        this.getCategories = this.getCategories.bind(this);
         console.log('Servicio de places activo');
-    }
-    getTendences(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const tendences = yield this.placeService.getTendences();
-                (0, respondeUtil_1.sendSuccess)(res, tendences);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
     }
     getPlace(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -58,8 +47,9 @@ class PlaceController {
     getProducts(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const placeId = req.params.id;
+            const category = req.params.category;
             try {
-                const products = yield this.placeService.getProducts(parseInt(placeId, 10));
+                const products = yield this.placeService.getProducts(parseInt(placeId, 10), category);
                 (0, respondeUtil_1.sendSuccess)(res, products);
             }
             catch (error) {
@@ -74,6 +64,18 @@ class PlaceController {
             try {
                 const product = yield this.placeService.getProduct(placeName, productName);
                 (0, respondeUtil_1.sendSuccess)(res, product);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    }
+    getCategories(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const placeName = req.params.place;
+            try {
+                const categories = yield this.placeService.getCategories(placeName);
+                (0, respondeUtil_1.sendSuccess)(res, categories);
             }
             catch (error) {
                 next(error);

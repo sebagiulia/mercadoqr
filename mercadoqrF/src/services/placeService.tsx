@@ -13,15 +13,15 @@ export default class PlaceService {
         return apiClient(endpoints.places.getPlaces(placeName))
     }
 
-    static async getProducts(placeId: number):Promise<ErrorType<Product[]>> {
-        return apiClient(endpoints.places.getProducts(placeId))
+    static async getProducts(placeId: number, category:string):Promise<ErrorType<Product[]>> {
+        return apiClient(endpoints.places.getProducts(placeId, category))
     }
 
     static async getProduct(placeName: string, productName: string):Promise<ErrorType<Product>> {
         return apiClient(endpoints.places.getProduct(placeName, productName))
     }
 
-    static async getTendences():Promise<ErrorType<Place[]>> {
-        return apiClient(endpoints.places.getTendences() )
+    static async getCategories(placeName: string):Promise<ErrorType<string[]>> {
+        return apiClient(endpoints.places.getCategories(placeName))
     }
 }

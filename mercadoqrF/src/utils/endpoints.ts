@@ -8,8 +8,8 @@ const endpoints = {
       getPlace: (place: string) => dn + `/place/${place}`,
       getPlaces: (place: string) => dn + `/places/${place}`,
       getProduct: (place: string, prod: string) => dn + `/product/${place}/${prod}`,
-      getProducts: (placeid: number) => dn + `/products/${placeid}`,
-      getTendences: () => dn + '/tendences'
+      getProducts: (placeid: number, category:string) => dn + `/products/${placeid}/${category}`,
+      getCategories: (place:string) => dn + '/categories/' + place,
     },
     payment: {
       processPayment: dn + '/payment'
