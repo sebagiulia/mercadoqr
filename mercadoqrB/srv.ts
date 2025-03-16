@@ -1,16 +1,11 @@
 
 import express, { json, urlencoded } from 'express'
-
+import serverData from './serverData'
 import { errorHandler } from './errors/errorHandler'
 
 
 import QrRepositoryJSON from './repositories/imp/qrRepositoryJSON'
-import PaymentController from './controllers/PaymentController'
-import PaymentServiceDefault from './services/imp/PaymentServiceDefault'
 const qrRepository = new QrRepositoryJSON()
-const paymentService = new PaymentServiceDefault(qrRepository)
-paymentService.initialize({})
-const paymentController = new PaymentController(paymentService)
 
 import QrController from './controllers/QrController'
 import QrServiceImp from './services/imp/QrServiceApi'
@@ -31,22 +26,29 @@ const scannRepository = new ScannRepositoryJSON()
 const scannService = new ScannServiceJSON(qrRepository, placeRepository, scannRepository)
 const scannController = new ScannController(scannService)
 
+import NotifierDefault from './services/imp/NotifierDefault'
+const notifierService = new NotifierDefault()
 
 import MercadoPagoController from './controllers/MercadoPagoController'
 import MercadoPagoServiceDefault from './services/imp/MercadoPagoServiceDefault'
-const mercadoPagoService = new MercadoPagoServiceDefault(placeRepository)
+import MercadoPagoRepositoryJSON from './repositories/imp/mercadoPagoRepositoryJSON'
+const mercadoPagoRepository = new MercadoPagoRepositoryJSON()
+const mercadoPagoService = new MercadoPagoServiceDefault(placeRepository, mercadoPagoRepository, notifierService, qrService)
 const mercadoPagoController = new MercadoPagoController(mercadoPagoService)
 
 import cors from 'cors'
 
 const app = express()
-const port = 1025
+const port = serverData.port
 
 app.use(cors())
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
 // GET
+app.get('/example', (req, res) => {
+    res.json('Hello World!')
+} )
 app.get('/api/place/:place', placeController.getPlace)
 app.get('/api/places/:place', placeController.getPlaces)
 app.get('/api/product/:place/:product', placeController.getProduct)
@@ -64,7 +66,7 @@ app.post('/api/scann/getscann', scannController.getProdByQrCode)
 
 // MercadoPago
 app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint)
-app.post('/api/notification_url', paymentController.processPayment)
+app.post('/api/mp/notify', mercadoPagoController.processMPNotification)
 
 // Middleware de errores
 app.use(errorHandler);

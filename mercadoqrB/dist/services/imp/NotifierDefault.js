@@ -9,38 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const errors_1 = require("../../errors/errors");
-class QrServiceImp {
-    constructor(qrRepository) {
-        this.qrRepository = qrRepository;
-    }
-    createQr(qr) {
+class NotifierDefault {
+    notifyByEmail(email, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.qrRepository.createQr(qr);
-            return qr;
+            console.log('Email enviado a: ', email, ' con el mensaje: ', data);
         });
     }
-    getQrByCode(qrCode) {
+    notifyByWhatsapp(telefono, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrByCode(qrCode);
-            if (!qr) {
-                throw new errors_1.NotFoundError('Qr not found');
-            }
-            else {
-                return qr;
-            }
-        });
-    }
-    getQrById(qrId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrById(qrId);
-            if (!qr) {
-                throw new errors_1.NotFoundError('Qr not found');
-            }
-            else {
-                return qr;
-            }
+            console.log('Whatsapp enviado a: ', telefono, ' con el mensaje: ', data);
         });
     }
 }
-exports.default = QrServiceImp;
+exports.default = NotifierDefault;

@@ -10,7 +10,7 @@ import styles from "./page.module.css";
 export default function Page({
   params,
 }: {
-  params: { sucursal: string };
+  params: Promise<{ sucursal: string }>;
 }) {
   const [place, setPlace] = useState<PlaceType | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
@@ -32,6 +32,7 @@ export default function Page({
           setCategories(responseCats.success ? (responseCats.data as string[]) : []);
         }
       } catch (error) {
+        console.error(error);
         notFound();
       }
     };

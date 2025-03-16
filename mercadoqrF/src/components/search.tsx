@@ -1,18 +1,17 @@
-import { useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import styles from './search.module.css';
 import { IoIosSearch } from "react-icons/io";
 
-export default function Search({ onSubmit }: { onSubmit: any }) {
+export default function Search({ onSubmit }: { onSubmit: (sq: string) => void }) {
     const [searchQuery, setSearchQuery] = useState("");
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
     }
 
-    const handleSubmit = (e: any) => {
-        console.log("enter");
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         onSubmit(searchQuery);
-        };
+    };
 
     return (<div className={styles.container}>
         <form onSubmit={handleSubmit}>

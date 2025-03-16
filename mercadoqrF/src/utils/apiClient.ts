@@ -1,4 +1,3 @@
-import ErrorType from "errors/errorType";
 
 export const apiClient = async <T>(url: string, options: RequestInit = {}): Promise<T> => {
   

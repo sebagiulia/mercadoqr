@@ -14,14 +14,27 @@ class MercadoPagoController {
     constructor(mercadoPagoService) {
         this.mercadoPagoService = mercadoPagoService;
         this.getInitPoint = this.getInitPoint.bind(this);
+        console.log('Servicio MercadoPago activo');
     }
     getInitPoint(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('getInitPoint');
-            const { place_id, prod_id } = req.body;
+            const { envio_email, envio_telefono, prod_id, prod_cant, place_id } = req.body;
             try {
-                const preferenceId = yield this.mercadoPagoService.getInitPoint(place_id, prod_id, 1);
-                (0, respondeUtil_1.sendSuccess)(res, preferenceId);
+                const preference = yield this.mercadoPagoService.getInitPoint(place_id, prod_id, prod_cant, envio_email, envio_telefono);
+                (0, respondeUtil_1.sendSuccess)(res, preference);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    }
+    processMPNotification(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('processMPNotification');
+            const { payment_id } = req.body;
+            try {
+                yield this.mercadoPagoService.notifyPayment(payment_id);
+                (0, respondeUtil_1.sendSuccess)(res);
             }
             catch (error) {
                 next(error);

@@ -6,4 +6,5 @@ export default interface Product {
     description: string;
     category: string;
     img: string;
+    expiration_date: string;
 }

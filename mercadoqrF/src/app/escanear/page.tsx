@@ -19,7 +19,7 @@ const Scann: React.FC = () => {
     const [validationCode, setCodigoHabilitante] = useState('');
     const {error, setError} = useError();
     const [place, setPlace] = useState<Place | null>(null);
-    const [showResult, setShowResult] = useState(false);
+    //const [showResult, setShowResult] = useState(false);
 
     const checkApi = async () => {
         try {
@@ -32,10 +32,11 @@ const Scann: React.FC = () => {
             } else {
                 // Verificación exitosa, mostrar la página ScannPage
                 setPlace(response.data);
-                setShowResult(true);
+                //setShowResult(true);
             }
         } catch (error) {
             // Error al llamar a la API
+            console.error(error);
             setError('Error: No se pudo conectar con la API');
         }
     };

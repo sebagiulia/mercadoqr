@@ -10,6 +10,11 @@ export default class QrServiceImp implements QrService {
         this.qrRepository = qrRepository;
     }
 
+    async createQr(qr: Qr): Promise<Qr> {
+        await this.qrRepository.createQr(qr);
+        return qr;
+    }
+
     async getQrByCode(qrCode: string): Promise<Qr> {
         const qr = await this.qrRepository.getQrByCode(qrCode);
         if(!qr) {

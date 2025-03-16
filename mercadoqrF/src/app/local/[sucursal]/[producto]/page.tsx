@@ -12,7 +12,7 @@ export default async function Page({
   const sucursal = (await params).sucursal
   const producto = (await params).producto
   try {
-    const {success, data, error} = await PlaceService.getPlace(sucursal)
+    const {success, data } = await PlaceService.getPlace(sucursal)
     if(!success) {
       notFound()
     } 
@@ -28,6 +28,7 @@ export default async function Page({
               </ErrorProvider>)
 
   } catch (error) {
+    console.error(error)
     notFound()
   }
 }

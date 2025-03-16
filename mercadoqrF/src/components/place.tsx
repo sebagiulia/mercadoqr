@@ -42,13 +42,13 @@ function Product({product, placename}: { product: ProductType, placename: string
     );
 }
 
-export function PlaceCategories({categories, selectedCategory, changeCategory}: { categories: string[], selectedCategory: string, changeCategory: any }) {
+export function PlaceCategories({categories, selectedCategory, changeCategory}: { categories: string[], selectedCategory: string, changeCategory: (category: string) => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     setIsOpen(!isOpen);
   }
 
-  const handleClose = (element: string): React.MouseEventHandler<HTMLDivElement> => (event) => {
+  const handleClose = (element: string): React.MouseEventHandler<HTMLDivElement> => () => {
     changeCategory(element);
     setIsOpen(false);
   }

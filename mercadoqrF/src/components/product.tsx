@@ -3,20 +3,18 @@
 import styles from './product.module.css';
 import ProductType from '../models/product';
 import PlaceType from '../models/place';
-import UserPaymentDataForm from './userPaymentDataForm';
-import { useEffect, useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import MercadoPagoService from 'services/mercadoPagoService';
+import { useRouter } from 'next/navigation';
 
 
 export default function Product({ product, place }: { product: ProductType, place:PlaceType }) {
-    const [initPoint, setInitPoint] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
-    const etiquetasComprador:any[] = [];
+    const etiquetasComprador:string[] = [];
     const etiquetasEnvio = ["Email", "Telefono"];
-    const [step, setStep] = useState(etiquetasComprador.length > 0 ? 0 : 1);
-    
     const [cant, setCant] = useState("1");
     
+    const [step, setStep] = useState(etiquetasComprador.length > 0 ? 0 : 1);
+    const [isProcessing, setIsProcessing] = useState(false);
     // Estado para manejar los valores de los inputs
     const [datosComprador, setDatosComprador] = useState(
         Object.fromEntries(etiquetasComprador.map((etiqueta) => [etiqueta, ""]))
@@ -41,28 +39,9 @@ export default function Product({ product, place }: { product: ProductType, plac
         setCant(e.target.value);
     }
      
+    const router = useRouter();
 
-    /* useEffect(() => {
-        const fetchPreferenceId = async () => {
-            try {
-                const response = await MercadoPagoService.getInitPoint(product);
-                if(!response.success) {
-                    //undefined
-                } else {
-                    const url = response.data as string
-                    console.log(url);
-                    setInitPoint(url);
-                    setIsLoading(false);
-                }
-            } catch (error) {
-                console.error('Error al enviar los datos:', error);
-            }
-        }
-        fetchPreferenceId();
-    }, []);  */
-    
-
-    const handleDatosComprador = (e: any) => {
+    const handleDatosComprador = () => {
         if(Object.values(datosComprador).some((value) => value === "")) {
             alert("Debe completar todos los campos");
             return;
@@ -70,7 +49,7 @@ export default function Product({ product, place }: { product: ProductType, plac
         setStep(1);
     }
     
-    const handleDatosEnvio = (e: any) => {
+    const handleDatosEnvio = () => {
         if(Object.values(datosEnvio).some((value) => value === "")) {
             alert("Debe completar todos los campos");
             return;
@@ -78,7 +57,7 @@ export default function Product({ product, place }: { product: ProductType, plac
         setStep(2);
     }
 
-    const handleCantidad = (e: any) => {
+    const handleCantidad = () => {
         const number = parseInt(cant);
         if(isNaN(number)) {
             alert("Escriba un número válido");
@@ -95,8 +74,17 @@ export default function Product({ product, place }: { product: ProductType, plac
         setStep(step);
     }
 
-    const handleCompra = () => {
-        alert("Compra realizada");
+    const handleCompra = async () => {
+        setIsProcessing(true);
+        const datosProd = {place_id: place.id, prod_id: product.id, cant: parseInt(cant)};
+        const response = await MercadoPagoService.getInitPoint(datosProd, datosComprador, datosEnvio);
+        if(response.success) {
+            const url = response.data as string;
+            router.push(url);
+        } else {
+            console.log(response);
+            alert("No se pudo procesar el pedido");
+        }
     }
 
     return (
@@ -119,7 +107,7 @@ export default function Product({ product, place }: { product: ProductType, plac
                         change={handleChangeDatosComprador} />
 
             :
-            step === 1 ?    
+            step === 1 ?
                 <Block title={"Datos de envío"}
                         description={"Rellene correctamente los campos del envío, mercadoqr le enviará su QR a estos destinos"} 
                         form={datosEnvio}
@@ -141,24 +129,19 @@ export default function Product({ product, place }: { product: ProductType, plac
                  datosComprador={datosComprador}
                  datosEnvio={datosEnvio}
                  items={[{name: product.name, price: product.price, cant: parseInt(cant)}]}
-                 service_price={1000}
+                 service_price={0}
                  button='Comprar'
                  buttonAction={handleCompra}
                  setStep={handleStep}
+                 processing={isProcessing}
                 />
             }
-            
-
-            
-            {/* {isLoading? <div>Cargando...</div>:
-            <UserPaymentDataForm place={place} price={product.price} initPoint={initPoint} />
-            } */}
         </div>
     );
 }
 function Block({title, description, form, etiquetas, button, buttonAction, change}:
                {title: string, description: string, form: Record<string, string>,
-                etiquetas: Array<string>, button: string, buttonAction: any, change:any}) {
+                etiquetas: Array<string>, button: string, buttonAction:() => void , change:(e: React.ChangeEvent<HTMLInputElement>) => void}) {
     return(
         <div className={styles.block}>
             <p className={styles.block_title}>{title}</p>
@@ -176,13 +159,14 @@ function Block({title, description, form, etiquetas, button, buttonAction, chang
     )
 }
 
-function DetalleCompra({title, datosComprador, datosEnvio, items, service_price, button, buttonAction, setStep}:
+function DetalleCompra({title, datosComprador, datosEnvio, items, service_price, button, buttonAction, setStep, processing}:
     {title: string,
      datosComprador:Record<string,string>,
      datosEnvio:Record<string,string>,
      items: Array<{name:string, price:number, cant:number}>,
-     service_price:number, button: string, buttonAction: any,
-     setStep: any}) {
+     service_price:number, button: string, buttonAction: () => void,
+     setStep: (step: number) => MouseEventHandler<HTMLSpanElement>,
+     processing: boolean}) {
 return(
 <div className={styles.block}>
  <p className={styles.block_title}>{title}</p>
@@ -231,7 +215,7 @@ return(
         <p className={styles.block_total_value}>$ {items.reduce((acc, item) => acc + item.price * item.cant, 0) + service_price} </p> 
     </div>
 
- <button className={styles.block_button_comp} onClick={buttonAction} >{button}</button>
+ <button className={styles.block_button_comp} onClick={buttonAction} >{processing? '...': button}</button>
 </div>
 )
 }

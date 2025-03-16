@@ -4,6 +4,8 @@
   "description": "backend del mvp de mercadoqr",
   "main": "srv.js",
   "scripts": {
+    "start": "node ./dist/srv.js",
+    "build": "npx tsc --resolveJSONModule",
     "test": "npx tsc --resolveJSONModule && node ./dist/srv.js"
   },
   "author": "Sebastian Giulianelli",

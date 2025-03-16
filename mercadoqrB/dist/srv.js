@@ -37,14 +37,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
+const serverData_1 = __importDefault(require("./serverData"));
 const errorHandler_1 = require("./errors/errorHandler");
 const qrRepositoryJSON_1 = __importDefault(require("./repositories/imp/qrRepositoryJSON"));
-const PaymentController_1 = __importDefault(require("./controllers/PaymentController"));
-const PaymentServiceDefault_1 = __importDefault(require("./services/imp/PaymentServiceDefault"));
 const qrRepository = new qrRepositoryJSON_1.default();
-const paymentService = new PaymentServiceDefault_1.default(qrRepository);
-paymentService.initialize({});
-const paymentController = new PaymentController_1.default(paymentService);
 const QrController_1 = __importDefault(require("./controllers/QrController"));
 const QrServiceApi_1 = __importDefault(require("./services/imp/QrServiceApi"));
 const qrService = new QrServiceApi_1.default(qrRepository);
@@ -61,17 +57,24 @@ const scannRepositoryJSON_1 = __importDefault(require("./repositories/imp/scannR
 const scannRepository = new scannRepositoryJSON_1.default();
 const scannService = new ScannServiceJSON_1.default(qrRepository, placeRepository, scannRepository);
 const scannController = new ScannController_1.default(scannService);
+const NotifierDefault_1 = __importDefault(require("./services/imp/NotifierDefault"));
+const notifierService = new NotifierDefault_1.default();
 const MercadoPagoController_1 = __importDefault(require("./controllers/MercadoPagoController"));
 const MercadoPagoServiceDefault_1 = __importDefault(require("./services/imp/MercadoPagoServiceDefault"));
-const mercadoPagoService = new MercadoPagoServiceDefault_1.default(placeRepository);
+const mercadoPagoRepositoryJSON_1 = __importDefault(require("./repositories/imp/mercadoPagoRepositoryJSON"));
+const mercadoPagoRepository = new mercadoPagoRepositoryJSON_1.default();
+const mercadoPagoService = new MercadoPagoServiceDefault_1.default(placeRepository, mercadoPagoRepository, notifierService, qrService);
 const mercadoPagoController = new MercadoPagoController_1.default(mercadoPagoService);
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
-const port = 1025;
+const port = serverData_1.default.port;
 app.use((0, cors_1.default)());
 app.use((0, express_1.json)());
 app.use((0, express_1.urlencoded)({ extended: true }));
 // GET
+app.get('/example', (req, res) => {
+    res.json('Hello World!');
+});
 app.get('/api/place/:place', placeController.getPlace);
 app.get('/api/places/:place', placeController.getPlaces);
 app.get('/api/product/:place/:product', placeController.getProduct);
@@ -87,7 +90,7 @@ app.post('/api/scann/consume', scannController.consumeQrByQrCode);
 app.post('/api/scann/getscann', scannController.getProdByQrCode);
 // MercadoPago
 app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint);
-app.post('/api/notification_url', paymentController.processPayment);
+app.post('/api/mp/notify', mercadoPagoController.processMPNotification);
 // Middleware de errores
 app.use(errorHandler_1.errorHandler);
 app.listen(port, () => {

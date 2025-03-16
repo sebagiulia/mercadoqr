@@ -1,9 +1,10 @@
-const server = 'http://192.168.0.100:1025';
+//const server = 'http://localhost:8080';
+const server = 'https://mercadoqr-e7gge5cub2b5cnc0.brazilsouth-01.azurewebsites.net';
 const dn = server + '/api';
 
 
 const endpoints = {
-    server: 'http://192.168.0.100:1025',
+    server,
     places: {
       getPlace: (place: string) => dn + `/place/${place}`,
       getPlaces: (place: string) => dn + `/places/${place}`,

@@ -1,13 +1,20 @@
 'use client'
 import Place from "@/models/place";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import PlaceService from "services/placeService";
 import {Suggestions} from "@/components/suggestion";
 import styles from "./page.module.css";
 
+
 export default function Page() {
+    return (<Suspense fallback={<p>Cargando...</p>}>
+                <SearchPage />
+            </Suspense>)
     
+}
+
+function SearchPage() {
     const [places, setPlaces] = useState<Place[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -18,7 +25,7 @@ export default function Page() {
         const fetchPlaces = async () => {
             setIsLoading(true);
             try {
-                const { success, data, error } = await PlaceService.getPlaces(placename);
+                const { success, data } = await PlaceService.getPlaces(placename);
                 if (success) {
                     const places = data || [];
                     setPlaces(places);
@@ -27,11 +34,12 @@ export default function Page() {
                     setIsLoading(false);
                 }
             } catch (error) {
+                console.error(error);
                 setIsLoading(false);
             }
         };
         fetchPlaces();
-    }, []);
+    }, [placename]);
     
     
     return (
