@@ -1,6 +1,5 @@
 
 import express, { json, urlencoded } from 'express'
-import serverData from './serverData'
 import { errorHandler } from './errors/errorHandler'
 
 
@@ -34,19 +33,20 @@ import MercadoPagoServiceDefault from './services/imp/MercadoPagoServiceDefault'
 import MercadoPagoRepositoryJSON from './repositories/imp/mercadoPagoRepositoryJSON'
 const mercadoPagoRepository = new MercadoPagoRepositoryJSON()
 const mercadoPagoService = new MercadoPagoServiceDefault(placeRepository, mercadoPagoRepository, notifierService, qrService)
-const mercadoPagoController = new MercadoPagoController(mercadoPagoService)
+const mercadoPagoController = new MercadoPagoController(mercadoPagoService, placeService)
 
 import cors from 'cors'
+import 'dotenv/config'
 
 const app = express()
-const port = serverData.port
+const port = process.env.PORT || 8080
 
 app.use(cors())
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
 // GET
-app.get('/example', (req, res) => {
+app.get('/test', (req, res) => {
     res.json('Hello World!')
 } )
 app.get('/api/place/:place', placeController.getPlace)
@@ -58,15 +58,14 @@ app.get('/api/qrid/:qr', qrController.getQrById)
 app.get('/api/scann/consume/:id', scannController.consumeQrByQrId)
 app.get('/api/scann/getprod/:id', scannController.getProdByQrId)
 
-// POST
-//app.post('/api/payment', paymentController.processPayment)
+// Scann
 app.post('/api/scann/validate', scannController.validateScanner)
 app.post('/api/scann/consume', scannController.consumeQrByQrCode)
 app.post('/api/scann/getscann', scannController.getProdByQrCode)
 
 // MercadoPago
 app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint)
-app.post('/api/mp/notify', mercadoPagoController.processMPNotification)
+app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotification)
 
 // Middleware de errores
 app.use(errorHandler);

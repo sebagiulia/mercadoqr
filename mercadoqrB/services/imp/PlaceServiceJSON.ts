@@ -41,4 +41,8 @@ export default class PlaceServiceImp implements PlaceService {
             return [...new Set(categories)]
         })
     }
+
+    async getPlaceToken(placeId: number): Promise<string> {
+        return this.placeRepository.getPlaceToken(placeId)
+    }
 }

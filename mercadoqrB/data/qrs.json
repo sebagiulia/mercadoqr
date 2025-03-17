@@ -75,5 +75,21 @@
     "expiration": "2025-03-01T22:17:44.343Z",
     "code": "QTDEPR",
     "id": "58b125b8-c9c6-4034-b8c3-9e79888ab358"
+  },
+  {
+    "id": "73aa1dc2-6897-4ad2-9145-4551d61c0694",
+    "code": "5c956922-aa5c-42fa-9899-46ff69dc5726",
+    "place_id": 1,
+    "prod_id": 2,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
+  },
+  {
+    "id": "66441254-8e33-48a5-9144-01828bb96576",
+    "code": "8eee11bd-88e1-4c8d-bd07-2a5ec79a4004",
+    "place_id": 1,
+    "prod_id": 2,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
   }
 ]

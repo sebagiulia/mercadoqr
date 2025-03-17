@@ -41,11 +41,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const payments_json_1 = __importDefault(require("../../data/payments.json"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const crypto_1 = require("crypto");
@@ -53,18 +49,24 @@ const errors_1 = require("../../errors/errors");
 const filePath = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/payments.json');
 // Función para agregar datos al JSON
 function writePayment(payment) {
-    const qrsString = fs.readFileSync(filePath, 'utf-8');
-    const payments = JSON.parse(qrsString);
-    payments.map((paymentItem) => {
-        if (paymentItem.payment_id === payment.payment_id) {
-            paymentItem = payment;
-        }
-    });
+    const paymentsString = fs.readFileSync(filePath, 'utf-8');
+    const payments = JSON.parse(paymentsString);
+    if (!payments.find((paymentItem) => paymentItem.payment_id === payment.payment_id)) {
+        payments.push(payment);
+    }
+    else {
+        payments.map((paymentItem) => {
+            if (paymentItem.payment_id === payment.payment_id) {
+                paymentItem = payment;
+            }
+        });
+    }
     fs.writeFileSync(filePath, JSON.stringify(payments, null, 2));
 }
 class MercadoPagoRepositoryJSON {
     constructor() {
-        this.payments = payments_json_1.default;
+        const paymentsString = fs.readFileSync(filePath, 'utf-8');
+        this.payments = JSON.parse(paymentsString);
     }
     createNewPayment() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -79,6 +81,8 @@ class MercadoPagoRepositoryJSON {
     }
     getDataPayment(payment_id) {
         return __awaiter(this, void 0, void 0, function* () {
+            const paymentsString = fs.readFileSync(filePath, 'utf-8');
+            this.payments = JSON.parse(paymentsString);
             const payment = this.payments.find((payment) => payment.payment_id === payment_id);
             if (payment) {
                 return payment;
@@ -88,11 +92,26 @@ class MercadoPagoRepositoryJSON {
     }
     removeDataPayment(payment_id) {
         return __awaiter(this, void 0, void 0, function* () {
+            const paymentsString = fs.readFileSync(filePath, 'utf-8');
+            this.payments = JSON.parse(paymentsString);
             const payment = this.payments.find((payment) => payment.payment_id === payment_id);
             if (payment) {
                 const index = this.payments.indexOf(payment);
                 this.payments.splice(index, 1);
                 fs.writeFileSync(filePath, JSON.stringify(this.payments, null, 2));
+                return;
+            }
+            throw new errors_1.NotFoundError('No se encontró el pago');
+        });
+    }
+    updateStatus(payment_id, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const paymentsString = fs.readFileSync(filePath, 'utf-8');
+            this.payments = JSON.parse(paymentsString);
+            const payment = this.payments.find((payment) => payment.payment_id === payment_id);
+            if (payment) {
+                payment.status = status;
+                writePayment(payment);
                 return;
             }
             throw new errors_1.NotFoundError('No se encontró el pago');

@@ -6,4 +6,5 @@ export default interface PaymentRecord {
     place_id:number;
     prod_id:number;
     prod_cant:number;
+    status:string; 
 } 

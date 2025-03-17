@@ -1,12 +1,16 @@
 import e, { Request, Response, NextFunction } from 'express';
 import MercadoPagoService from '../services/MercadoPagoService';
 import { sendSuccess } from '../utils/respondeUtil';
+import PlaceService from '../services/PlaceService';
 
 export default class MercadoPagoController {
     private mercadoPagoService: MercadoPagoService;
-    constructor(mercadoPagoService: MercadoPagoService) {
+    private placeService: PlaceService;
+    constructor(mercadoPagoService: MercadoPagoService, placeService: PlaceService) {
         this.mercadoPagoService = mercadoPagoService;
+        this.placeService = placeService;
         this.getInitPoint = this.getInitPoint.bind(this);
+        this.processMPNotification = this.processMPNotification.bind(this);
         console.log('Servicio MercadoPago activo');
     }
     async getInitPoint(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -21,9 +25,10 @@ export default class MercadoPagoController {
 
     async processMPNotification(req: Request, res: Response, next: NextFunction): Promise<void> {
         console.log('processMPNotification');
-        const {payment_id} = req.body;
+        const { payment_id } = req.params;
         try {
-            await this.mercadoPagoService.notifyPayment(payment_id)
+            const { topic , id } = req.query;   
+            await this.mercadoPagoService.processMPNotification(payment_id, topic, id)
             sendSuccess(res)
         } catch (error) {
             next(error)

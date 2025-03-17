@@ -53,4 +53,10 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
         if (product) return product
         throw new NotFoundError('Product not found')
     }
+
+    async getPlaceToken(placeId: number): Promise<string> {
+        const place = this.places.find(place => place.id === placeId)
+        if (place) return place.credential
+        throw new NotFoundError('Place not found')
+    }
 }

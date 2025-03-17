@@ -1,6 +1,5 @@
 import QrRepository from "../qrRepository";
 import Qr from "../../schemas/Qr";
-import qrsData from '../../data/qrs.json';
 import * as path from 'path';
 import * as fs from 'fs';
 import { randomUUID } from "crypto";

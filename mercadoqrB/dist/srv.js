@@ -37,7 +37,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
-const serverData_1 = __importDefault(require("./serverData"));
 const errorHandler_1 = require("./errors/errorHandler");
 const qrRepositoryJSON_1 = __importDefault(require("./repositories/imp/qrRepositoryJSON"));
 const qrRepository = new qrRepositoryJSON_1.default();
@@ -64,15 +63,16 @@ const MercadoPagoServiceDefault_1 = __importDefault(require("./services/imp/Merc
 const mercadoPagoRepositoryJSON_1 = __importDefault(require("./repositories/imp/mercadoPagoRepositoryJSON"));
 const mercadoPagoRepository = new mercadoPagoRepositoryJSON_1.default();
 const mercadoPagoService = new MercadoPagoServiceDefault_1.default(placeRepository, mercadoPagoRepository, notifierService, qrService);
-const mercadoPagoController = new MercadoPagoController_1.default(mercadoPagoService);
+const mercadoPagoController = new MercadoPagoController_1.default(mercadoPagoService, placeService);
 const cors_1 = __importDefault(require("cors"));
+require("dotenv/config");
 const app = (0, express_1.default)();
-const port = serverData_1.default.port;
+const port = process.env.PORT || 8080;
 app.use((0, cors_1.default)());
 app.use((0, express_1.json)());
 app.use((0, express_1.urlencoded)({ extended: true }));
 // GET
-app.get('/example', (req, res) => {
+app.get('/test', (req, res) => {
     res.json('Hello World!');
 });
 app.get('/api/place/:place', placeController.getPlace);
@@ -83,14 +83,13 @@ app.get('/api/categories/:place', placeController.getCategories);
 app.get('/api/qrid/:qr', qrController.getQrById);
 app.get('/api/scann/consume/:id', scannController.consumeQrByQrId);
 app.get('/api/scann/getprod/:id', scannController.getProdByQrId);
-// POST
-//app.post('/api/payment', paymentController.processPayment)
+// Scann
 app.post('/api/scann/validate', scannController.validateScanner);
 app.post('/api/scann/consume', scannController.consumeQrByQrCode);
 app.post('/api/scann/getscann', scannController.getProdByQrCode);
 // MercadoPago
 app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint);
-app.post('/api/mp/notify', mercadoPagoController.processMPNotification);
+app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotification);
 // Middleware de errores
 app.use(errorHandler_1.errorHandler);
 app.listen(port, () => {

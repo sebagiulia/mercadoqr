@@ -73,5 +73,13 @@ class PlaceRepositoryJSON {
             throw new errors_1.NotFoundError('Product not found');
         });
     }
+    getPlaceToken(placeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const place = this.places.find(place => place.id === placeId);
+            if (place)
+                return place.credential;
+            throw new errors_1.NotFoundError('Place not found');
+        });
+    }
 }
 exports.default = PlaceRepositoryJSON;

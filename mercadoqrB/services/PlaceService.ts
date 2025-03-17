@@ -8,4 +8,5 @@ export default interface PlaceService {
     getProducts(placeId: number, category:string): Promise<Product[]>;
     getProduct(placeName: string, productName: string): Promise<Product>;
     getCategories(placeName: string): Promise<string[]>;
+    getPlaceToken(placeId: number): Promise<string>;
 }

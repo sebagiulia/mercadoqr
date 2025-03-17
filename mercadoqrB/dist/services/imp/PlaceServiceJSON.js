@@ -52,5 +52,10 @@ class PlaceServiceImp {
             });
         });
     }
+    getPlaceToken(placeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.placeRepository.getPlaceToken(placeId);
+        });
+    }
 }
 exports.default = PlaceServiceImp;

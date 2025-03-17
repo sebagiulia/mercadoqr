@@ -11,9 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const respondeUtil_1 = require("../utils/respondeUtil");
 class MercadoPagoController {
-    constructor(mercadoPagoService) {
+    constructor(mercadoPagoService, placeService) {
         this.mercadoPagoService = mercadoPagoService;
+        this.placeService = placeService;
         this.getInitPoint = this.getInitPoint.bind(this);
+        this.processMPNotification = this.processMPNotification.bind(this);
         console.log('Servicio MercadoPago activo');
     }
     getInitPoint(req, res, next) {
@@ -31,9 +33,10 @@ class MercadoPagoController {
     processMPNotification(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('processMPNotification');
-            const { payment_id } = req.body;
+            const { payment_id } = req.params;
             try {
-                yield this.mercadoPagoService.notifyPayment(payment_id);
+                const { topic, id } = req.query;
+                yield this.mercadoPagoService.processMPNotification(payment_id, topic, id);
                 (0, respondeUtil_1.sendSuccess)(res);
             }
             catch (error) {

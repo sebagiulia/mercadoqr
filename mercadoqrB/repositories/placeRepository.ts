@@ -8,4 +8,5 @@ export default interface PlaceRepository {
     getProducts(placeId: string): Promise<Product[]>;
     getProduct(placeName: string, prodName:string): Promise<Product>;
     getProductById(placeId:number, prodId: number): Promise<Product>;
+    getPlaceToken(placeId: number): Promise<string>;
 }

@@ -8,11 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const serverData_1 = __importDefault(require("../../serverData"));
 const errors_1 = require("../../errors/errors");
 const mercadopago_1 = require("mercadopago");
 class MercadoPagoServiceDefault {
@@ -22,6 +18,8 @@ class MercadoPagoServiceDefault {
         this.PlaceRepository = PlaceRepository;
         this.mercadoPagoRepository = mercadoPagoRepository;
         this.getInitPoint = this.getInitPoint.bind(this);
+        this.notifyPayment = this.notifyPayment.bind(this);
+        this.processMPNotification = this.processMPNotification.bind(this);
     }
     getInitPoint(place_id, prod_id, prod_cant, email, telefono) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -41,15 +39,23 @@ class MercadoPagoServiceDefault {
                             picture_url: product.img
                         }
                     ],
-                    back_urls: { success: serverData_1.default.frontUrl + '/compra/:' + payment_id,
-                        failure: serverData_1.default.frontUrl + '/compra/failure',
-                        pending: serverData_1.default.frontUrl + '/compra/pending' },
-                    notification_url: serverData_1.default.url + '/api/mp/notify'
+                    back_urls: { success: process.env.FRONTEND_URL + '/compra/:' + payment_id,
+                        failure: process.env.FRONTEND_URL + '/compra/failure',
+                        pending: process.env.FRONTEND_URL + '/compra/pending' },
+                    notification_url: process.env.BACKEND_URL_PUBLIC + '/api/mp/notify/' + payment_id
                 }
             });
             if (preferenceConcrete.init_point && preferenceConcrete.id) {
-                const paymentRecord = { payment_id, preference_id: preferenceConcrete.id, email, telefono, place_id, prod_id, prod_cant };
+                const paymentRecord = { payment_id,
+                    preference_id: preferenceConcrete.id,
+                    email,
+                    telefono,
+                    place_id,
+                    prod_id,
+                    prod_cant,
+                    status: "pending" };
                 yield this.mercadoPagoRepository.saveDataPayment(paymentRecord);
+                console.log("Pago creado: place:" + place_id + " prod:" + prod_id + " cant:" + prod_cant);
                 return preferenceConcrete.init_point;
             }
             throw new errors_1.MercadoPagoError('Error de preferencia');
@@ -58,6 +64,8 @@ class MercadoPagoServiceDefault {
     notifyPayment(payment_id) {
         return __awaiter(this, void 0, void 0, function* () {
             const payment = yield this.mercadoPagoRepository.getDataPayment(payment_id);
+            if (payment.status === "approved")
+                return;
             const product = yield this.PlaceRepository.getProductById(payment.place_id, payment.prod_id);
             const qr = { id: payment_id,
                 code: payment_id,
@@ -65,10 +73,53 @@ class MercadoPagoServiceDefault {
                 prod_id: payment.prod_id,
                 prod_cant: payment.prod_cant,
                 expiration: product.expiration };
+            console.log("Pago completado: place:" + payment.place_id + " prod:" + payment.prod_id + " cant:" + payment.prod_cant);
+            yield this.mercadoPagoRepository.updateStatus(payment_id, "approved");
             yield this.QrService.createQr(qr);
             yield this.NotifierService.notifyByEmail(payment.email, payment_id);
             yield this.NotifierService.notifyByWhatsapp(payment.telefono, payment_id);
             yield this.mercadoPagoRepository.removeDataPayment(payment_id);
+        });
+    }
+    processMPNotification(payment_id, topic, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { place_id, status } = yield this.mercadoPagoRepository.getDataPayment(payment_id);
+            if (status === "approved")
+                return;
+            const { credential } = yield this.PlaceRepository.getPlaceById(place_id);
+            const client = new mercadopago_1.MercadoPagoConfig({ accessToken: credential });
+            const payment = new mercadopago_1.Payment(client);
+            const merchantOrders = new mercadopago_1.MerchantOrder(client);
+            try {
+                let merchantOrder = null;
+                if (topic === "payment") {
+                    const payment_response = yield payment.get({ id });
+                    if (payment_response && payment_response.order) {
+                        merchantOrder = yield merchantOrders.get({ merchantOrderId: payment_response.order.id });
+                    }
+                }
+                else if (topic === "merchant_order") {
+                    merchantOrder = yield merchantOrders.get({ merchantOrderId: id });
+                }
+                if (!merchantOrder || !merchantOrder.payments) {
+                    return;
+                }
+                // Calcular el monto total pagado
+                let paidAmount = 0;
+                merchantOrder.payments.forEach(payment => {
+                    if (payment.status === 'approved' && payment.transaction_amount) {
+                        paidAmount += payment.transaction_amount;
+                    }
+                });
+                // Verificar si se pagó el total del pedido
+                if (merchantOrder.total_amount && paidAmount >= merchantOrder.total_amount) {
+                    yield this.notifyPayment(payment_id);
+                }
+            }
+            catch (error) {
+                console.error("Error handling webhook:", error);
+                throw new errors_1.MercadoPagoError("Error handling webhook");
+            }
         });
     }
 }
