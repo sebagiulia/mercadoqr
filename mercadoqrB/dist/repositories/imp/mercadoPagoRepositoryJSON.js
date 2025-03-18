@@ -57,7 +57,7 @@ function writePayment(payment) {
     else {
         payments.map((paymentItem) => {
             if (paymentItem.payment_id === payment.payment_id) {
-                paymentItem = payment;
+                Object.assign(paymentItem, payment);
             }
         });
     }

@@ -91,5 +91,69 @@
     "prod_id": 2,
     "prod_cant": 1,
     "expiration": "2025-11-30"
+  },
+  {
+    "id": "47938ac2-bd75-4ed4-992f-85d9252bfa69",
+    "code": "f63d7e46-520b-40c3-a261-f3fd7080ffd7",
+    "place_id": 4,
+    "prod_id": 8,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
+  },
+  {
+    "id": "751f781d-3f93-4be6-b7af-eea1706b461a",
+    "code": "f63d7e46-520b-40c3-a261-f3fd7080ffd7",
+    "place_id": 4,
+    "prod_id": 8,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
+  },
+  {
+    "id": "61d4a7f0-8226-4b1e-a232-9720948bcd87",
+    "code": "f63d7e46-520b-40c3-a261-f3fd7080ffd7",
+    "place_id": 4,
+    "prod_id": 8,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
+  },
+  {
+    "id": "d5c73731-21c6-404b-acbb-a62b6c4d9cd9",
+    "code": "f63d7e46-520b-40c3-a261-f3fd7080ffd7",
+    "place_id": 4,
+    "prod_id": 8,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
+  },
+  {
+    "id": "910de429-1be8-4243-9747-fe3dec537c3a",
+    "code": "4e9a8c2c-f995-404a-b6af-32e4d907dae7",
+    "place_id": 1,
+    "prod_id": 2,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
+  },
+  {
+    "id": "2036768d-9c05-43ee-a83f-3cad80e89ecb",
+    "code": "4e9a8c2c-f995-404a-b6af-32e4d907dae7",
+    "place_id": 1,
+    "prod_id": 2,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
+  },
+  {
+    "id": "9e9dd826-15b2-4d05-8c64-887a7fd0d46f",
+    "code": "4e9a8c2c-f995-404a-b6af-32e4d907dae7",
+    "place_id": 1,
+    "prod_id": 2,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
+  },
+  {
+    "id": "d7546d44-564f-479a-92dc-61a82e08441e",
+    "code": "6a2f1fa3-d853-40cf-b826-9ad682bb0f78",
+    "place_id": 1,
+    "prod_id": 1,
+    "prod_cant": 1,
+    "expiration": "2025-11-30"
   }
 ]

@@ -54,6 +54,17 @@ export default function Product({ product, place }: { product: ProductType, plac
             alert("Debe completar todos los campos");
             return;
         }
+
+        if(datosEnvio["Telefono"].length !== 10 || datosEnvio["Telefono"].match(/\D/)) {
+            alert("Ingrese un número de teléfono válido");
+            return;
+        }
+
+        if(!datosEnvio["Email"].includes("@")) {
+            alert("Ingrese un correo válido");
+            return;
+        }
+        
         setStep(2);
     }
 
@@ -153,6 +164,7 @@ function Block({title, description, form, etiquetas, button, buttonAction, chang
                                                  type="text"
                                                  name={et}
                                                  placeholder={et}
+                                                 autoCapitalize='none'
                                                  />)}
             <button className={styles.block_button} onClick={buttonAction} >{button}</button>
         </div>

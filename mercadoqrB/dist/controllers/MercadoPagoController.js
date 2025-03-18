@@ -32,7 +32,6 @@ class MercadoPagoController {
     }
     processMPNotification(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('processMPNotification');
             const { payment_id } = req.params;
             try {
                 const { topic, id } = req.query;

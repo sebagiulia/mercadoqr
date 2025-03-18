@@ -55,7 +55,6 @@ class MercadoPagoServiceDefault {
                     prod_cant,
                     status: "pending" };
                 yield this.mercadoPagoRepository.saveDataPayment(paymentRecord);
-                console.log("Pago creado: place:" + place_id + " prod:" + prod_id + " cant:" + prod_cant);
                 return preferenceConcrete.init_point;
             }
             throw new errors_1.MercadoPagoError('Error de preferencia');
@@ -73,17 +72,19 @@ class MercadoPagoServiceDefault {
                 prod_id: payment.prod_id,
                 prod_cant: payment.prod_cant,
                 expiration: product.expiration };
-            console.log("Pago completado: place:" + payment.place_id + " prod:" + payment.prod_id + " cant:" + payment.prod_cant);
+            console.log("Pago confirmado: place:" + payment.place_id + " prod:" + payment.prod_id + " cant:" + payment.prod_cant);
             yield this.mercadoPagoRepository.updateStatus(payment_id, "approved");
             yield this.QrService.createQr(qr);
             yield this.NotifierService.notifyByEmail(payment.email, payment_id);
             yield this.NotifierService.notifyByWhatsapp(payment.telefono, payment_id);
-            yield this.mercadoPagoRepository.removeDataPayment(payment_id);
+            //await this.mercadoPagoRepository.removeDataPayment(payment_id);
         });
     }
     processMPNotification(payment_id, topic, id) {
         return __awaiter(this, void 0, void 0, function* () {
             const { place_id, status } = yield this.mercadoPagoRepository.getDataPayment(payment_id);
+            if (!place_id)
+                throw new errors_1.MercadoPagoError("No se encontro el pago");
             if (status === "approved")
                 return;
             const { credential } = yield this.PlaceRepository.getPlaceById(place_id);

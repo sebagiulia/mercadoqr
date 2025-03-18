@@ -24,7 +24,6 @@ export default class MercadoPagoController {
     }
 
     async processMPNotification(req: Request, res: Response, next: NextFunction): Promise<void> {
-        console.log('processMPNotification');
         const { payment_id } = req.params;
         try {
             const { topic , id } = req.query;   

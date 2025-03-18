@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "payment_id": "4e9a8c2c-f995-404a-b6af-32e4d907dae7",
+    "preference_id": "2242708272-93ef3ed4-fa89-4286-99f5-c68061c96972",
+    "email": "a",
+    "telefono": "a",
+    "place_id": 1,
+    "prod_id": 2,
+    "prod_cant": 1,
+    "status": "pending"
+  },
+  {
+    "payment_id": "6a2f1fa3-d853-40cf-b826-9ad682bb0f78",
+    "preference_id": "2242708272-5bef4341-906e-4301-82a0-5153107e8232",
+    "email": "aa",
+    "telefono": "a",
+    "place_id": 1,
+    "prod_id": 1,
+    "prod_cant": 1,
+    "status": "approved"
+  },
+  {
+    "payment_id": "793487e8-fb13-4dee-aa18-5ba8cdc0098e",
+    "preference_id": "2242708272-336ad843-64b5-4d31-9574-f4d21b03a296",
+    "email": "prefaciomari@hotmail.com",
+    "telefono": "3413620939",
+    "place_id": 1,
+    "prod_id": 3,
+    "prod_cant": 1,
+    "status": "pending"
+  }
+]

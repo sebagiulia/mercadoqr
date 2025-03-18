@@ -17,7 +17,7 @@ function writePayment(payment:PaymentRecord): void {
     } else {
         payments.map((paymentItem: PaymentRecord) => { 
             if (paymentItem.payment_id === payment.payment_id) {
-                paymentItem = payment
+                Object.assign(paymentItem, payment);
             }
         })
     }

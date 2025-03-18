@@ -12,17 +12,18 @@
     width: 100%;
     height: fit-content;
     color: black;
-    background-color: var(--input-color);
+    background-color: var(--background);
 }
 
 .place_name {
     font-size: 20px;
     font-weight: 800;
+    color: var(--foreground);
 }
 
 .place_address {
     font-size: 15px;
-    color: rgb(69, 69, 69);
+    color: var(--foreground-light);
 }
 
 .catalog {
@@ -63,6 +64,7 @@
     border-radius: 20px;
     cursor: pointer;
 }
+
 
 .product_image{
     width: 90%;
@@ -108,7 +110,9 @@
     width: 100%;
     height: fit-content;
     padding: 10px;
-    background-color: var(--background);
+    background-color: var(--catalog);
     color: var(--foreground);
     cursor: pointer;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
 }

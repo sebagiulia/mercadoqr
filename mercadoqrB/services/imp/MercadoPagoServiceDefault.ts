@@ -29,7 +29,6 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
       
       const product = await this.PlaceRepository.getProductById(Number(place_id), Number(prod_id));
       const payment_id = await this.mercadoPagoRepository.createNewPayment();
-
       const preference = new Preference(client);
       const preferenceConcrete = await preference.create({
               body: {
@@ -58,7 +57,6 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
                                     prod_cant,
                                     status: "pending"};
             await this.mercadoPagoRepository.saveDataPayment(paymentRecord);
-            console.log("Pago creado: place:" + place_id + " prod:" + prod_id + " cant:" + prod_cant);
             return preferenceConcrete.init_point;
           }
         throw new MercadoPagoError('Error de preferencia');
@@ -74,15 +72,17 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
                      prod_id: payment.prod_id,
                      prod_cant: payment.prod_cant,
                      expiration: product.expiration};
+        console.log("Pago confirmado: place:" + payment.place_id + " prod:" + payment.prod_id + " cant:" + payment.prod_cant);
         await this.mercadoPagoRepository.updateStatus(payment_id, "approved"); 
         await this.QrService.createQr(qr);
         await this.NotifierService.notifyByEmail(payment.email, payment_id);
         await this.NotifierService.notifyByWhatsapp(payment.telefono, payment_id);
-        await this.mercadoPagoRepository.removeDataPayment(payment_id);
+        //await this.mercadoPagoRepository.removeDataPayment(payment_id);
     }
 
     async processMPNotification(payment_id: string, topic: any, id:any): Promise<void> {
       const { place_id, status } = await this.mercadoPagoRepository.getDataPayment(payment_id);
+      if(!place_id ) throw new MercadoPagoError("No se encontro el pago");
       if(status === "approved") return;
       const { credential } = await this.PlaceRepository.getPlaceById(place_id);
       const client = new MercadoPagoConfig({ accessToken: credential });
