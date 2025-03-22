@@ -28,5 +28,35 @@
     "prod_id": 3,
     "prod_cant": 1,
     "status": "pending"
+  },
+  {
+    "payment_id": "a3bcf609-9146-4847-9a83-ed58b82fa19b",
+    "preference_id": "2242708272-3fa170ae-1520-4e7c-b19a-561a2b3bd925",
+    "email": "a@v",
+    "telefono": "1234567890",
+    "place_id": 1,
+    "prod_id": 1,
+    "prod_cant": 1,
+    "status": "pending"
+  },
+  {
+    "payment_id": "4d2a383d-d359-424b-ae02-6a4dde98161a",
+    "preference_id": "2242708272-a68d1c27-c028-4f8c-991d-0e5a8aa3cfe3",
+    "email": "jssj@hotmail.com",
+    "telefono": "1122334455",
+    "place_id": 1,
+    "prod_id": 14,
+    "prod_cant": 1,
+    "status": "pending"
+  },
+  {
+    "payment_id": "23d5baa7-3eff-43cc-a117-251bf12b4c61",
+    "preference_id": "2242708272-e310d4ef-be15-485b-b0d3-faaaccc85f5e",
+    "email": "sebastiangiulianelli@hotmail.com",
+    "telefono": "3413620939",
+    "place_id": 4,
+    "prod_id": 7,
+    "prod_cant": 1,
+    "status": "pending"
   }
 ]

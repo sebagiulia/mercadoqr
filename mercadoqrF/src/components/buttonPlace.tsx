@@ -1,11 +1,16 @@
 import Place from "@/models/place";
 import styles from "./buttonPlace.module.css";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useState } from "react";
+import { GridLoader } from "react-spinners";
 
 export default function ButtonPlace({place, router}:
                                    {place: Place, router: AppRouterInstance}) {
-    
+
+    const [click, setClick] = useState(false);
+
     const handleClick = () => { 
+        setClick(true);
         router.push(`/local/${place.name}`);
            // Hacer algo con la sucursal
     }
@@ -25,6 +30,12 @@ export default function ButtonPlace({place, router}:
             {place.address}
           </div>
         </div>
+        {click && (
+        <div className={styles.loader_overlay}>
+          <GridLoader color="#ffffff" size={15} />
+        </div>
+      )}
       </div>
+      
     )
 }

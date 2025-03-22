@@ -8,21 +8,10 @@
   --input-color: #c8c8c8;
   --catalog: #343434;
   --product: #ffffff;
+  --product-skeleton: #565656;
   --button: #e6e6e6;
   --category: rgb(150, 102, 47)
 }
-
-/* :root {
-  --background: #080f28;
-  --foreground: #ffffff;
-  --foreground-light: #c9c9c9;
-  --secondary: #192b47;
-  --secondary-active:#1e3252;
-  --input-color: #8da0bc;
-  --catalog: #dedede;
-  --product: #ffffff;
-  --button: #0790ea;
-} */
 
 html,
 body {

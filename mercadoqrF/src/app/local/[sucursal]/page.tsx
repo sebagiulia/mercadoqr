@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { PlaceHeader, PlaceCatalog, PlaceCategories} from "@/components/place";
+import { PlaceHeader, PlaceCatalog, PlaceCategories, PlaceHeaderSkeleton, PlaceCategoriesSkeleton, PlaceCatalogSkeleton} from "@/components/place";
 import { notFound } from "next/navigation";
 import PlaceService from "services/placeService";
 import PlaceType from "@/models/place";
@@ -16,7 +16,7 @@ export default function Page({
   const [categories, setCategories] = useState<string[]>([]);
   const [products, setProducts] = useState<ProductType[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("Todo");
-
+  
   useEffect(() => {
     const fetchData = async () => {
       const { sucursal } = await params;
@@ -47,7 +47,7 @@ export default function Page({
           setProducts(responseProds.success ? (responseProds.data as ProductType[]) : []);
       };
     }
-
+    setProducts([]);  
     fetchProductsByCategory();
   }, [selectedCategory, place]);
 
@@ -59,13 +59,13 @@ export default function Page({
     <div className={styles.place}>
       {place ? 
           <PlaceHeader place={place as PlaceType} />
-        : <div>Esqueleto cargando...</div>}
+        : <PlaceHeaderSkeleton />}
       {categories.length > 0 ? 
           <PlaceCategories categories={categories} selectedCategory={selectedCategory} changeCategory={handleChangeCategory} /> 
-        : <div>Esqueleto cargando...</div>}
+        : <PlaceCategoriesSkeleton />}
       {products.length > 0 ?
           <PlaceCatalog products={products} place={place as PlaceType} />
-        : <div>Esqueleto cargando...</div> }
+        : <PlaceCatalogSkeleton /> }
 
 
     </div>

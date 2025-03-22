@@ -6,6 +6,7 @@ import PlaceType from '../models/place';
 import { MouseEventHandler, useState } from 'react';
 import MercadoPagoService from 'services/mercadoPagoService';
 import { useRouter } from 'next/navigation';
+import { GridLoader } from 'react-spinners';
 
 
 export default function Product({ product, place }: { product: ProductType, place:PlaceType }) {
@@ -55,7 +56,7 @@ export default function Product({ product, place }: { product: ProductType, plac
             return;
         }
 
-        if(datosEnvio["Telefono"].length !== 10 || datosEnvio["Telefono"].match(/\D/)) {
+        if(datosEnvio["Telefono"].length < 10 || datosEnvio["Telefono"].match(/\D/)) {
             alert("Ingrese un número de teléfono válido");
             return;
         }
@@ -227,7 +228,12 @@ return(
         <p className={styles.block_total_value}>$ {items.reduce((acc, item) => acc + item.price * item.cant, 0) + service_price} </p> 
     </div>
 
- <button className={styles.block_button_comp} onClick={buttonAction} >{processing? '...': button}</button>
+ <button className={styles.block_button_comp} onClick={buttonAction} >{button}</button>
+ {processing && (
+        <div className={styles.loader_overlay}>
+          <GridLoader color="#ffffff" size={15} />
+        </div>
+      )}
 </div>
 )
 }

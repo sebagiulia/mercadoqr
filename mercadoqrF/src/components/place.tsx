@@ -4,26 +4,37 @@ import  PlaceType from '../models/place';
 import  ProductType from '../models/product';
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
+import { GridLoader } from 'react-spinners';
 
 
 export function PlaceHeader({place}: { place: PlaceType }) {
-    return (
+  return (
       <div className={styles.header}>
           <div className={styles.place_img}>
           <img src={place.img} /* place.img */ 
                  alt=""
                  width={100} 
-                height={100}/>
+                 height={100}/>
           </div>
           <div className={styles.place_name}>{place.name}</div>
           <div className={styles.place_address}>{place.address}</div>
       </div>
     );
-}
+  }
+  
+  export function PlaceHeaderSkeleton() {
+      return (
+        <div className={styles.header}>
+              <div className={styles.skeleton} style={{width:'50%', height:'100px', borderRadius:'20px'}} />
+        </div>
+      );
+  }
 
 function Product({product, placename}: { product: ProductType, placename: string }) {
     const router = useRouter();
+    const [click, setClick] = useState(false);
     const handleClick = () => {
+        setClick(true);
         router.push('/local/' + placename + '/'  + product.name.replace(' ', '-'));
     };
 
@@ -38,8 +49,21 @@ function Product({product, placename}: { product: ProductType, placename: string
             <div className={styles.product_name}>{(product.name)}</div>
             <div className={styles.product_price}>$ {product.price}</div>
         </div>
+        {click && (
+        <div className={styles.loader_overlay}>
+          <GridLoader color="#ffffff" size={15} />
+        </div>
+      )}
       </div>
     );
+}
+
+function ProductSekeleton() {
+  return (
+    <div className={styles.product_skeleton}>
+      <div className={styles.skeleton} style={{width:'100%', height:'100%', borderRadius:'20px'}}/>
+    </div>
+  );
 }
 
 export function PlaceCategories({categories, selectedCategory, changeCategory}: { categories: string[], selectedCategory: string, changeCategory: (category: string) => void }) {
@@ -64,6 +88,13 @@ export function PlaceCategories({categories, selectedCategory, changeCategory}: 
   </div>) 
 }
 
+export function PlaceCategoriesSkeleton() {
+  return (
+    <div className={styles.place_categories_container}>
+    </div>
+  );
+}
+
 export function PlaceCatalog({products, place}:{products: ProductType[], place: PlaceType}) {
     return (
       <div className={styles.catalog}>
@@ -71,4 +102,21 @@ export function PlaceCatalog({products, place}:{products: ProductType[], place: 
       </div>
     );
 }
+
+export function PlaceCatalogSkeleton() {
+    return (
+      <div className={styles.catalog}>
+        <ProductSekeleton />
+        <ProductSekeleton />
+        <ProductSekeleton />
+        <ProductSekeleton />
+        <ProductSekeleton />
+        <ProductSekeleton />
+      </div>
+    );
+}
+
+
+
+
 
