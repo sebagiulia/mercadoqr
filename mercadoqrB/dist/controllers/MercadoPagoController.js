@@ -16,7 +16,7 @@ class MercadoPagoController {
         this.placeService = placeService;
         this.getInitPoint = this.getInitPoint.bind(this);
         this.processMPNotification = this.processMPNotification.bind(this);
-        console.log('Servicio MercadoPago activo');
+        console.log('✅ Servicio MercadoPago activo');
     }
     getInitPoint(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -10,38 +10,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const errors_1 = require("../../errors/errors");
-class QrServiceImp {
-    constructor(qrRepository, placeRepository) {
-        this.qrRepository = qrRepository;
-        this.placeRepository = placeRepository;
-    }
+const Qr_1 = require("../../models/Qr");
+class QrRepositorySequelize {
     createQr(qr) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.qrRepository.createQr(qr);
-            return qr;
+            const qrO = yield Qr_1.Qr.create(Object.assign({}, qr));
+            return qrO.payment_id;
         });
     }
     getQrById(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrById(qrId);
-            const place = yield this.placeRepository.getPlaceById(qr.place_id);
-            const product = yield this.placeRepository.getProductById(qr.place_id, qr.prod_id);
-            if (!qr || !place || !product) {
-                throw new errors_1.NotFoundError('Qr not found');
+            const qr = yield Qr_1.Qr.findByPk(qrId);
+            if (!qr) {
+                throw new errors_1.NotFoundError("QR not found");
             }
-            else {
-                return ({
-                    id: qr.id,
-                    place_name: place.name,
-                    place_img: place.img,
-                    prod_name: product.name,
-                    prod_img: product.img,
-                    end_date: qr.end_date,
-                    start_date: qr.start_date,
-                    prod_cant: qr.prod_cant,
-                });
+            return qr;
+        });
+    }
+    updateQr(qr) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const qrO = yield Qr_1.Qr.findByPk(qr.id);
+            if (!qrO) {
+                throw new errors_1.NotFoundError("QR not found");
             }
+            qrO.update(Object.assign({}, qr));
+            return;
+        });
+    }
+    deleteQr(qrId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const qr = yield Qr_1.Qr.findByPk(qrId);
+            if (!qr) {
+                throw new errors_1.NotFoundError("QR not found");
+            }
+            qr.destroy();
+            return;
         });
     }
 }
-exports.default = QrServiceImp;
+exports.default = QrRepositorySequelize;

@@ -11,7 +11,7 @@ export default class MercadoPagoController {
         this.placeService = placeService;
         this.getInitPoint = this.getInitPoint.bind(this);
         this.processMPNotification = this.processMPNotification.bind(this);
-        console.log('Servicio MercadoPago activo');
+        console.log('✅ Servicio MercadoPago activo');
     }
     async getInitPoint(req: Request, res: Response, next: NextFunction): Promise<void> {
         const {envio_email, envio_telefono, prod_id, prod_cant, place_id} = req.body;

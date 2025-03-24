@@ -33,8 +33,8 @@ export default class QrServiceImp implements QrService {
                 place_img: place.img,
                 prod_name: product.name,
                 prod_img: product.img,
-                until_date: qr.until_date,
-                from_date: qr.from_date,
+                end_date: qr.end_date,
+                start_date: qr.start_date,
                 prod_cant: qr.prod_cant,
             })
         }

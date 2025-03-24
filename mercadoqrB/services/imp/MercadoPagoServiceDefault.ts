@@ -28,7 +28,7 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
       const client = new MercadoPagoConfig({ accessToken: place.credential });
       
       const product = await this.PlaceRepository.getProductById(Number(place_id), Number(prod_id));
-      const payment_id = await this.mercadoPagoRepository.createNewPayment();
+      const payment_id = await this.mercadoPagoRepository.createNewPayment(place_id, prod_id, prod_cant);
       const preference = new Preference(client);
       const preferenceConcrete = await preference.create({
               body: {
@@ -48,7 +48,7 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
               }
             })
           if(preferenceConcrete.init_point && preferenceConcrete.id){
-            const paymentRecord = { payment_id, 
+            const paymentRecord = { id: payment_id, 
                                     preference_id:preferenceConcrete.id,
                                     email, 
                                     telefono, 
@@ -67,12 +67,13 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
         if(payment.status ===  "approved") return;
         const product = await this.PlaceRepository.getProductById(payment.place_id, payment.prod_id);
         const qr = { id: payment_id,
+                     payment_id: payment_id,
                      code: payment_id,
                      place_id: payment.place_id,
                      prod_id: payment.prod_id,
                      prod_cant: payment.prod_cant,
-                     from_date: product.expiration,
-                    until_date: product.expiration};
+                     start_date: product.start_date,
+                    end_date: product.end_date };
         console.log("Pago confirmado: place:" + payment.place_id + " prod:" + payment.prod_id + " cant:" + payment.prod_cant);
         await this.mercadoPagoRepository.updateStatus(payment_id, "approved"); 
         await this.QrService.createQr(qr);

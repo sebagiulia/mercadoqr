@@ -48,5 +48,15 @@
     "prod_id": 4,
     "prod_cant": 1,
     "status": "approved"
+  },
+  {
+    "id": "e2642fc9-4bc1-426b-9e8b-e34ae542e535",
+    "preference_id": "2242708272-ca109a42-06e0-4f5c-bf8a-61a40d8a9590",
+    "email": "@",
+    "telefono": "11111111111",
+    "place_id": 1,
+    "prod_id": 1,
+    "prod_cant": 1,
+    "status": "pending"
   }
 ]

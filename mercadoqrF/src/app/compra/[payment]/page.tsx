@@ -40,7 +40,7 @@ export default function Page({ params }: { params: Promise<{ payment: string }> 
     <div className={styles.page}>
       {status === 'pending' ? (
         <div className={styles.loader_overlay}>
-          <GridLoader color="#ffffff" size={15} />
+          {/* <GridLoader color="#ffffff" size={15} /> */}
         </div>
       ) : status === 'success' ? (
         <SuccessPage qr={qrData as Qr} />
@@ -73,7 +73,7 @@ function SuccessPage({qr}: {qr: Qr}) {
       <div className={styles.qr_container}>
         <Image src={qrdefault} alt="qr" height={200} width={200} />
       </div>
-      <div className={styles.qr_data}>Recuerde que su QR tendrá validéz {qr.from_date !== qr.until_date && "desde" + qr.from_date} hasta {qr.until_date}</div>  
+      <div className={styles.qr_data}>Recuerde que su QR tendrá validéz {qr.start_date !== qr.end_date && "desde " + qr.start_date} hasta {qr.end_date}</div>  
     </div>
   )
 }

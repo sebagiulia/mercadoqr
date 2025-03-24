@@ -1,18 +1,23 @@
 
 import express, { json, urlencoded } from 'express'
 import { errorHandler } from './errors/errorHandler'
+import { connectDB, sequelize } from "./config/database";
 
-
-import QrRepositoryJSON from './repositories/imp/qrRepositoryJSON'
-const qrRepository = new QrRepositoryJSON()
 
 
 import PlaceController from './controllers/PlaceController'
 import PlaceServiceJSON from './services/imp/PlaceServiceJSON'
-import PlaceRepositoryJSON from './repositories/imp/placeRepositoryJSON'
-const placeRepository = new PlaceRepositoryJSON()
+import PlaceRepositorySequelize from './repositories/imp/placeRepositorySequelize';
+const placeRepository = new PlaceRepositorySequelize ()
 const placeService = new PlaceServiceJSON(placeRepository)
 const placeController = new PlaceController(placeService)
+
+import QrRepositorySequelize from './repositories/imp/qrRepositorySequelize'
+const qrRepository = new QrRepositorySequelize()
+import QrController from './controllers/QrController'
+import QrServiceImp from './services/imp/QrServiceApi'
+const qrService = new QrServiceImp(qrRepository, placeRepository)
+const qrController = new QrController(qrService)
 
 import ScannController from './controllers/ScannController'
 import ScannServiceJSON from './services/imp/ScannServiceJSON'
@@ -24,15 +29,11 @@ const scannController = new ScannController(scannService)
 import NotifierDefault from './services/imp/NotifierDefault'
 const notifierService = new NotifierDefault()
 
-import QrController from './controllers/QrController'
-import QrServiceImp from './services/imp/QrServiceApi'
-const qrService = new QrServiceImp(qrRepository, placeRepository)
-const qrController = new QrController(qrService)
 
 import MercadoPagoController from './controllers/MercadoPagoController'
 import MercadoPagoServiceDefault from './services/imp/MercadoPagoServiceDefault'
-import MercadoPagoRepositoryJSON from './repositories/imp/mercadoPagoRepositoryJSON'
-const mercadoPagoRepository = new MercadoPagoRepositoryJSON()
+import MercadoPagoRepositorySequelize from './repositories/imp/mercadoPagoRepositorySequelize';
+const mercadoPagoRepository = new MercadoPagoRepositorySequelize()
 const mercadoPagoService = new MercadoPagoServiceDefault(placeRepository, mercadoPagoRepository, notifierService, qrService)
 const mercadoPagoController = new MercadoPagoController(mercadoPagoService, placeService)
 
@@ -41,6 +42,7 @@ import 'dotenv/config'
 
 const app = express()
 const port = process.env.PORT || 8080
+
 
 app.use(cors())
 app.use(json());
@@ -70,6 +72,15 @@ app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotificati
 
 // Middleware de errores
 app.use(errorHandler);
+
+
+import DBtest from './test/dbtest'
+connectDB()
+sequelize.sync({ alter:true, force: true }).then(() => {
+    DBtest()
+    console.log("✅ Modelos sincronizados"); 
+    });
+
 
 app.listen(port, () => {
     console.log(`Servidor mercadoqr levantado en puerto ${port}`)

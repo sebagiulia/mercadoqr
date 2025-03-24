@@ -9,24 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const respondeUtil_1 = require("../utils/respondeUtil");
-class QrController {
-    constructor(qrService) {
-        this.qrService = qrService;
-        this.getQrById = this.getQrById.bind(this);
-        console.log('✅ Servicio de Qr activo');
+exports.connectDB = exports.sequelize = void 0;
+const sequelize_1 = require("sequelize");
+exports.sequelize = new sequelize_1.Sequelize("mi_base", "root", "secret", {
+    host: "localhost",
+    dialect: "mysql",
+    port: 3307,
+    logging: true
+});
+const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield exports.sequelize.authenticate({ logging: false });
+        console.log("✅ Base de datos conectada");
     }
-    getQrById(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const qrId = req.params.qr;
-            try {
-                const qr = yield this.qrService.getQrById(qrId);
-                (0, respondeUtil_1.sendSuccess)(res, qr);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
+    catch (error) {
+        console.error("❌ Error al conectar la BD:", error);
+        process.exit(1);
     }
-}
-exports.default = QrController;
+});
+exports.connectDB = connectDB;

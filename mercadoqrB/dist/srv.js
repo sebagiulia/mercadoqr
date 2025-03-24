@@ -38,14 +38,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
 const errorHandler_1 = require("./errors/errorHandler");
-const qrRepositoryJSON_1 = __importDefault(require("./repositories/imp/qrRepositoryJSON"));
-const qrRepository = new qrRepositoryJSON_1.default();
+const database_1 = require("./config/database");
 const PlaceController_1 = __importDefault(require("./controllers/PlaceController"));
 const PlaceServiceJSON_1 = __importDefault(require("./services/imp/PlaceServiceJSON"));
-const placeRepositoryJSON_1 = __importDefault(require("./repositories/imp/placeRepositoryJSON"));
-const placeRepository = new placeRepositoryJSON_1.default();
+const placeRepositorySequelize_1 = __importDefault(require("./repositories/imp/placeRepositorySequelize"));
+const placeRepository = new placeRepositorySequelize_1.default();
 const placeService = new PlaceServiceJSON_1.default(placeRepository);
 const placeController = new PlaceController_1.default(placeService);
+const qrRepositorySequelize_1 = __importDefault(require("./repositories/imp/qrRepositorySequelize"));
+const qrRepository = new qrRepositorySequelize_1.default();
+const QrController_1 = __importDefault(require("./controllers/QrController"));
+const QrServiceApi_1 = __importDefault(require("./services/imp/QrServiceApi"));
+const qrService = new QrServiceApi_1.default(qrRepository, placeRepository);
+const qrController = new QrController_1.default(qrService);
 const ScannController_1 = __importDefault(require("./controllers/ScannController"));
 const ScannServiceJSON_1 = __importDefault(require("./services/imp/ScannServiceJSON"));
 const scannRepositoryJSON_1 = __importDefault(require("./repositories/imp/scannRepositoryJSON"));
@@ -54,14 +59,10 @@ const scannService = new ScannServiceJSON_1.default(qrRepository, placeRepositor
 const scannController = new ScannController_1.default(scannService);
 const NotifierDefault_1 = __importDefault(require("./services/imp/NotifierDefault"));
 const notifierService = new NotifierDefault_1.default();
-const QrController_1 = __importDefault(require("./controllers/QrController"));
-const QrServiceApi_1 = __importDefault(require("./services/imp/QrServiceApi"));
-const qrService = new QrServiceApi_1.default(qrRepository, placeRepository);
-const qrController = new QrController_1.default(qrService);
 const MercadoPagoController_1 = __importDefault(require("./controllers/MercadoPagoController"));
 const MercadoPagoServiceDefault_1 = __importDefault(require("./services/imp/MercadoPagoServiceDefault"));
-const mercadoPagoRepositoryJSON_1 = __importDefault(require("./repositories/imp/mercadoPagoRepositoryJSON"));
-const mercadoPagoRepository = new mercadoPagoRepositoryJSON_1.default();
+const mercadoPagoRepositorySequelize_1 = __importDefault(require("./repositories/imp/mercadoPagoRepositorySequelize"));
+const mercadoPagoRepository = new mercadoPagoRepositorySequelize_1.default();
 const mercadoPagoService = new MercadoPagoServiceDefault_1.default(placeRepository, mercadoPagoRepository, notifierService, qrService);
 const mercadoPagoController = new MercadoPagoController_1.default(mercadoPagoService, placeService);
 const cors_1 = __importDefault(require("cors"));
@@ -92,6 +93,12 @@ app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint);
 app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotification);
 // Middleware de errores
 app.use(errorHandler_1.errorHandler);
+const dbtest_1 = __importDefault(require("./test/dbtest"));
+(0, database_1.connectDB)();
+database_1.sequelize.sync({ alter: true, force: true }).then(() => {
+    (0, dbtest_1.default)();
+    console.log("✅ Modelos sincronizados");
+});
 app.listen(port, () => {
     console.log(`Servidor mercadoqr levantado en puerto ${port}`);
 });

@@ -11,7 +11,7 @@ export default class PlaceController {
         this.getProducts = this.getProducts.bind(this);
         this.getProduct = this.getProduct.bind(this);
         this.getCategories = this.getCategories.bind(this);
-        console.log('Servicio de places activo');
+        console.log('✅ Servicio de Places activo');
 
     }
 

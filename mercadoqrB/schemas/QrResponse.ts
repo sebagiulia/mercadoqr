@@ -5,6 +5,6 @@ export default interface Qr {
     prod_img: string;
     place_name: string;
     place_img: string;
-    until_date: string;
-    from_date: string;
+    start_date: string;
+    end_date: string;
 }

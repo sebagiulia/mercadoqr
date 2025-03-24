@@ -18,7 +18,7 @@ class ScannController {
         this.consumeQrByQrId = this.consumeQrByQrId.bind(this);
         this.validateScanner = this.validateScanner.bind(this);
         this.scannService = scannService;
-        console.log("Servicio de scann activo");
+        console.log("✅ Servicio de Scann activo");
     }
     getProdByQrCode(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {

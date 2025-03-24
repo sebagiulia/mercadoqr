@@ -11,7 +11,7 @@ export default class ScannController {
     this.consumeQrByQrId = this.consumeQrByQrId.bind(this);
     this.validateScanner = this.validateScanner.bind(this);
     this.scannService = scannService;
-    console.log("Servicio de scann activo");
+    console.log("✅ Servicio de Scann activo");
   }
 
   async getProdByQrCode(req: Request, res: Response, next: NextFunction): Promise<void> {

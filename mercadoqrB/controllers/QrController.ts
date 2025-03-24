@@ -8,7 +8,7 @@ export default class QrController {
     constructor(qrService: QrService) {
         this.qrService = qrService;
         this.getQrById = this.getQrById.bind(this);
-        console.log('Servicio de qr activo');
+        console.log('✅ Servicio de Qr activo');
     }
 
     async getQrById(req: Request, res: Response, next:NextFunction): Promise<void> {

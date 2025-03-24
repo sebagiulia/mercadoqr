@@ -12,11 +12,11 @@ const filePath = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/d
 function writePayment(payment:PaymentRecord): void {
     const paymentsString = fs.readFileSync(filePath, 'utf-8');
     const payments = JSON.parse(paymentsString) as PaymentRecord[];
-    if (!payments.find((paymentItem: PaymentRecord) => paymentItem.payment_id === payment.payment_id)) {
+    if (!payments.find((paymentItem: PaymentRecord) => paymentItem.id === payment.id)) {
         payments.push(payment);
     } else {
         payments.map((paymentItem: PaymentRecord) => { 
-            if (paymentItem.payment_id === payment.payment_id) {
+            if (paymentItem.id === payment.id) {
                 Object.assign(paymentItem, payment);
             }
         })
@@ -34,28 +34,28 @@ export default class MercadoPagoRepositoryJSON implements MercadoPagoRepository 
         this.payments = JSON.parse(paymentsString) as PaymentRecord[];
     }
 
-    async createNewPayment(): Promise<string> {
-        const payment_id = randomUUID().toString();
-        return payment_id;
+    async createNewPayment(place_id:number, prod_id:number, prod_cant:number): Promise<string> {
+        const id = randomUUID().toString();
+        return id;
     }
     async saveDataPayment(payment:PaymentRecord): Promise<void> {
         writePayment(payment);
     }
 
-    async getDataPayment(payment_id:string): Promise<PaymentRecord> {
+    async getDataPayment(id:string): Promise<PaymentRecord> {
         const paymentsString = fs.readFileSync(filePath, 'utf-8');
         this.payments = JSON.parse(paymentsString) as PaymentRecord[];
-        const payment = this.payments.find((payment: PaymentRecord) => payment.payment_id === payment_id);
+        const payment = this.payments.find((payment: PaymentRecord) => payment.id === id);
         if(payment) {
             return payment;
         }
         throw new NotFoundError('No se encontró el pago');
     }
 
-    async removeDataPayment(payment_id:string): Promise<void> {
+    async removeDataPayment(id:string): Promise<void> {
         const paymentsString = fs.readFileSync(filePath, 'utf-8');
         this.payments = JSON.parse(paymentsString) as PaymentRecord[];
-        const payment = this.payments.find((payment: PaymentRecord) => payment.payment_id === payment_id);
+        const payment = this.payments.find((payment: PaymentRecord) => payment.id === id);
         if(payment) {
             const index = this.payments.indexOf(payment);
             this.payments.splice(index, 1);
@@ -65,10 +65,10 @@ export default class MercadoPagoRepositoryJSON implements MercadoPagoRepository 
         throw new NotFoundError('No se encontró el pago');
     }
 
-    async updateStatus(payment_id:string, status:string): Promise<void> {
+    async updateStatus(id:string, status:string): Promise<void> {
         const paymentsString = fs.readFileSync(filePath, 'utf-8');
         this.payments = JSON.parse(paymentsString) as PaymentRecord[];
-        const payment = this.payments.find((payment: PaymentRecord) => payment.payment_id === payment_id);
+        const payment = this.payments.find((payment: PaymentRecord) => payment.id === id);
         if(payment) {
             payment.status = status;
             writePayment(payment);

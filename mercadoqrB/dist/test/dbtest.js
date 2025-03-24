@@ -8,25 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const respondeUtil_1 = require("../utils/respondeUtil");
-class QrController {
-    constructor(qrService) {
-        this.qrService = qrService;
-        this.getQrById = this.getQrById.bind(this);
-        console.log('✅ Servicio de Qr activo');
-    }
-    getQrById(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const qrId = req.params.qr;
-            try {
-                const qr = yield this.qrService.getQrById(qrId);
-                (0, respondeUtil_1.sendSuccess)(res, qr);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-    }
+exports.default = DBtest;
+const Place_1 = require("../models/Place");
+const Product_1 = require("../models/Product");
+const places_json_1 = __importDefault(require("../data/places.json"));
+const products_json_1 = __importDefault(require("../data/products.json"));
+function DBtest() {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (let place of places_json_1.default) {
+            yield Place_1.Place.create(place);
+        }
+        for (let product of products_json_1.default) {
+            yield Product_1.Product.create(product);
+        }
+        console.log("DBtest done");
+    });
 }
-exports.default = QrController;
