@@ -39,10 +39,10 @@ class MercadoPagoServiceDefault {
                             picture_url: product.img
                         }
                     ],
-                    back_urls: { success: process.env.FRONTEND_URL + '/compra/:' + payment_id,
-                        failure: process.env.FRONTEND_URL + '/compra/failure',
-                        pending: process.env.FRONTEND_URL + '/compra/pending' },
-                    notification_url: process.env.BACKEND_URL_PUBLIC + '/api/mp/notify/' + payment_id
+                    back_urls: { success: process.env.FRONTEND_URL + '/compra/' + payment_id,
+                        failure: process.env.FRONTEND_URL + '/compra/failure' },
+                    notification_url: process.env.BACKEND_URL_PUBLIC + '/api/mp/notify/' + payment_id,
+                    binary_mode: true
                 }
             });
             if (preferenceConcrete.init_point && preferenceConcrete.id) {
@@ -71,7 +71,8 @@ class MercadoPagoServiceDefault {
                 place_id: payment.place_id,
                 prod_id: payment.prod_id,
                 prod_cant: payment.prod_cant,
-                expiration: product.expiration };
+                from_date: product.expiration,
+                until_date: product.expiration };
             console.log("Pago confirmado: place:" + payment.place_id + " prod:" + payment.prod_id + " cant:" + payment.prod_cant);
             yield this.mercadoPagoRepository.updateStatus(payment_id, "approved");
             yield this.QrService.createQr(qr);

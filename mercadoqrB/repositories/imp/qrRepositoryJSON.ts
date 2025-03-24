@@ -24,10 +24,8 @@ export default class QrRepositoryJSON implements QrRepository {
         this.qrs = JSON.parse(qrsString) as Qr[];
     }
     async createQr(qr: Qr): Promise<string> {
-        const uid = randomUUID();
-        qr.id = uid
         addQr(qr);
-        return uid
+        return qr.id
     }
     async getQrById(qrId: string): Promise<Qr> {
         const qrsString = fs.readFileSync(filePath, 'utf-8');
@@ -39,16 +37,7 @@ export default class QrRepositoryJSON implements QrRepository {
             return qr 
         }
     }
-    async getQrByCode(qrCode: string): Promise<Qr> {
-        const qrsString = fs.readFileSync(filePath, 'utf-8');
-        this.qrs = JSON.parse(qrsString) as Qr[];
-        const qr = this.qrs.find((qr:Qr) => qr.code === qrCode);
-        if (!qr) {
-            throw new NotFoundError("QR not found");
-        } else {
-            return qr 
-        }
-    }
+    
     async updateQr(qr: Qr): Promise<void> {
         const qrsString = fs.readFileSync(filePath, 'utf-8');
         this.qrs = JSON.parse(qrsString) as Qr[];

@@ -2,12 +2,16 @@ import Qr from "../../schemas/Qr";
 import QrService from "../QrService";
 import QrRepository from "../../repositories/qrRepository";
 import { NotFoundError } from "../../errors/errors";
+import PlaceRepository from "../../repositories/placeRepository";
+import QrResponse from "../../schemas/QrResponse";
 
 
 export default class QrServiceImp implements QrService {
     private qrRepository: QrRepository;
-    constructor(qrRepository: QrRepository) {
+    private placeRepository: PlaceRepository;
+    constructor(qrRepository: QrRepository, placeRepository: PlaceRepository) {
         this.qrRepository = qrRepository;
+        this.placeRepository = placeRepository;
     }
 
     async createQr(qr: Qr): Promise<Qr> {
@@ -15,21 +19,24 @@ export default class QrServiceImp implements QrService {
         return qr;
     }
 
-    async getQrByCode(qrCode: string): Promise<Qr> {
-        const qr = await this.qrRepository.getQrByCode(qrCode);
-        if(!qr) {
-            throw new NotFoundError('Qr not found');
-        } else {
-            return qr
-        }
-    }
-
-    async getQrById(qrId: string): Promise<Qr> {
+    async getQrById(qrId: string): Promise<QrResponse> {
         const qr = await this.qrRepository.getQrById(qrId);
-        if(!qr) {
+        const place = await this.placeRepository.getPlaceById(qr.place_id);
+        const product = await this.placeRepository.getProductById(qr.place_id, qr.prod_id);
+
+        if(!qr || !place || !product) {
             throw new NotFoundError('Qr not found');
         } else {
-            return qr
+            return ({
+                id: qr.id,
+                place_name: place.name,
+                place_img: place.img,
+                prod_name: product.name,
+                prod_img: product.img,
+                until_date: qr.until_date,
+                from_date: qr.from_date,
+                prod_cant: qr.prod_cant,
+            })
         }
     }
 }

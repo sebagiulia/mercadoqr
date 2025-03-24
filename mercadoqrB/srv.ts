@@ -6,10 +6,6 @@ import { errorHandler } from './errors/errorHandler'
 import QrRepositoryJSON from './repositories/imp/qrRepositoryJSON'
 const qrRepository = new QrRepositoryJSON()
 
-import QrController from './controllers/QrController'
-import QrServiceImp from './services/imp/QrServiceApi'
-const qrService = new QrServiceImp(qrRepository)
-const qrController = new QrController(qrService)
 
 import PlaceController from './controllers/PlaceController'
 import PlaceServiceJSON from './services/imp/PlaceServiceJSON'
@@ -27,6 +23,11 @@ const scannController = new ScannController(scannService)
 
 import NotifierDefault from './services/imp/NotifierDefault'
 const notifierService = new NotifierDefault()
+
+import QrController from './controllers/QrController'
+import QrServiceImp from './services/imp/QrServiceApi'
+const qrService = new QrServiceImp(qrRepository, placeRepository)
+const qrController = new QrController(qrService)
 
 import MercadoPagoController from './controllers/MercadoPagoController'
 import MercadoPagoServiceDefault from './services/imp/MercadoPagoServiceDefault'

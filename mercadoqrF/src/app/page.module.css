@@ -26,10 +26,21 @@
   gap: 30px;
   height: 80px;
   width: 100%;
-  background-color: var(--secondary);
+  max-width: 400px;
   color: var(--foreground);
 }
 
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--foreground);
+  text-decoration: none;
+  background-color: var(--category);
+  width: 100px;
+  height: 50px;
+  border-radius: 20px;
+}
 
 
 .loader_overlay {

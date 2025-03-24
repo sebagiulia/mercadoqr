@@ -1,159 +1,27 @@
 [
   {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-16T21:44:43.463Z",
-    "code": "CTUAAD",
-    "id": "edffaa0e-3bd8-44ea-a871-e44b3544f95c"
-  },
-  {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-16T21:52:25.912Z",
-    "code": "HVINUQ",
-    "id": "1458f9c7-c129-48b8-a0e9-deafe4d406f8"
-  },
-  {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-16T22:17:24.518Z",
-    "code": "EODCXC",
-    "id": "07831489-ebe4-4c14-aaee-0547c2eeb965"
-  },
-  {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-16T22:18:07.923Z",
-    "code": "YPKQKR",
-    "id": "f90df45b-c0da-4a49-88d5-3a41eb37ce58"
-  },
-  {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-16T22:18:23.511Z",
-    "code": "NZEXXJ",
-    "id": "83522a5f-1231-4ed4-a0d6-d8c2f4575e0f"
-  },
-  {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-16T22:18:43.691Z",
-    "code": "RNFWNC",
-    "id": "3e82c9ce-05f0-43de-ac78-a02c89721b8b"
-  },
-  {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-16T22:28:38.790Z",
-    "code": "ZXXMTU",
-    "id": "f8b142c6-8b44-4e65-a7ca-1f26e43f0fc5"
-  },
-  {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-16T22:29:18.129Z",
-    "code": "MGODIX",
-    "id": "31db1c34-ae69-482b-86b7-f65344721d30"
-  },
-  {
-    "place_id": 1,
-    "prod_id": 1,
-    "expiration": "2025-01-29T21:33:21.795Z",
-    "code": "XZKZSH",
-    "id": "9182f26b-b50a-45f3-b577-c934634c9d8c"
-  },
-  {
-    "place_id": 4,
-    "prod_id": 8,
-    "expiration": "2025-01-30T00:00:54.848Z",
-    "code": "VXUPOU",
-    "id": "8f50ddfa-6dff-4159-8f45-a1ca726d5384"
-  },
-  {
-    "place_id": 4,
-    "prod_id": 7,
-    "expiration": "2025-03-01T22:17:44.343Z",
-    "code": "QTDEPR",
-    "id": "58b125b8-c9c6-4034-b8c3-9e79888ab358"
-  },
-  {
-    "id": "73aa1dc2-6897-4ad2-9145-4551d61c0694",
-    "code": "5c956922-aa5c-42fa-9899-46ff69dc5726",
-    "place_id": 1,
-    "prod_id": 2,
+    "id": "c63e2a7b-c271-4832-996a-2e0e25c86ba5",
+    "code": "a7021460-dd27-4b04-b70e-aa1c450224d1",
+    "place_id": 2,
+    "prod_id": 5,
     "prod_cant": 1,
     "expiration": "2025-11-30"
   },
   {
-    "id": "66441254-8e33-48a5-9144-01828bb96576",
-    "code": "8eee11bd-88e1-4c8d-bd07-2a5ec79a4004",
-    "place_id": 1,
-    "prod_id": 2,
+    "id": "1835451b-93a4-4336-96d5-cbc2851756e3",
+    "code": "1835451b-93a4-4336-96d5-cbc2851756e3",
+    "place_id": 3,
+    "prod_id": 10,
     "prod_cant": 1,
     "expiration": "2025-11-30"
   },
   {
-    "id": "47938ac2-bd75-4ed4-992f-85d9252bfa69",
-    "code": "f63d7e46-520b-40c3-a261-f3fd7080ffd7",
-    "place_id": 4,
-    "prod_id": 8,
+    "id": "0bc8febe-5487-402f-a91e-77429db576f9",
+    "code": "0bc8febe-5487-402f-a91e-77429db576f9",
+    "place_id": 2,
+    "prod_id": 4,
     "prod_cant": 1,
-    "expiration": "2025-11-30"
-  },
-  {
-    "id": "751f781d-3f93-4be6-b7af-eea1706b461a",
-    "code": "f63d7e46-520b-40c3-a261-f3fd7080ffd7",
-    "place_id": 4,
-    "prod_id": 8,
-    "prod_cant": 1,
-    "expiration": "2025-11-30"
-  },
-  {
-    "id": "61d4a7f0-8226-4b1e-a232-9720948bcd87",
-    "code": "f63d7e46-520b-40c3-a261-f3fd7080ffd7",
-    "place_id": 4,
-    "prod_id": 8,
-    "prod_cant": 1,
-    "expiration": "2025-11-30"
-  },
-  {
-    "id": "d5c73731-21c6-404b-acbb-a62b6c4d9cd9",
-    "code": "f63d7e46-520b-40c3-a261-f3fd7080ffd7",
-    "place_id": 4,
-    "prod_id": 8,
-    "prod_cant": 1,
-    "expiration": "2025-11-30"
-  },
-  {
-    "id": "910de429-1be8-4243-9747-fe3dec537c3a",
-    "code": "4e9a8c2c-f995-404a-b6af-32e4d907dae7",
-    "place_id": 1,
-    "prod_id": 2,
-    "prod_cant": 1,
-    "expiration": "2025-11-30"
-  },
-  {
-    "id": "2036768d-9c05-43ee-a83f-3cad80e89ecb",
-    "code": "4e9a8c2c-f995-404a-b6af-32e4d907dae7",
-    "place_id": 1,
-    "prod_id": 2,
-    "prod_cant": 1,
-    "expiration": "2025-11-30"
-  },
-  {
-    "id": "9e9dd826-15b2-4d05-8c64-887a7fd0d46f",
-    "code": "4e9a8c2c-f995-404a-b6af-32e4d907dae7",
-    "place_id": 1,
-    "prod_id": 2,
-    "prod_cant": 1,
-    "expiration": "2025-11-30"
-  },
-  {
-    "id": "d7546d44-564f-479a-92dc-61a82e08441e",
-    "code": "6a2f1fa3-d853-40cf-b826-9ad682bb0f78",
-    "place_id": 1,
-    "prod_id": 1,
-    "prod_cant": 1,
-    "expiration": "2025-11-30"
+    "from_date": "2025-11-30",
+    "until_date": "2025-11-30"
   }
 ]

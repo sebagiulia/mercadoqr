@@ -1,0 +1,24 @@
+.footer_social_media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer_social_media a {
+    color: var(--foreground);
+    font-size: 10px;
+}
+
+.footer_social_media a:hover {
+    color: var(--primary);
+}
+
+.footer_options {
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}

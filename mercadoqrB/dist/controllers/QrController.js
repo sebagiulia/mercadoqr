@@ -13,26 +13,11 @@ const respondeUtil_1 = require("../utils/respondeUtil");
 class QrController {
     constructor(qrService) {
         this.qrService = qrService;
-        this.getQrByCode = this.getQrByCode.bind(this);
         this.getQrById = this.getQrById.bind(this);
         console.log('Servicio de qr activo');
     }
-    getQrByCode(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('solicitud getQrByCode');
-            const qrCode = req.params.qr;
-            try {
-                const qr = yield this.qrService.getQrByCode(qrCode);
-                (0, respondeUtil_1.sendSuccess)(res, qr);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-    }
     getQrById(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('solicitud getQrById');
             const qrId = req.params.qr;
             try {
                 const qr = yield this.qrService.getQrById(qrId);

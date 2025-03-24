@@ -44,7 +44,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
-const crypto_1 = require("crypto");
 const errors_1 = require("../../errors/errors");
 const filePath = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/qrs.json');
 // Función para agregar datos al JSON
@@ -61,10 +60,8 @@ class QrRepositoryJSON {
     }
     createQr(qr) {
         return __awaiter(this, void 0, void 0, function* () {
-            const uid = (0, crypto_1.randomUUID)();
-            qr.id = uid;
             addQr(qr);
-            return uid;
+            return qr.id;
         });
     }
     getQrById(qrId) {
@@ -72,19 +69,6 @@ class QrRepositoryJSON {
             const qrsString = fs.readFileSync(filePath, 'utf-8');
             this.qrs = JSON.parse(qrsString);
             const qr = this.qrs.find((qr) => qr.id === qrId);
-            if (!qr) {
-                throw new errors_1.NotFoundError("QR not found");
-            }
-            else {
-                return qr;
-            }
-        });
-    }
-    getQrByCode(qrCode) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const qrsString = fs.readFileSync(filePath, 'utf-8');
-            this.qrs = JSON.parse(qrsString);
-            const qr = this.qrs.find((qr) => qr.code === qrCode);
             if (!qr) {
                 throw new errors_1.NotFoundError("QR not found");
             }

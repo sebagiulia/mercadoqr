@@ -17,7 +17,7 @@ class ScannServiceJSON {
     }
     getProdByQrCode(qrCode) {
         return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrByCode(qrCode);
+            const qr = yield this.qrRepository.getQrById(qrCode);
             const place = yield this.placeRepository.getPlaceById(qr.place_id);
             const prod = yield this.placeRepository.getProductById(place.id, qr.prod_id);
             return prod;
@@ -33,7 +33,7 @@ class ScannServiceJSON {
     }
     consumeQrByQrCode(qrCode) {
         return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrByCode(qrCode);
+            const qr = yield this.qrRepository.getQrById(qrCode);
             return this.qrRepository.deleteQr(qr.id);
         });
     }

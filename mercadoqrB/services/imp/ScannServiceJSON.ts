@@ -16,7 +16,7 @@ export default class ScannServiceJSON implements ScannService {
     }
 
     async getProdByQrCode(qrCode: string): Promise<Product> {
-        const qr = await this.qrRepository.getQrByCode(qrCode);
+        const qr = await this.qrRepository.getQrById(qrCode);
         const place = await this.placeRepository.getPlaceById(qr.place_id);
         const prod = await this.placeRepository.getProductById(place.id, qr.prod_id);
         return prod
@@ -30,7 +30,7 @@ export default class ScannServiceJSON implements ScannService {
     }
 
     async consumeQrByQrCode(qrCode: string): Promise<any> {
-        const qr = await this.qrRepository.getQrByCode(qrCode);
+        const qr = await this.qrRepository.getQrById(qrCode);
         return this.qrRepository.deleteQr(qr.id);
     }
 

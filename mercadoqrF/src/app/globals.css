@@ -10,7 +10,10 @@
   --product: #ffffff;
   --product-skeleton: #565656;
   --button: #e6e6e6;
-  --category: rgb(150, 102, 47)
+  --category: rgb(150, 102, 47);
+  --success: #0a6100;
+  --pending: #746500;
+  --failure: #760000;
 }
 
 html,
@@ -30,10 +33,6 @@ body {
   height: 100vh; /* Contenedor ocupa toda la altura de la pantalla */
 }
 
-main {
-  height: 100%;
-  flex-grow: 1; /* Toma el máximo espacio disponible */
-}
 
 
 * {
@@ -53,6 +52,9 @@ a {
   }
 }
 
+a, button, input, textarea, div {
+  -webkit-tap-highlight-color: transparent;
+}
 header {
   display: flex;
   justify-content: center;
@@ -63,6 +65,21 @@ header {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
-a, button, input, textarea, div {
-  -webkit-tap-highlight-color: transparent;
+
+main {
+  height:fit-content;
+  flex-grow: 1; /* Toma el máximo espacio disponible */
+}
+
+footer {
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  padding: 10px;
+  gap: 20px;
+  background-color: var(--secondary);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
