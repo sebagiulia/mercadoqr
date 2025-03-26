@@ -28,8 +28,8 @@ export default function Home( ) {
         </div>
         <Search onSubmit={handleSearchSubmit} />
         <div className={styles.footer}>
-          <div className={styles.link}><Link href="/escanear">Escanear</Link></div>
-          <div className={styles.link}><Link href="/crear">Crear</Link></div>
+          <div className={styles.link}><Link href="/">Escanear</Link></div>
+          <div className={styles.link}><Link href="/">Creador</Link></div>
         </div>
         {click && (
         <div className={styles.loader_overlay}>

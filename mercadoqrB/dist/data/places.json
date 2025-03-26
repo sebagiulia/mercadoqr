@@ -15,19 +15,11 @@
         "credential": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272"
     },
     {
-        "id": 3,
-        "name": "brava",
-        "address": "Av. Rivadavia 2739 - Rosario",
-        "description": "Pub & Disco",
-        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJqMenuERWfe1PgtCbfwlA6C72Q3NRxzUyRw&s",
-        "credential": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272"
-    },
-    {
-        "id": 4,
-        "name": "lagranfama",
-        "address": "Genova 123",
-        "description": "Todo para el hogar",
-        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4rorPVFtNU_6qhV4IGizwg1qjtkZiWZvXag&s",
+        "id": 5,
+        "name": "tubarberia",
+        "address": "Av. Pellegrini 1234",
+        "description": "Barberia de caballeros",
+        "img": "https://i.pinimg.com/736x/a9/40/92/a9409281fa230ecd40b7f6e5f0594159.jpg",
         "credential": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272"
     }
 ]

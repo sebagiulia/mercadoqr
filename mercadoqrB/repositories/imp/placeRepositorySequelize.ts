@@ -1,6 +1,6 @@
 import { NotFoundError } from "../../errors/errors"
 import PlaceType from "../../schemas/Place"
-import ProductType from "../../schemas/Product"
+import ProductType from "../../schemas/ProductResponse"
 import PlaceRepository from "../placeRepository"
 import { Place } from "../../models/Place"
 import { Product } from "../../models/Product"
@@ -34,9 +34,15 @@ export default class PlaceRepositorySequelize implements PlaceRepository {
     }
 
     async getProducts(placeId: string): Promise<ProductType[]> {
-        const products = Product.findAll({ where: { place_id: placeId } })
+        const products = await Product.findAll({ where: { place_id: placeId } })
         if (products) {
-            return products
+            return products.map(product => {
+                const stock = product.getStatus()
+                const productResponse = product.dataValues
+                delete productResponse.stock
+                return {...productResponse, stock}
+            }
+            )
         }
         throw new NotFoundError('Products not found')
     }   
@@ -47,7 +53,10 @@ export default class PlaceRepositorySequelize implements PlaceRepository {
         if (place) {
             const product = await Product.findOne({ where: { place_id: place.id, name: productName } })
             if (product) {
-                return product
+                const stock = product.getStatus()
+                const productResponse = product.dataValues
+                delete productResponse.stock
+                return {...productResponse, stock}
             }
         }
         throw new NotFoundError('Product not found')
@@ -56,7 +65,10 @@ export default class PlaceRepositorySequelize implements PlaceRepository {
     async getProductById(placeId: number, prodId: number): Promise<ProductType> {
         const product = await Product.findByPk(prodId)
         if (product) {
-            return product
+            const stock = product.getStatus()
+            const productResponse = product.dataValues
+            delete productResponse.stock
+            return {...productResponse, stock}
         }
         throw new NotFoundError('Product not found')
     }

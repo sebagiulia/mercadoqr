@@ -1,5 +1,5 @@
 import Place from "../schemas/Place";
-import Product from "../schemas/Product";
+import Product from "../schemas/ProductResponse";
 
 export default interface ScannService {
     getProdByQrCode(qrCode: string): Promise<Product>;

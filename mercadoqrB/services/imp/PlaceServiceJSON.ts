@@ -1,5 +1,6 @@
 import Place from '../../schemas/Place'
 import Product from '../../schemas/Product'
+import ProductResp from '../../schemas/ProductResponse'
 import PlaceService from '../PlaceService'
 import PlaceRepository from '../../repositories/placeRepository'
 
@@ -23,13 +24,13 @@ export default class PlaceServiceImp implements PlaceService {
         return this.placeRepository.getPlaces(placeName)
     }
 
-    async getProducts(placeId: number, category:string): Promise<Product[]> {
+    async getProducts(placeId: number, category:string): Promise<ProductResp[]> {
         const prods = await this.placeRepository.getProducts(placeId.toString())
         if(category == "Todo") return prods
         return prods.filter((prod) => prod.category === category)
     }
 
-    async getProduct(placeName: string, productName: string): Promise<Product> {
+    async getProduct(placeName: string, productName: string): Promise<ProductResp> {
         return this.placeRepository.getProduct(placeName, productName)
     }
 

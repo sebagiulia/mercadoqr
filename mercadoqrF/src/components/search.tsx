@@ -14,6 +14,7 @@ export default function Search({ onSubmit }: { onSubmit: (sq: string) => void })
     };
     
     const handleSubmitClick: MouseEventHandler<HTMLSpanElement> = (e) => {
+        e.preventDefault();
         onSubmit(searchQuery);
     }
     return (<div className={styles.container}>

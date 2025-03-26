@@ -3,7 +3,7 @@ import Place from "@/models/place";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import PlaceService from "services/placeService";
-import {Suggestions} from "@/components/suggestion";
+import {Suggestions, SuggestionsSkeleton} from "@/components/suggestion";
 import styles from "./page.module.css";
 
 
@@ -16,7 +16,7 @@ export default function Page() {
 
 function SearchPage() {
     const [places, setPlaces] = useState<Place[]>([])
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const searchParams = useSearchParams();
     const placename = searchParams.get('l') || '';
@@ -25,7 +25,7 @@ function SearchPage() {
         const fetchPlaces = async () => {
             setIsLoading(true);
             try {
-                const { success, data } = await PlaceService.getPlaces(placename);
+                const {success, data} = await PlaceService.getPlaces(placename);
                 if (success) {
                     const places = data || [];
                     setPlaces(places);
@@ -36,6 +36,7 @@ function SearchPage() {
             } catch (error) {
                 console.error(error);
                 setIsLoading(false);
+                setPlaces([])
             }
         };
         fetchPlaces();
@@ -47,7 +48,7 @@ function SearchPage() {
             <h1 className={styles.header}>
             Busqueda: {placename}
             </h1>
-                {isLoading? <p>Cargando...</p>
+                {isLoading? <SuggestionsSkeleton />
                 :
                 <Suggestions places={places} />
                 }

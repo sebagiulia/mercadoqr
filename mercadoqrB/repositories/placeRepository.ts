@@ -1,4 +1,4 @@
-import Product from "../schemas/Product";
+import Product from "../schemas/ProductResponse";
 import Place from "../schemas/Place";
 
 export default interface PlaceRepository {

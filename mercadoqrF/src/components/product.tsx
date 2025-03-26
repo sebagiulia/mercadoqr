@@ -93,8 +93,7 @@ export default function Product({ product, place }: { product: ProductType, plac
         if(response.success) {
             const url = response.data as string;
             router.push(url);
-        } else {
-            setIsProcessing(false)
+        } else {            setIsProcessing(false)
             console.log(response);
             alert("No se pudo procesar el pedido");
         }

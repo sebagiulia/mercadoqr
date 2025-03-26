@@ -4,7 +4,7 @@ export const sequelize = new Sequelize("mi_base", "root", "secret", {
   host: "localhost",
   dialect: "mysql",
   port: 3307,
-  logging:true
+  logging:false
 });
 
 export const connectDB = async () => {

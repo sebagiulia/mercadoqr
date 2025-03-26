@@ -1,11 +1,11 @@
 'use client'
 import { useEffect, useState } from "react";
 import { PlaceHeader, PlaceCatalog, PlaceCategories, PlaceHeaderSkeleton, PlaceCategoriesSkeleton, PlaceCatalogSkeleton} from "@/components/place";
-import { notFound } from "next/navigation";
 import PlaceService from "services/placeService";
 import PlaceType from "@/models/place";
 import ProductType from "@/models/product";
 import styles from "./page.module.css";
+import { useRouter } from "next/navigation";
 
 export default function Page({
   params,
@@ -16,15 +16,16 @@ export default function Page({
   const [categories, setCategories] = useState<string[]>([]);
   const [products, setProducts] = useState<ProductType[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("Todo");
-  
+  const [isLoadingProds, setIsLoadingProds] = useState(true);
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       const { sucursal } = await params;
       try {
         const { success, data } = await PlaceService.getPlace(sucursal);
 
-        if (!success) {
-          notFound();
+        if (!success) {   
+          router.push("/404");
         } else {
           const placeData = data as PlaceType;
           setPlace(placeData);
@@ -32,8 +33,8 @@ export default function Page({
           setCategories(responseCats.success ? (responseCats.data as string[]) : []);
         }
       } catch (error) {
-        console.error(error);
-        notFound();
+        console.error(error)
+        router.push("/404");
       }
     };
 
@@ -42,9 +43,15 @@ export default function Page({
 
   useEffect(() => {
     const fetchProductsByCategory = async () => {
+      setIsLoadingProds(true);
       if (place) {
           const responseProds = await PlaceService.getProducts(place.id, selectedCategory);
-          setProducts(responseProds.success ? (responseProds.data as ProductType[]) : []);
+          if(responseProds.success) {
+            setProducts(responseProds.success ? (responseProds.data as ProductType[]) : []);
+          } else {
+            setProducts([]);
+          }
+          setIsLoadingProds(false);
       };
     }
     setProducts([]);  
@@ -63,7 +70,7 @@ export default function Page({
       {categories.length > 0 ? 
           <PlaceCategories categories={categories} selectedCategory={selectedCategory} changeCategory={handleChangeCategory} /> 
         : <PlaceCategoriesSkeleton />}
-      {products.length > 0 ?
+      {!isLoadingProds?
           <PlaceCatalog products={products} place={place as PlaceType} />
         : <PlaceCatalogSkeleton /> }
 

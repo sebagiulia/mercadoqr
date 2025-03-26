@@ -44,9 +44,14 @@ class PlaceRepositorySequelize {
     }
     getProducts(placeId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const products = Product_1.Product.findAll({ where: { place_id: placeId } });
+            const products = yield Product_1.Product.findAll({ where: { place_id: placeId } });
             if (products) {
-                return products;
+                return products.map(product => {
+                    const stock = product.getStatus();
+                    const productResponse = product.dataValues;
+                    delete productResponse.stock;
+                    return Object.assign(Object.assign({}, productResponse), { stock });
+                });
             }
             throw new errors_1.NotFoundError('Products not found');
         });
@@ -58,7 +63,10 @@ class PlaceRepositorySequelize {
             if (place) {
                 const product = yield Product_1.Product.findOne({ where: { place_id: place.id, name: productName } });
                 if (product) {
-                    return product;
+                    const stock = product.getStatus();
+                    const productResponse = product.dataValues;
+                    delete productResponse.stock;
+                    return Object.assign(Object.assign({}, productResponse), { stock });
                 }
             }
             throw new errors_1.NotFoundError('Product not found');
@@ -68,7 +76,10 @@ class PlaceRepositorySequelize {
         return __awaiter(this, void 0, void 0, function* () {
             const product = yield Product_1.Product.findByPk(prodId);
             if (product) {
-                return product;
+                const stock = product.getStatus();
+                const productResponse = product.dataValues;
+                delete productResponse.stock;
+                return Object.assign(Object.assign({}, productResponse), { stock });
             }
             throw new errors_1.NotFoundError('Product not found');
         });

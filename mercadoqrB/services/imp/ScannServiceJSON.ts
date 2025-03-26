@@ -1,5 +1,5 @@
 import ScannService from "../ScannService";
-import Product from "../../schemas/Product";
+import Product from "../../schemas/ProductResponse";
 import QrRepository from "../../repositories/qrRepository";
 import PlaceRepository from "../../repositories/placeRepository";
 import ScannRepository from "../../repositories/scannRepository";

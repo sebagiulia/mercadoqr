@@ -59,10 +59,10 @@ export default function RootLayout({
             />
           </div>
           <div className={styles.footer_options}>
-            <a href="/faq">Preguntas frecuentes</a>
-            <a href="/terms">Términos y condiciones</a>
-            <a href="/seller">Ingreso vendedores</a>
-            <a href="/contact">Contacto</a>
+            <Link href="/">Preguntas frecuentes</Link>
+            <Link href="/">Términos y condiciones</Link>
+            <Link href="/">Ingreso vendedores</Link>
+            <Link href="/">Contacto</Link>
           </div>
           <p>© 2021 MercadoQR</p>
         </footer>

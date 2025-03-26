@@ -8,7 +8,8 @@
         "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrujTfJQItaRY2-gm4SaW1NzhiAUZ4-iu4OA&s",
         "category": "Combos",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 5
     },
     {
         "id": 2,
@@ -19,7 +20,8 @@
         "img": "https://laprovedeampip.com.ar/wp-content/uploads/2024/11/Combo-Fernet.png",
         "category": "Combos",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 8
     },
     {
         "id": 3,
@@ -30,29 +32,32 @@
         "img": "https://grupoelvalor.com/wp-content/uploads/2018/12/corona-media-clara.png",
         "category": "Cervezas",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 3
     },
     {
         "id": 4,
         "place_id": 2,
-        "name": "El señor de los anillos: La comunidad del anillo",
+        "name": "Lor La comunidad del anillo",
         "price": 500,
-        "description": "La comunidad del anillo",
-        "img": "https://tienda.planetadelibros.com.ar/cdn/shop/files/ElSenordelosAnillosn_01.LaComunidaddelAnillo_Fte_1024x.jpg?v=1693598478",
+        "description": "Minotauro",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNv8pX5ZJKMPHUxSxaNKDBTCn1VKcGtIXCCg&s",
         "category": "Fantasia",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 10
     },
     {
         "id": 5,
         "place_id": 2,
-        "name": "Game of thrones",
+        "name": "Lor Las dos torres",
         "price": 1000,
-        "description": "Dancing Dragons",
-        "img": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/d1/c8/70/d1c870eb-f87b-7bd5-6fa5-588c6a758ff1/9780007378425.jpg/1200x900wz.jpg",
+        "description": "Minotauro",
+        "img": "https://acdn-us.mitiendanube.com/stores/005/419/471/products/k26uv4az6ddbryurdmf6etjmq8c3d-a34edb4957d0804d8117323061745820-480-0.jpg",
         "category": "Fantasia",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 2
     },
     {
         "id": 6,
@@ -63,51 +68,8 @@
         "img": "https://bobyads.com/wp-content/uploads/2024/01/standing-book-mockup-2-1024x768.png",
         "category": "Finanzas",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
-    },
-    {
-        "id": 7,
-        "place_id": 4,
-        "name": "Placar bambú",
-        "price": 2000,
-        "description": "Placar bambú",
-        "img": "https://images.fravega.com/f300/f4af9fb47efc3cfe78d8e9fe449a4823.jpg",
-        "category": "Placares",
-        "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
-    },
-    {
-        "id": 8,
-        "place_id": 4,
-        "name": "Ropero 4 puertas",
-        "price": 3000,
-        "description": "Ropero 4 puertas",
-        "img": "https://dcdn.mitiendanube.com/stores/001/183/780/products/56497-placard-24-dakar-melamina-tabaco-cerrado1-889bc348b510d8b0b616537551823423-1024-1024-6ca9a53a021cd6fd1816903206549279-1024-1024.jpg",
-        "category": "Placares",
-        "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
-    },
-    {
-        "id": 9,
-        "place_id": 3,
-        "name": "Entrada común",
-        "price": 500,
-        "description": "Sin beneficios",
-        "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360",
-        "category": "Entradas",
-        "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
-    },
-    {
-        "id": 10,
-        "place_id": 3,
-        "name": "Entrada VIP",
-        "price": 1000,
-        "description": "Con beneficios",
-        "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360",
-        "category": "Entradas",
-        "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 7
     },
     {
         "id": 11,
@@ -118,7 +80,8 @@
         "img": "https://http2.mlstatic.com/D_712218-MLA48482719970_122021-C.jpg",
         "category": "Combos",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 0
     },
     {
         "id": 12,
@@ -129,7 +92,8 @@
         "img": "https://cardapioseguro.com.br/xodozin/wp-content/uploads/2022/06/COMBO-BLACK.jpg",
         "category": "Combos",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 10
     },
     {
         "id": 13,
@@ -140,7 +104,8 @@
         "img": "https://vinopremier.com/media/catalog/product/cache/8a40897d7c88cd1f7459b457be2eac5e/c/e/cerveza-budweiser-33cl-vinopremier.jpg",
         "category": "Cervezas",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 3
     },
     {
         "id": 14,
@@ -151,7 +116,8 @@
         "img": "https://www.conyntra.com/cdn/shop/files/4085U_Espumante_Demi_Sec_750_ml_00f7b6ca-853f-433b-a1b3-e7eecc3f575f.png?v=1739290996",
         "category": "Espumantes",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 7
     },
     {
         "id": 15,
@@ -162,7 +128,8 @@
         "img": "https://http2.mlstatic.com/D_758363-MLU69116442770_042023-C.jpg",
         "category": "Espumantes",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 9
     },
     {
         "id": 16,
@@ -173,6 +140,163 @@
         "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLH6OzJxJ77xktok4Rcjw6DJNbIZELAxjIKQ&s",
         "category": "Sin alcohol",
         "start_date": "2025-11-01",
-        "end_date": "2025-11-30"
+        "end_date": "2025-11-30",
+        "stock": 4
+    },
+    {
+        "id": 17,
+        "place_id": 5,
+        "name": "Turno 09:00",
+        "price": 50,
+        "description": "",
+        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
+        "category": "Lunes",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 1
+    },
+    {
+        "id": 18,
+        "place_id": 5,
+        "name": "Turno 10:00",
+        "price": 50,
+        "description": "",
+        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
+        "category": "Lunes",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 0
+    },
+    {
+        "id": 19,
+        "place_id": 5,
+        "name": "Turno 11:00",
+        "price": 50,
+        "description": "",
+        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
+        "category": "Lunes",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 0
+    },
+    {
+        "id": 20,
+        "place_id": 5,
+        "name": "Turno 12:00",
+        "price": 50,
+        "description": "",
+        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
+        "category": "Lunes",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 0
+    },
+    {
+        "id": 21,
+        "place_id": 5,
+        "name": "Turno 09:00",
+        "price": 50,
+        "description": "",
+        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
+        "category": "Martes",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 1
+    },
+    {
+        "id": 22,
+        "place_id": 5,
+        "name": "Turno 10:00",
+        "price": 50,
+        "description": "",
+        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
+        "category": "Martes",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 1
+    },
+    {
+        "id": 23,
+        "place_id": 5,
+        "name": "Turno 11:00",
+        "price": 50,
+        "description": "",
+        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
+        "category": "Martes",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 1
+    },
+    {
+        "id": 24,
+        "place_id": 5,
+        "name": "Turno 12:00",
+        "price": 50,
+        "description": "",
+        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
+        "category": "Martes",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 0
+    },
+    {
+        "id": 25,
+        "place_id": 2,
+        "name": "Juego de tronos",
+        "price": 500,
+        "description": "Planeta",
+        "img": "https://http2.mlstatic.com/D_797967-MLU53274752289_012023-C.jpg",
+        "category": "Fantasia",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 2
+    },
+    {
+        "id": 26,
+        "place_id": 2,
+        "name": "Diario de Ana Frank",
+        "price": 500,
+        "description": "Lea",
+        "img": "https://acdn-us.mitiendanube.com/stores/001/168/109/products/el-diario-de-ana-frank1-99dead8318abd7caf215882607216972-640-0.jpg",
+        "category": "Historia",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 0
+    },
+    {
+        "id": 27,
+        "place_id": 2,
+        "name": "Codigo Da Vinci",
+        "price": 500,
+        "description": "Planeta",
+        "img": "https://http2.mlstatic.com/D_601318-MLA78441400972_082024-C.jpg",
+        "category": "Policial",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 1
+    },
+    {
+        "id": 9,
+        "place_id": 1,
+        "name": "Entrada común",
+        "price": 500,
+        "description": "Sin beneficios",
+        "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360",
+        "category": "Entradas",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 9
+    },
+    {
+        "id": 10,
+        "place_id": 1,
+        "name": "Entrada VIP",
+        "price": 1000,
+        "description": "Con beneficios",
+        "img": "https://img.freepik.com/vector-premium/icono-entradas-negras-cupon-pase-papel-festival-conciertos_572038-229.jpg?w=360",
+        "category": "Entradas",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-30",
+        "stock": 6
     }
 ]

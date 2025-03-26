@@ -5,7 +5,6 @@ import QrService from "services/qrService";
 import Qr from "@/models/qr";
 import Image from 'next/image';
 import qrdefault from '@/public/qr-code-default.svg';
-import { GridLoader } from "react-spinners";
 
 export default function Page({ params }: { params: Promise<{ payment: string }> }) {
   const { payment } = use(params); 

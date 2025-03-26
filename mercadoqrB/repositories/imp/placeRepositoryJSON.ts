@@ -1,5 +1,6 @@
 import Place from '../../schemas/Place'
 import Product from '../../schemas/Product'
+import ProductResp from '../../schemas/ProductResponse'
 import PlaceRepository from '../placeRepository'
 import places from '../../data/places.json'
 import products from '../../data/products.json'
@@ -33,24 +34,38 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
         throw new NotFoundError('Places not found')
     }
 
-    async getProducts(placeId: string): Promise<Product[]> {
+    async getProducts(placeId: string): Promise<ProductResp[]> {
         const products = this.products.filter(product => product.place_id.toString() === placeId)
-        if (products.length > 0) return products
+        if (products.length > 0) {
+            return products.map(product => {
+                const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible' 
+                const productResp = {...product}
+                return {...productResp, stock}
+            })
+        }
         throw new NotFoundError('Products not found')
     }   
 
-    async getProduct(placeName: string, prodName: string): Promise<Product> {
+    async getProduct(placeName: string, prodName: string): Promise<ProductResp> {
         const productName = transformToSpaceCase(prodName)
         const place = this.places.find(place => place.name === placeName)
         if (!place) throw new NotFoundError('Place not found')
         const product = this.products.find(product => product.place_id === place.id && product.name === productName)
-        if (product) return product
+        if (product){
+            const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible' 
+            const productResp = {...product}
+            return {...productResp, stock}
+        }
         throw new NotFoundError('Product not found')
     }
     
-    async getProductById(placeId: number, prodId: number): Promise<Product> {
+    async getProductById(placeId: number, prodId: number): Promise<ProductResp> {
         const product = this.products.find(product => product.id === prodId && product.place_id === placeId)
-        if (product) return product
+        if (product){
+            const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible' 
+            const productResp = {...product}
+            return {...productResp, stock}            
+        }
         throw new NotFoundError('Product not found')
     }
 

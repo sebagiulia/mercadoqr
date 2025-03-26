@@ -15,7 +15,7 @@ exports.sequelize = new sequelize_1.Sequelize("mi_base", "root", "secret", {
     host: "localhost",
     dialect: "mysql",
     port: 3307,
-    logging: true
+    logging: false
 });
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

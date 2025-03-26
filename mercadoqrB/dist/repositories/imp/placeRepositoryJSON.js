@@ -48,8 +48,13 @@ class PlaceRepositoryJSON {
     getProducts(placeId) {
         return __awaiter(this, void 0, void 0, function* () {
             const products = this.products.filter(product => product.place_id.toString() === placeId);
-            if (products.length > 0)
-                return products;
+            if (products.length > 0) {
+                return products.map(product => {
+                    const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible';
+                    const productResp = Object.assign({}, product);
+                    return Object.assign(Object.assign({}, productResp), { stock });
+                });
+            }
             throw new errors_1.NotFoundError('Products not found');
         });
     }
@@ -60,16 +65,22 @@ class PlaceRepositoryJSON {
             if (!place)
                 throw new errors_1.NotFoundError('Place not found');
             const product = this.products.find(product => product.place_id === place.id && product.name === productName);
-            if (product)
-                return product;
+            if (product) {
+                const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible';
+                const productResp = Object.assign({}, product);
+                return Object.assign(Object.assign({}, productResp), { stock });
+            }
             throw new errors_1.NotFoundError('Product not found');
         });
     }
     getProductById(placeId, prodId) {
         return __awaiter(this, void 0, void 0, function* () {
             const product = this.products.find(product => product.id === prodId && product.place_id === placeId);
-            if (product)
-                return product;
+            if (product) {
+                const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible';
+                const productResp = Object.assign({}, product);
+                return Object.assign(Object.assign({}, productResp), { stock });
+            }
             throw new errors_1.NotFoundError('Product not found');
         });
     }
