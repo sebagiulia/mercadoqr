@@ -13,7 +13,7 @@ export default function Product({ product, place }: { product: ProductType, plac
     const etiquetasComprador:string[] = [];
     const etiquetasEnvio = ["Email", "Telefono"];
     const [cant, setCant] = useState("1");
-    
+
     const [step, setStep] = useState(etiquetasComprador.length > 0 ? 0 : 1);
     const [isProcessing, setIsProcessing] = useState(false);
     // Estado para manejar los valores de los inputs
@@ -39,7 +39,7 @@ export default function Product({ product, place }: { product: ProductType, plac
     const handleChangeCantidad = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCant(e.target.value);
     }
-     
+
     const router = useRouter();
 
     const handleDatosComprador = () => {
@@ -49,7 +49,7 @@ export default function Product({ product, place }: { product: ProductType, plac
         }
         setStep(1);
     }
-    
+
     const handleDatosEnvio = () => {
         if(Object.values(datosEnvio).some((value) => value === "")) {
             alert("Debe completar todos los campos");
@@ -65,7 +65,7 @@ export default function Product({ product, place }: { product: ProductType, plac
             alert("Ingrese un correo válido");
             return;
         }
-        
+
         setStep(2);
     }
 
@@ -94,6 +94,7 @@ export default function Product({ product, place }: { product: ProductType, plac
             const url = response.data as string;
             router.push(url);
         } else {
+            setIsProcessing(false)
             console.log(response);
             alert("No se pudo procesar el pedido");
         }
@@ -109,9 +110,9 @@ export default function Product({ product, place }: { product: ProductType, plac
                 </div>
                 <div className={styles.description_product}>{product.description}</div>
             </div>
-            {step === 0 ? 
+            {step === 0 ?
                 <Block  title={"Datos del comprador"}
-                        description={"Estos datos son solicitados directamente por el vendedor"} 
+                        description={"Estos datos son solicitados directamente por el vendedor"}
                         form={datosComprador}
                         etiquetas={etiquetasComprador}
                         button="Siguiente"
@@ -121,7 +122,7 @@ export default function Product({ product, place }: { product: ProductType, plac
             :
             step === 1 ?
                 <Block title={"Datos de envío"}
-                        description={"Rellene correctamente los campos del envío, mercadoqr le enviará su QR a estos destinos"} 
+                        description={"Rellene correctamente los campos del envío, mercadoqr le enviará su QR a estos destinos"}
                         form={datosEnvio}
                         etiquetas={etiquetasEnvio}
                         button="Siguiente"
@@ -129,14 +130,14 @@ export default function Product({ product, place }: { product: ProductType, plac
                         change={handleChangeDatosEnvio} />
             : step === 2?
                 <Block title={"Cantidad"}
-                        description={"Seleccione la cantidad de este producto que desea comprar"} 
+                        description={"Seleccione la cantidad de este producto que desea comprar"}
                         form={{Cantidad: cant.toString()}}
                         etiquetas={["Cantidad"]}
                         button="Siguiente"
                         buttonAction={handleCantidad}
                         change={handleChangeCantidad} />
             :
-                <DetalleCompra 
+                <DetalleCompra
                  title='Revisa tu pedido'
                  datosComprador={datosComprador}
                  datosEnvio={datosEnvio}
@@ -185,7 +186,7 @@ return(
  <p className={styles.block_title}>{title}</p>
 
 
-{Object.keys(datosComprador).length > 0 && 
+{Object.keys(datosComprador).length > 0 &&
    <div className={styles.block_section}>
 <div className={styles.block_section_hd}><p>Datos del comprador</p><span onClick={setStep(0)}>Modificar</span></div>
 <div className={styles.block_data_block}>
@@ -193,7 +194,7 @@ return(
        {Object.entries(datosComprador).map(([key, value]: [string, string], index: number) => <div key={index} className={styles.block_item} >
                                        <p className={styles.block_item_name}>{key}</p>
                                        <p className={styles.block_item_value}>{value}</p>
-                                     </div>  
+                                     </div>
                                        )}
                                 </div>
    </div>
@@ -204,7 +205,7 @@ return(
  {Object.entries(datosEnvio).map(([key,value], index) => <div key={index} className={styles.block_item} >
                                 <p className={styles.block_item_name}>{key}</p>
                                 <p className={styles.block_item_value}>{value}</p>
-                              </div>  
+                              </div>
                                 )}
                                 </div>
 </div>
@@ -214,7 +215,7 @@ return(
 {items.map((item, index) => <div key={index} className={styles.block_item} >
                                 <p className={styles.block_item_name}>{item.name} x {item.cant}</p>
                                 <p className={styles.block_item_value}>$ {item.price * item.cant}</p>
-                              </div>  
+                              </div>
                                 )}
  <div  className={styles.block_item} >
                                 <p className={styles.block_item_name}>Costo de servicio</p>
@@ -225,7 +226,7 @@ return(
     <div className={styles.block_total}>
 
         <p className={styles.block_total_name}>Total</p>
-        <p className={styles.block_total_value}>$ {items.reduce((acc, item) => acc + item.price * item.cant, 0) + service_price} </p> 
+        <p className={styles.block_total_value}>$ {items.reduce((acc, item) => acc + item.price * item.cant, 0) + service_price} </p>
     </div>
 
  <button className={styles.block_button_comp} onClick={buttonAction} >{button}</button>
