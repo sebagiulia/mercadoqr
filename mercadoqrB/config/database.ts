@@ -1,9 +1,14 @@
 import { Sequelize } from "sequelize";
-
-export const sequelize = new Sequelize("mi_base", "root", "secret", {
-  host: "localhost",
+import 'dotenv/config'
+const db_name = process.env.DB_DB || "mi_base";
+const db_host = process.env.DB_HOST || "localhost";
+const db_user = process.env.DB_USER || "root";
+const db_password = process.env.DB_PASSWORD || "password"
+const db_port = parseInt(process.env.DB_PORT || "3306", 10);
+export const sequelize = new Sequelize(db_name, db_user, db_password, {
+  host: db_host,
   dialect: "mysql",
-  port: 3307,
+  port: db_port,
   logging:false
 });
 

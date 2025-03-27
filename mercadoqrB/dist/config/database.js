@@ -11,10 +11,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = exports.sequelize = void 0;
 const sequelize_1 = require("sequelize");
-exports.sequelize = new sequelize_1.Sequelize("mi_base", "root", "secret", {
-    host: "localhost",
+require("dotenv/config");
+const db_name = process.env.DB_DB || "mi_base";
+const db_host = process.env.DB_HOST || "localhost";
+const db_user = process.env.DB_USER || "root";
+const db_password = process.env.DB_PASSWORD || "secret";
+const db_port = parseInt(process.env.DB_PORT || "3306", 10);
+exports.sequelize = new sequelize_1.Sequelize(db_name, db_user, db_password, {
+    host: db_host,
     dialect: "mysql",
-    port: 3307,
+    port: db_port,
     logging: false
 });
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {

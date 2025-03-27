@@ -276,7 +276,7 @@
         "stock": 1
     },
     {
-        "id": 9,
+        "id": 28,
         "place_id": 1,
         "name": "Entrada común",
         "price": 500,
@@ -288,7 +288,7 @@
         "stock": 9
     },
     {
-        "id": 10,
+        "id": 29,
         "place_id": 1,
         "name": "Entrada VIP",
         "price": 1000,

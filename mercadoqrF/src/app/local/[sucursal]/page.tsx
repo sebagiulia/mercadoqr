@@ -73,8 +73,6 @@ export default function Page({
       {!isLoadingProds?
           <PlaceCatalog products={products} place={place as PlaceType} />
         : <PlaceCatalogSkeleton /> }
-
-
     </div>
   
   
