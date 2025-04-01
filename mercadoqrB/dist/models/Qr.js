@@ -9,7 +9,6 @@ const database_1 = require("../config/database");
 const Place_1 = require("./Place");
 const Product_1 = require("./Product");
 const crypto_1 = __importDefault(require("crypto"));
-const Payment_1 = require("./Payment");
 class Qr extends sequelize_1.Model {
 }
 exports.Qr = Qr;
@@ -22,8 +21,7 @@ Qr.init({
     start_date: { type: sequelize_1.DataTypes.STRING, allowNull: false },
     end_date: { type: sequelize_1.DataTypes.STRING, allowNull: false },
 }, { sequelize: database_1.sequelize, modelName: "qr", timestamps: false });
-Place_1.Place.hasMany(Qr, { foreignKey: "place_id", sourceKey: "id" });
+Place_1.Place.hasMany(Qr, { foreignKey: "place_id", sourceKey: "id", onDelete: 'NO ACTION' });
 Product_1.Product.hasMany(Qr, { foreignKey: "prod_id", sourceKey: "id" });
-Payment_1.Payment.hasOne(Qr, { foreignKey: "payment_id", sourceKey: "id" });
 Qr.belongsTo(Product_1.Product, { foreignKey: "prod_id", targetKey: "id" });
 Qr.belongsTo(Place_1.Place, { foreignKey: "place_id", targetKey: "id" });

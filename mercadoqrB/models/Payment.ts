@@ -29,7 +29,7 @@ Payment.init(
   { sequelize, modelName: "payment", timestamps: false }
 );
 
-Place.hasMany(Payment, { foreignKey: "place_id", sourceKey: "id" });
-Product.hasMany(Payment, { foreignKey: "prod_id", sourceKey: "id" });
+Place.hasMany(Payment, { foreignKey: "place_id", sourceKey: "id"});
+Product.hasMany(Payment, { foreignKey: "prod_id", sourceKey: "id", onDelete: 'NO ACTION'});
 Payment.belongsTo(Product, { foreignKey: "prod_id", targetKey: "id" });
 Payment.belongsTo(Place, { foreignKey: "place_id", targetKey: "id" });

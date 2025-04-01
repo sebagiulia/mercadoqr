@@ -23,6 +23,6 @@ Payment.init({
     status: { type: sequelize_1.DataTypes.STRING, allowNull: true },
 }, { sequelize: database_1.sequelize, modelName: "payment", timestamps: false });
 Place_1.Place.hasMany(Payment, { foreignKey: "place_id", sourceKey: "id" });
-Product_1.Product.hasMany(Payment, { foreignKey: "prod_id", sourceKey: "id" });
+Product_1.Product.hasMany(Payment, { foreignKey: "prod_id", sourceKey: "id", onDelete: 'NO ACTION' });
 Payment.belongsTo(Product_1.Product, { foreignKey: "prod_id", targetKey: "id" });
 Payment.belongsTo(Place_1.Place, { foreignKey: "place_id", targetKey: "id" });

@@ -7,8 +7,14 @@ const db_password = process.env.DB_PASSWORD || "password"
 const db_port = parseInt(process.env.DB_PORT || "3306", 10);
 export const sequelize = new Sequelize(db_name, db_user, db_password, {
   host: db_host,
-  dialect: "mysql",
-  port: db_port,
+  dialect: "mssql",
+  //port: db_port,
+  dialectOptions: {
+    options: {
+      encrypt: true,   // Cambiar a true si usas Azure SQL
+      trustServerCertificate: true  // Evita problemas con SSL si no tienes certificado
+    }
+  },
   logging:false
 });
 

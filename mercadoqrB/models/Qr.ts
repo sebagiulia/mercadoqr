@@ -29,8 +29,7 @@ Qr.init(
   { sequelize, modelName: "qr", timestamps: false }
 );
 
-Place.hasMany(Qr, { foreignKey: "place_id", sourceKey: "id" });
-Product.hasMany(Qr, { foreignKey: "prod_id", sourceKey: "id" });
-Payment.hasOne(Qr, { foreignKey: "payment_id", sourceKey: "id" });
+Place.hasMany(Qr, { foreignKey: "place_id", sourceKey: "id", onDelete: 'NO ACTION' });
+Product.hasMany(Qr, { foreignKey: "prod_id", sourceKey: "id"});
 Qr.belongsTo(Product, { foreignKey: "prod_id", targetKey: "id" });
 Qr.belongsTo(Place, { foreignKey: "place_id", targetKey: "id" });

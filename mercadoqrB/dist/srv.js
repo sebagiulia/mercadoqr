@@ -93,10 +93,9 @@ app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint);
 app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotification);
 // Middleware de errores
 app.use(errorHandler_1.errorHandler);
-const dbtest_1 = __importDefault(require("./test/dbtest"));
+//import DBtest from './test/dbtest'
 (0, database_1.connectDB)();
-database_1.sequelize.sync({ alter: true, force: true }).then(() => {
-    (0, dbtest_1.default)();
+database_1.sequelize.sync().then(() => {
     console.log("✅ Modelos sincronizados");
 });
 app.listen(port, () => {
