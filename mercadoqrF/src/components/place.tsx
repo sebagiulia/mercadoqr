@@ -3,7 +3,7 @@ import styles from './place.module.css';
 import  PlaceType from '../models/place';
 import  ProductType from '../models/product';
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { GridLoader } from 'react-spinners';
 import Image from 'next/image';
 import Arrow from '../../public/arrow.svg';
@@ -32,13 +32,9 @@ export function PlaceHeader({place}: { place: PlaceType }) {
       );
   }
 
-function Product({hp, product, placename}: { hp: (prod:ProductType) => void, product: ProductType, placename: string }) {
-    const router = useRouter();
-    const [click, setClick] = useState(false);
+function Product({hp, product}: { hp: (prod:ProductType) => void, product: ProductType }) {
     const handleClick = () => {
-        setClick(true);
         if (product.stock === "Agotado") {
-          setClick(false);
           alert("Producto agotado");
           return;
         }
@@ -99,12 +95,12 @@ export function PlaceCategoriesSkeleton() {
   );
 }
 
-export function PlaceCatalog({products, place, handleSelectProd}
-                            :{products: ProductType[], place: PlaceType, handleSelectProd: (product: ProductType) => void}) {
+export function PlaceCatalog({products, handleSelectProd}
+                            :{products: ProductType[], handleSelectProd: (product: ProductType) => void}) {
     return (
       <div className={`${styles.catalog} ${products.length === 0? styles.catalog_no_products:'' }` }>
         {products.length === 0 ? <div className={styles.no_products}>Catalogo no disponible</div> :
-        products.map(element => <Product hp={handleSelectProd} placename={place.name} key={element.id} product={element} />)}
+        products.map(element => <Product hp={handleSelectProd} key={element.id} product={element} />)}
       </div>
     );
 }
@@ -125,7 +121,6 @@ export function PlaceCatalogSkeleton() {
 export function PopupProduct({ product, placename, handleClose }: { product: ProductType, placename: string, handleClose: () => void }) {
   const [click, setClick] = useState(false);
   const router = useRouter();
-  const popupRef = useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
       setClick(true);

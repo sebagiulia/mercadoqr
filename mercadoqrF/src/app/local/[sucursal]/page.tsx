@@ -80,7 +80,7 @@ export default function Page({
           <PlaceCategories categories={categories} selectedCategory={selectedCategory} changeCategory={handleChangeCategory} /> 
         : <PlaceCategoriesSkeleton />}
       {!isLoadingProds?
-          <PlaceCatalog products={products} place={place as PlaceType} handleSelectProd={handleSelectProduct} />
+          <PlaceCatalog products={products} handleSelectProd={handleSelectProduct} />
         : <PlaceCatalogSkeleton /> }
       { selectedProduct && <PopupProduct product={selectedProduct} placename={(place as PlaceType).name} handleClose={handleClose} />}
     </div>
