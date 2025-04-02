@@ -17,17 +17,18 @@ const db_host = process.env.DB_HOST || "localhost";
 const db_user = process.env.DB_USER || "root";
 const db_password = process.env.DB_PASSWORD || "password";
 const db_port = parseInt(process.env.DB_PORT || "3306", 10);
+const db_dialect = process.env.DB_DIALECT || "postgres";
 exports.sequelize = new sequelize_1.Sequelize(db_name, db_user, db_password, {
     host: db_host,
-    dialect: "mssql",
-    //port: db_port,
-    dialectOptions: {
-        options: {
-            encrypt: true, // Cambiar a true si usas Azure SQL
-            trustServerCertificate: true // Evita problemas con SSL si no tienes certificado
-        }
+    dialect: db_dialect,
+    port: db_port,
+    logging: false,
+    define: {
+        timestamps: false,
     },
-    logging: false
+    dialectOptions: {
+        ssl: true,
+    },
 });
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

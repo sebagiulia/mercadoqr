@@ -1,5 +1,4 @@
-const server = 'http://192.168.0.100:8080';
-//const server = 'https://mercadoqr-e7gge5cub2b5cnc0.brazilsouth-01.azurewebsites.net';
+const server = process.env.NEXT_PUBLIC_SERVER || 'http://localhost:3000';
 const dn = server + '/api';
 
 
