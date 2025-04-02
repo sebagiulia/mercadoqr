@@ -3,10 +3,22 @@ Cambios cercanos:
 Frontend
 --> Agregar ventanas deslizantes al clickear sobre el producto que lleve a compra rápida
     |_ En esta ventana se pueden ver mas imagenes del producto con un carrousel (Cambio futuro)
---> corregir las incongruencias entre los estilos globales y locales, dar un orden de jerarquia
---> agregar un esqueleto para cada bloque asincrono
+
+--> Cambiar /loacal/:sucursal por /:sucursal y agregar palabras reservadas
+
+--> Cambiar botones de scann y creador
+
+--> Mejorar refresco de paginas
+
+--> Mejorar catalogo en escritorio
+
+--> Mejorar estetica de productos
+
+--> Cambiar de stock:string a stock:number y no dejar elegir cantidad para stock=1
+
+--> Mantener en cache los productos al cambiar de categoria
+
 --> Agregar mensajes legales y de responsabilidad en la parte de compra
---> Agregar seleccion de cantidad cuando clickean sobre un producto
 
 Backend
 --> Agregar datos soliciados por los vendedores por categoria

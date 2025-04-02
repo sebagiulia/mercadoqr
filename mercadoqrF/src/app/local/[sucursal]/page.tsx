@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { PlaceHeader, PlaceCatalog, PlaceCategories, PlaceHeaderSkeleton, PlaceCategoriesSkeleton, PlaceCatalogSkeleton} from "@/components/place";
+import { PopupProduct, PlaceHeader, PlaceCatalog, PlaceCategories, PlaceHeaderSkeleton, PlaceCategoriesSkeleton, PlaceCatalogSkeleton} from "@/components/place";
 import PlaceService from "services/placeService";
 import PlaceType from "@/models/place";
 import ProductType from "@/models/product";
@@ -17,6 +17,7 @@ export default function Page({
   const [products, setProducts] = useState<ProductType[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("Todo");
   const [isLoadingProds, setIsLoadingProds] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +63,14 @@ export default function Page({
     setSelectedCategory(category);
   }
 
+  const handleSelectProduct = (product: ProductType) => {
+    setSelectedProduct(product);
+  }
+
+  const handleClose = () => {
+    setSelectedProduct(null);
+  }
+
   return (
     <div className={styles.place}>
       {place ? 
@@ -71,8 +80,9 @@ export default function Page({
           <PlaceCategories categories={categories} selectedCategory={selectedCategory} changeCategory={handleChangeCategory} /> 
         : <PlaceCategoriesSkeleton />}
       {!isLoadingProds?
-          <PlaceCatalog products={products} place={place as PlaceType} />
+          <PlaceCatalog products={products} place={place as PlaceType} handleSelectProd={handleSelectProduct} />
         : <PlaceCatalogSkeleton /> }
+      { selectedProduct && <PopupProduct product={selectedProduct} placename={(place as PlaceType).name} handleClose={handleClose} />}
     </div>
   
   
