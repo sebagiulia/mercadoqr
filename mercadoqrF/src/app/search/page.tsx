@@ -8,7 +8,12 @@ import styles from "./page.module.css";
 
 
 export default function Page() {
-    return (<Suspense fallback={<p>Cargando...</p>}>
+    return (<Suspense fallback={<div className={styles.page}>
+        <h1 className={styles.header}>
+        Busqueda: 
+        </h1>
+            <SuggestionsSkeleton />
+    </div>}>
                 <SearchPage />
             </Suspense>)
     
