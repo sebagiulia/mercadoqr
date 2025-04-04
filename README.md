@@ -1,4 +1,4 @@
-# mercadoQR (en progreso...)
+# mercadoQR (en desarrollo)
 ## Descripción
 Este proyecto es un mercado online diseñado para negocios que ofrecen sus servicios de forma presencial y necesitan una herramienta para vender y gestionar los pedidos, reservas y turnos.
 
