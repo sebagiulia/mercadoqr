@@ -5,7 +5,6 @@ import ProductType from '../models/product';
 import PlaceType from '../models/place';
 import { MouseEventHandler, useState } from 'react';
 import MercadoPagoService from 'services/mercadoPagoService';
-import { useRouter } from 'next/navigation';
 import { GridLoader } from 'react-spinners';
 
 
@@ -39,8 +38,6 @@ export default function Product({ product, place }: { product: ProductType, plac
     const handleChangeCantidad = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCant(e.target.value);
     }
-
-    const router = useRouter();
 
     const handleDatosComprador = () => {
         if(Object.values(datosComprador).some((value) => value === "")) {

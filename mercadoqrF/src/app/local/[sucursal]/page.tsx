@@ -5,7 +5,6 @@ import PlaceService from "services/placeService";
 import PlaceType from "@/models/place";
 import ProductType from "@/models/product";
 import styles from "./page.module.css";
-import { useRouter } from "next/navigation";
 
 export default function Page({
   params,
@@ -18,7 +17,6 @@ export default function Page({
   const [selectedCategory, setSelectedCategory] = useState<string>("Todo");
   const [isLoadingProds, setIsLoadingProds] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
-  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       const { sucursal } = await params;

@@ -1,22 +1,14 @@
 import Place from "@/models/place";
 import styles from "./suggestion.module.css";
-import { useRouter } from "next/navigation";
-
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useState } from "react";
-import { GridLoader } from "react-spinners";
-
-
 
 export function Suggestions({ places }: { places: Place[] }) {
 
 
-        const router = useRouter();
         return (
           <div className={styles.suggestions}>
             {places.length === 0? <p>No se encontraron resultados</p>
             :places.map((place) => (
-              <ButtonPlace key={place.id} place={place} router={router}/>
+              <ButtonPlace key={place.id} place={place}/>
             ))}
           </div>
         );
@@ -33,15 +25,11 @@ export function SuggestionsSkeleton() {
       );
 }
 
-function ButtonPlace({place, router}:
-  {place: Place, router: AppRouterInstance}) {
-
-  const [click, setClick] = useState(false);
+function ButtonPlace({place}:
+  {place: Place}) {
 
   const handleClick = () => { 
-    setClick(true);
     window.location.href = `/local/${place.name}`;
-    // Hacer algo con la sucursal
   }
   return (
   <div className={styles.buttonPlace} onClick={handleClick} >
@@ -59,11 +47,6 @@ function ButtonPlace({place, router}:
     {place.address}
   </div>
   </div>
-  {/* click && (
-  <div className={styles.loader_overlay}>
-  <GridLoader color="#ffffff" size={15} />
-  </div>
-  ) */}
   </div>
 
   )

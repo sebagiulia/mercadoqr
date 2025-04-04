@@ -2,9 +2,7 @@
 import styles from './place.module.css';
 import  PlaceType from '../models/place';
 import  ProductType from '../models/product';
-import { useRouter } from "next/navigation";
 import { useState } from 'react';
-import { GridLoader } from 'react-spinners';
 import Image from 'next/image';
 import Arrow from '../../public/arrow.svg';
 import { motion } from 'framer-motion';
@@ -119,11 +117,8 @@ export function PlaceCatalogSkeleton() {
 }
 
 export function PopupProduct({ product, placename, handleClose }: { product: ProductType, placename: string, handleClose: () => void }) {
-  const [click, setClick] = useState(false);
-  const router = useRouter();
 
   const handleClick = () => {
-      setClick(true);
       window.location.href = "/local/" + placename + '/' + product.name.replace(" ", "-");
   };
 
@@ -165,11 +160,6 @@ export function PopupProduct({ product, placename, handleClose }: { product: Pro
                   Compra rápida
               </span>
           </motion.div>
-          {/* click && (
-              <div className={styles.loader_overlay}>
-                  <GridLoader color="#ffffff" size={15} />
-              </div>
-          ) */}
       </motion.div>
   );
 }
