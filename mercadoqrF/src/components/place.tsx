@@ -124,7 +124,7 @@ export function PopupProduct({ product, placename, handleClose }: { product: Pro
 
   const handleClick = () => {
       setClick(true);
-      router.push("/local/" + placename + '/' + product.name.replace(" ", "-"));
+      window.location.href = "/local/" + placename + '/' + product.name.replace(" ", "-");
   };
 
   const handlePopupClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -165,11 +165,11 @@ export function PopupProduct({ product, placename, handleClose }: { product: Pro
                   Compra rápida
               </span>
           </motion.div>
-          {click && (
+          {/* click && (
               <div className={styles.loader_overlay}>
                   <GridLoader color="#ffffff" size={15} />
               </div>
-          )}
+          ) */}
       </motion.div>
   );
 }

@@ -36,37 +36,37 @@ export function SuggestionsSkeleton() {
 function ButtonPlace({place, router}:
   {place: Place, router: AppRouterInstance}) {
 
-const [click, setClick] = useState(false);
+  const [click, setClick] = useState(false);
 
-const handleClick = () => { 
-setClick(true);
-router.push(`/local/${place.name}`);
-// Hacer algo con la sucursal
-}
-return (
-<div className={styles.buttonPlace} onClick={handleClick} >
-<div className={styles.buttonPlace_img}>
-<img className={styles.buttonPlace_img}
-src={place.img}
-alt=""
-/>
-</div>
-<div className={styles.buttonPlace_info}>
-<div className={styles.buttonPlace_name}>
-{place.name}
-</div>
-<div className={styles.buttonPlace_address}>
-{place.address}
-</div>
-</div>
-{click && (
-<div className={styles.loader_overlay}>
-<GridLoader color="#ffffff" size={15} />
-</div>
-)}
-</div>
+  const handleClick = () => { 
+    setClick(true);
+    window.location.href = `/local/${place.name}`;
+    // Hacer algo con la sucursal
+  }
+  return (
+  <div className={styles.buttonPlace} onClick={handleClick} >
+    <div className={styles.buttonPlace_img}>
+      <img className={styles.buttonPlace_img}
+          src={place.img}
+          alt=""
+      />
+    </div>
+  <div className={styles.buttonPlace_info}>
+  <div className={styles.buttonPlace_name}>
+    {place.name}
+  </div>
+  <div className={styles.buttonPlace_address}>
+    {place.address}
+  </div>
+  </div>
+  {/* click && (
+  <div className={styles.loader_overlay}>
+  <GridLoader color="#ffffff" size={15} />
+  </div>
+  ) */}
+  </div>
 
-)
+  )
 }
 
 function ButtonPlaceSkeleton() {

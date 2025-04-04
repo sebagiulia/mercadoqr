@@ -1,10 +1,7 @@
 Cambios cercanos:
 
 Frontend
---> Agregar ventanas deslizantes al clickear sobre el producto que lleve a compra rápida
-    |_ En esta ventana se pueden ver mas imagenes del producto con un carrousel (Cambio futuro)
 
---> Cambiar /loacal/:sucursal por /:sucursal y agregar palabras reservadas
 
 --> Cambiar botones de scann y creador
 
@@ -17,6 +14,10 @@ Frontend
 --> Cambiar de stock:string a stock:number y no dejar elegir cantidad para stock=1
 
 --> Mantener en cache los productos al cambiar de categoria
+
+--> Si no carga una imagen tener una imagen por defecto guardada
+
+--> Cambiar /loacal/:sucursal por /:sucursal y agregar palabras reservadas
 
 --> Agregar mensajes legales y de responsabilidad en la parte de compra
 

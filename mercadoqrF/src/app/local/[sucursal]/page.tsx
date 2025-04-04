@@ -26,7 +26,7 @@ export default function Page({
         const { success, data } = await PlaceService.getPlace(sucursal);
 
         if (!success) {   
-          router.push("/404");
+          window.location.href = "/404";
         } else {
           const placeData = data as PlaceType;
           setPlace(placeData);
@@ -35,7 +35,7 @@ export default function Page({
         }
       } catch (error) {
         console.error(error)
-        router.push("/404");
+        window.location.href = "/404";
       }
     };
 

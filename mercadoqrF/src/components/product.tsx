@@ -92,8 +92,10 @@ export default function Product({ product, place }: { product: ProductType, plac
         const response = await MercadoPagoService.getInitPoint(datosProd, datosComprador, datosEnvio);
         if(response.success) {
             const url = response.data as string;
-            router.push(url);
-        } else {            setIsProcessing(false)
+            setIsProcessing(false)
+            window.location.href = url;
+        } else {            
+            setIsProcessing(false)
             console.log(response);
             alert("No se pudo procesar el pedido");
         }
@@ -229,7 +231,7 @@ return(
     </div>
 
  <button className={styles.block_button_comp} onClick={buttonAction} >{button}</button>
- {processing && (
+ { processing && (
         <div className={styles.loader_overlay}>
           <GridLoader color="#ffffff" size={15} />
         </div>

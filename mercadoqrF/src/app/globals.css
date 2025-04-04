@@ -9,12 +9,17 @@
   --catalog: #343434;
   --product: #ffffff;
   --product-skeleton: #565656;
-  --button: #e6e6e6;
   --category: rgb(150, 102, 47);
   --success: #0a6100;
   --pending: #746500;
   --failure: #760000;
-  --agotado: #3c005c;
+  --agotado: #3c005c;  
+  --button: #e6e6e6;
+  --button-active: #b1b1b1;
+
+  --button-compra: rgb(150, 102, 47);
+  --button-compra-active: rgb(135, 93, 44);
+
 }
 
 html,
