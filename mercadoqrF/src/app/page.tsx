@@ -1,8 +1,8 @@
 'use client'
 
 import styles from "./page.module.css";
-import Link from "next/link";
 import Search from "@/components/search";
+import {  ArrowForward } from "@mui/icons-material";
 
 export default function Home( ) {
     const handleSearchSubmit = (searchQuery: string) => {
@@ -19,8 +19,22 @@ export default function Home( ) {
         </div>
         <Search onSubmit={handleSearchSubmit} />
         <div className={styles.footer}>
-          <div className={styles.link}><Link href="/">Escanear</Link></div>
-          <div className={styles.link}><Link href="/">Creador</Link></div>
+          <IngresoVendedoresButton />
+      </div>
+      </div>
+    );
+  }
+
+  function IngresoVendedoresButton () {
+    const handleClick = () => {
+      alert("En desarrollo");
+    }
+
+    return (
+      <div onClick={handleClick} className={styles.ingresoVendedores}>
+        <span>Ingreso vendedores</span>
+        <div className={styles.ArrowForward}>
+        <ArrowForward fontSize="large" />
         </div>
       </div>
     );

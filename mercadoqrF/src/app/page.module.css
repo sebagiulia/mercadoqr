@@ -58,3 +58,21 @@
   backdrop-filter: blur(5px); /* Desenfoque */
   border-radius: 10px;
 }
+
+.ingresoVendedores {
+  display: flex;
+  align-items: center;
+  background-color: var(--button);
+  color: var(--background);
+  height: 50px;
+  padding: 30 10;
+  border-radius: 50px;
+  width: 90%;
+  max-width: 400px;
+  cursor: pointer;
+}
+
+.ingresoVendedores span {
+  font-size: 20px;
+  margin: 0 auto;          /* Empuja hacia el centro */
+}
