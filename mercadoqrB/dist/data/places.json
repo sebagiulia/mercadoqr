@@ -1,14 +1,14 @@
 [{
         "id": 1,
-        "name": "bluevelvet",
+        "name": "tuevento",
         "address": "Av. Columbres 1756",
         "description": "Tus noches de verano al aire libre",
-        "img": "https://serv1.evento-simple.com/imagenes/productores/140/ogimage/blueop.png",
+        "img": "https://static.vecteezy.com/system/resources/previews/010/628/580/non_2x/cocktail-logo-design-template-bar-logo-vector.jpg",
         "credential": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272"
     },
     {
         "id": 2,
-        "name": "biblos",
+        "name": "tubiblio",
         "address": "San lorenzo 234",
         "description": "Leer es un placer",
         "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVLFaaLr0HThIlCk_dLxbcLEdDn93lYTucew&s",

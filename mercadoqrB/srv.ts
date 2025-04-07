@@ -74,11 +74,13 @@ app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotificati
 app.use(errorHandler);
 
 
-//import DBtest from './test/dbtest'
 connectDB()
 sequelize.sync().then(() => {
     console.log("✅ Modelos sincronizados"); 
     });
+    
+//import DBtest from './data/dbStore'
+//DBtest() /* Actualiza de 0 la base de datos */
 
 
 app.listen(port, () => {

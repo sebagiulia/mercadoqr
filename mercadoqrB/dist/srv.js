@@ -93,11 +93,12 @@ app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint);
 app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotification);
 // Middleware de errores
 app.use(errorHandler_1.errorHandler);
-//import DBtest from './test/dbtest'
 (0, database_1.connectDB)();
 database_1.sequelize.sync().then(() => {
     console.log("✅ Modelos sincronizados");
 });
+//import DBtest from './data/dbStore'
+//DBtest() /* Actualiza de 0 la base de datos */
 app.listen(port, () => {
     console.log(`Servidor mercadoqr levantado en puerto ${port}`);
 });

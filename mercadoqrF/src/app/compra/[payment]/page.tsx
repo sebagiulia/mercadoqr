@@ -3,8 +3,7 @@ import { use, useEffect, useState } from "react";
 import styles from "./page.module.css";
 import QrService from "services/qrService";
 import Qr from "@/models/qr";
-import Image from 'next/image';
-import qrdefault from '@/public/qr-code-default.svg';
+import { QRCodeSVG } from "qrcode.react";
 
 export default function Page({ params }: { params: Promise<{ payment: string }> }) {
   const { payment } = use(params); 
@@ -60,6 +59,7 @@ function FailurePage() {
 }
 
 function SuccessPage({qr}: {qr: Qr}) {
+
   return (
     <div className={styles.page}>
       <div className={styles.imgs_product_place}>
@@ -70,7 +70,7 @@ function SuccessPage({qr}: {qr: Qr}) {
       <span className={styles.msg_success}>Su compra se procesó correctamente</span>
       <p className={styles.msg_advice}>Su QR también fue enviado a los destinos indicados, porfavor asegurese de revisar la casilla de spam</p>
       <div className={styles.qr_container}>
-        <Image src={qrdefault} alt="qr" height={200} width={200} />
+        <QRCodeSVG value={qr.id} size={200}  />
       </div>
       <div className={styles.qr_data}>Recuerde que su QR tendrá validéz {qr.start_date !== qr.end_date && "desde " + qr.start_date} hasta {qr.end_date}</div>  
     </div>
