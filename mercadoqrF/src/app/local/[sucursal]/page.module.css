@@ -7,8 +7,8 @@
 }
 
 .catalog_page {
-  max-width: 1200px;
-  width: fit-content  ;
+  max-width: 1000px;
+  width: 100%;
   display: grid;
   grid-template-columns: 15% 85%;
   flex:1;

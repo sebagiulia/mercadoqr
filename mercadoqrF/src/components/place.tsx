@@ -25,7 +25,7 @@ export function PlaceHeader({place}: { place: PlaceType }) {
   export function PlaceHeaderSkeleton() {
       return (
         <div className={styles.header}>
-              <div className={styles.skeleton} style={{width:'50%', height:'100px', borderRadius:'20px'}} />
+              <div className={styles.skeleton} style={{width:'150px', height:'150px', borderRadius:'20px'}} />
         </div>
       );
   }
@@ -77,32 +77,33 @@ export function PlaceCategories({categories, selectedCategory, changeCategory}: 
     setIsOpen(false);
   }
 
-  return (<div className={styles.place_categories_container}>
-    <div className={styles.place_categories_mobile}>
-    <div className={styles.selected_category} onClick={handleOpen}>{selectedCategory} <Image src={Arrow} alt={''} height={20} /></div>
+  return (
+    <div className={styles.place_categories_container}>
+      <div className={styles.place_categories_mobile}>
+        <div className={styles.selected_category} onClick={handleOpen}>{selectedCategory} <Image src={Arrow} alt={''} height={20} /></div>
 
-    {isOpen && <motion.div 
-                className={styles.categories_list} 
-                initial={{ opacity: 0 }} // Inicio invisible
-                animate={{ opacity: 1 }} // Aparece gradualmente
-                exit={{ opacity: 0 }} // Desaparece suavemente
-                transition={{ duration: 0.2, ease: "easeOut" }} // Suavidad en la animación
-        > 
-                 {[...categories, "Todo"].map((element, index) => <div  onClick={handleClose(element)} key={index} className={`${styles.catalog_category} ${element === selectedCategory ? styles.selected : ''}`}>{element}</div>)}
-              </motion.div>}
+        {isOpen && <motion.div 
+                    className={styles.categories_list} 
+                    initial={{ opacity: 0 }} // Inicio invisible
+                    animate={{ opacity: 1 }} // Aparece gradualmente
+                    exit={{ opacity: 0 }} // Desaparece suavemente
+                    transition={{ duration: 0.2, ease: "easeOut" }} // Suavidad en la animación
+                    > 
+                     {[...categories, "Todo"].map((element, index) => <div  onClick={handleClose(element)} key={index} className={`${styles.catalog_category} ${element === selectedCategory ? styles.selected : ''}`}>{element}</div>)}
+                  </motion.div>}
       </div>
-              {<div  className={styles.place_categories_desktop}>
-                <span>Categorías</span>
-                {[...categories, "Todo"].map((element, index) => <div  onClick={handleClose(element)} key={index} className={`${styles.catalog_category_desktop} ${element === selectedCategory ? styles.selected : ''}`}>{element}</div>)}
-              </div>}
-
-
+      <div  className={styles.place_categories_desktop}>
+           <span>Categorías</span>
+           {[...categories, "Todo"].map((element, index) => <div  onClick={handleClose(element)} key={index} className={`${styles.catalog_category_desktop} ${element === selectedCategory ? styles.selected : ''}`}>{element}</div>)}
+      </div>
   </div>) 
 }
 
 export function PlaceCategoriesSkeleton() {
   return (
-    <div className={styles.place_categories_container}>
+    <div className={styles.place_categories_container} >
+      <div className={styles.skeleton} style={{height:'100%', margin:'15px', width:'90%', borderRadius:'30px'}} >
+      </div>
     </div>
   );
 }

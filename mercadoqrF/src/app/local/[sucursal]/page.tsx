@@ -102,15 +102,14 @@ export default function Page({
           <PlaceHeader place={place as PlaceType} />
         : <PlaceHeaderSkeleton />}
       <div className={styles.catalog_page}>
-        
-      {categories.length > 0 ? 
-          <PlaceCategories categories={categories} selectedCategory={selectedCategory} changeCategory={handleChangeCategory} /> 
-          : <PlaceCategoriesSkeleton />}
-      {!isLoadingProds?
-          <PlaceCatalog selected={selectedCategory} products={prodsByCategory} handleSelectProd={handleSelectProduct} />
-          : <PlaceCatalogSkeleton selected={selectedCategory} products={prodsByCategory} handleSelectProd={handleSelectProduct}/> }
-      { selectedProduct && <PopupProduct product={selectedProduct} placename={(place as PlaceType).name} handleClose={handleClose} />}
-          </div>
+        {categories.length > 0 ? 
+            <PlaceCategories categories={categories} selectedCategory={selectedCategory} changeCategory={handleChangeCategory} /> 
+            : <PlaceCategoriesSkeleton />}
+        {!isLoadingProds?
+            <PlaceCatalog selected={selectedCategory} products={prodsByCategory} handleSelectProd={handleSelectProduct} />
+            : <PlaceCatalogSkeleton selected={selectedCategory} products={prodsByCategory} handleSelectProd={handleSelectProduct}/> }
+        { selectedProduct && <PopupProduct product={selectedProduct} placename={(place as PlaceType).name} handleClose={handleClose} />}
+      </div>
     </div>
   
   
