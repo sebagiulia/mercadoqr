@@ -41,10 +41,12 @@ function Product({hp, product}: { hp: (prod:ProductType) => void, product: Produ
 
     return (
       <div onClick={handleClick} className={styles.product}>
+        <div className={styles.product_image_container}>
             <img className={styles.product_image} src={product.img} /* product.img */ 
                alt=""
                width={200}
                height={200}/>
+        </div>
         <div className={styles.product_info}>
             <div className={styles.product_cat}>{product.category}</div>
             <div className={styles.product_name}>{(product.name)}</div>
@@ -76,11 +78,23 @@ export function PlaceCategories({categories, selectedCategory, changeCategory}: 
   }
 
   return (<div className={styles.place_categories_container}>
-    {!isOpen && <div className={styles.selected_category} onClick={handleOpen}>{selectedCategory} <Image src={Arrow} alt={''} height={20} /></div>
-}
-               <div  className={`${styles.dropdown} ${isOpen ? styles.open : ''}`}>
-                {[...categories, "Todo"].map((element, index) => <div  onClick={handleClose(element)} key={index} className={styles.catalog_category}>{element}</div>)}
-              </div>
+    <div className={styles.place_categories_mobile}>
+    <div className={styles.selected_category} onClick={handleOpen}>{selectedCategory} <Image src={Arrow} alt={''} height={20} /></div>
+
+    {isOpen && <motion.div 
+                className={styles.categories_list} 
+                initial={{ opacity: 0 }} // Inicio invisible
+                animate={{ opacity: 1 }} // Aparece gradualmente
+                exit={{ opacity: 0 }} // Desaparece suavemente
+                transition={{ duration: 0.2, ease: "easeOut" }} // Suavidad en la animación
+        > 
+                 {[...categories, "Todo"].map((element, index) => <div  onClick={handleClose(element)} key={index} className={`${styles.catalog_category} ${element === selectedCategory ? styles.selected : ''}`}>{element}</div>)}
+              </motion.div>}
+      </div>
+              {<div  className={styles.place_categories_desktop}>
+                <span>Categorías</span>
+                {[...categories, "Todo"].map((element, index) => <div  onClick={handleClose(element)} key={index} className={`${styles.catalog_category_desktop} ${element === selectedCategory ? styles.selected : ''}`}>{element}</div>)}
+              </div>}
 
 
   </div>) 
@@ -93,27 +107,28 @@ export function PlaceCategoriesSkeleton() {
   );
 }
 
-export function PlaceCatalog({products, handleSelectProd}
-                            :{products: ProductType[], handleSelectProd: (product: ProductType) => void}) {
+export function PlaceCatalog({selected, products, handleSelectProd}:{selected:string, products: Record<string, ProductType[]>, handleSelectProd: (product: ProductType) => void}) {
+    const prods = selected === "Todo" ? Object.values(products).reduce((acc, curr) => acc.concat(curr), []) 
+                                      :  products[selected];
     return (
-      <div className={`${styles.catalog} ${products.length === 0? styles.catalog_no_products:'' }` }>
-        {products.length === 0 ? <div className={styles.no_products}>Catalogo no disponible</div> :
-        products.map(element => <Product hp={handleSelectProd} key={element.id} product={element} />)}
+      <div className={`${styles.catalog} ${prods.length === 0? styles.catalog_no_products:'' }` }>
+        {prods.length === 0 ? <div className={styles.no_products}>Catalogo no disponible</div> :
+        prods.map(element => <Product hp={handleSelectProd} key={element.id} product={element} />)}
       </div>
     );
 }
 
-export function PlaceCatalogSkeleton() {
-    return (
-      <div className={styles.catalog}>
-        <ProductSekeleton />
-        <ProductSekeleton />
-        <ProductSekeleton />
-        <ProductSekeleton />
-        <ProductSekeleton />
-        <ProductSekeleton />
-      </div>
-    );
+export function PlaceCatalogSkeleton({selected, products, handleSelectProd}:{selected:string, products: Record<string, ProductType[]>, handleSelectProd: (product: ProductType) => void}) {
+  const prods = selected === "Todo" ? Object.values(products).reduce((acc, curr) => acc.concat(curr), []) 
+  : products[selected];
+const skeletons = Math.abs(10 - prods.length);
+const rest = Array.from({ length: skeletons }, (_, index) => index);
+return (
+<div className={styles.catalog} >
+  {prods.map(element => <Product hp={handleSelectProd} key={element.id} product={element} />)}
+  {rest.map((index) => <ProductSekeleton key={index} />)}
+</div>
+);
 }
 
 export function PopupProduct({ product, placename, handleClose }: { product: ProductType, placename: string, handleClose: () => void }) {

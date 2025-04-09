@@ -12,11 +12,39 @@ export default function Page({
   params: Promise<{ sucursal: string }>;
 }) {
   const [place, setPlace] = useState<PlaceType | null>(null);
+  const [isLoadingProds, setIsLoadingProds] = useState(true);
+  
   const [categories, setCategories] = useState<string[]>([]);
   const [products, setProducts] = useState<ProductType[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("Todo");
-  const [isLoadingProds, setIsLoadingProds] = useState(true);
+
+  const [selectedCategory, setSelectedCategory] = useState<string>("Todo"); 
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+  
+  const [prodsByCategory, setProdsCache] = useState<Record<string, ProductType[]>>({});
+  
+  const handleProdsCache = async (prods: ProductType[]) => {
+    const prodToCat = prods.reduce((acc, prod) => {
+      const { category } = prod ;
+      if (acc[category]) {
+          acc[category].push(prod);
+      } else {
+        acc[category] = [prod];
+      }
+      return acc;
+    }, {} as Record<string, ProductType[]>);
+    
+    var cache = { ...prodsByCategory };
+    for (const category in prodToCat) {
+      if (cache[category]) {
+        cache[category] = cache[category].filter((prod) => !prodToCat[category].some((p) => p.id === prod.id));
+        cache[category] = [...cache[category], ...prodToCat[category]];
+      } else {
+        cache[category] = prodToCat[category];
+      }
+    } 
+    setProdsCache(cache);
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const { sucursal } = await params;
@@ -46,14 +74,14 @@ export default function Page({
       if (place) {
           const responseProds = await PlaceService.getProducts(place.id, selectedCategory);
           if(responseProds.success) {
-            setProducts(responseProds.success ? (responseProds.data as ProductType[]) : []);
+            handleProdsCache(responseProds.success ? (responseProds.data as ProductType[]) : []).then(()=>{
+              setIsLoadingProds(false);
+            });
           } else {
-            setProducts([]);
+            setIsLoadingProds(false);
           }
-          setIsLoadingProds(false);
       };
     }
-    setProducts([]);  
     fetchProductsByCategory();
   }, [selectedCategory, place]);
 
@@ -74,13 +102,16 @@ export default function Page({
       {place ? 
           <PlaceHeader place={place as PlaceType} />
         : <PlaceHeaderSkeleton />}
+      <div className={styles.catalog_page}>
+        
       {categories.length > 0 ? 
           <PlaceCategories categories={categories} selectedCategory={selectedCategory} changeCategory={handleChangeCategory} /> 
-        : <PlaceCategoriesSkeleton />}
+          : <PlaceCategoriesSkeleton />}
       {!isLoadingProds?
-          <PlaceCatalog products={products} handleSelectProd={handleSelectProduct} />
-        : <PlaceCatalogSkeleton /> }
+          <PlaceCatalog selected={selectedCategory} products={prodsByCategory} handleSelectProd={handleSelectProduct} />
+          : <PlaceCatalogSkeleton selected={selectedCategory} products={prodsByCategory} handleSelectProd={handleSelectProduct}/> }
       { selectedProduct && <PopupProduct product={selectedProduct} placename={(place as PlaceType).name} handleClose={handleClose} />}
+          </div>
     </div>
   
   
