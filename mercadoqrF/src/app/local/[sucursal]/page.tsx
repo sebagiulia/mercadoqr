@@ -15,7 +15,6 @@ export default function Page({
   const [isLoadingProds, setIsLoadingProds] = useState(true);
   
   const [categories, setCategories] = useState<string[]>([]);
-  const [products, setProducts] = useState<ProductType[]>([]);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("Todo"); 
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
@@ -33,7 +32,7 @@ export default function Page({
       return acc;
     }, {} as Record<string, ProductType[]>);
     
-    var cache = { ...prodsByCategory };
+    const cache = { ...prodsByCategory };
     for (const category in prodToCat) {
       if (cache[category]) {
         cache[category] = cache[category].filter((prod) => !prodToCat[category].some((p) => p.id === prod.id));
