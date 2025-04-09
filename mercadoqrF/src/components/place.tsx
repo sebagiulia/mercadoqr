@@ -76,20 +76,34 @@ export function PlaceCategories({categories, selectedCategory, changeCategory}: 
     changeCategory(element);
     setIsOpen(false);
   }
+  
+  const handlePopupClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setIsOpen(false);
+}
 
   return (
     <div className={styles.place_categories_container}>
       <div className={styles.place_categories_mobile}>
         <div className={styles.selected_category} onClick={handleOpen}>{selectedCategory} <Image src={Arrow} alt={''} height={20} /></div>
 
-        {isOpen && <motion.div 
-                    className={styles.categories_list} 
+        {isOpen && 
+        <motion.div 
+        className={styles.popup} 
+        onClick={handlePopupClick}
+        initial={{ opacity: 0 }} // Inicio invisible
+        animate={{ opacity: 1 }} // Aparece gradualmente
+        exit={{ opacity: 0 }} // Desaparece suavemente
+        >
+        <motion.div 
+                    className={`${styles.popup_content} ${styles.cat} `} 
                     initial={{ opacity: 0 }} // Inicio invisible
                     animate={{ opacity: 1 }} // Aparece gradualmente
                     exit={{ opacity: 0 }} // Desaparece suavemente
                     transition={{ duration: 0.2, ease: "easeOut" }} // Suavidad en la animación
                     > 
                      {[...categories, "Todo"].map((element, index) => <div  onClick={handleClose(element)} key={index} className={`${styles.catalog_category} ${element === selectedCategory ? styles.selected : ''}`}>{element}</div>)}
+                  </motion.div>
                   </motion.div>}
       </div>
       <div  className={styles.place_categories_desktop}>
@@ -102,7 +116,7 @@ export function PlaceCategories({categories, selectedCategory, changeCategory}: 
 export function PlaceCategoriesSkeleton() {
   return (
     <div className={styles.place_categories_container} >
-      <div className={styles.skeleton} style={{height:'100%', margin:'15px', width:'90%', borderRadius:'30px'}} >
+      <div className={styles.skeleton} style={{height:'20%', margin:'10px', width:'90%', borderRadius:'30px'}} >
       </div>
     </div>
   );

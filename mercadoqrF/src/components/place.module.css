@@ -84,7 +84,7 @@
 }
 
 .catalog_category_desktop.selected {
-    background-color: var(--foreground);
+    background-color: var(--category);
     color: var(--background);
     cursor: pointer;
     border-radius: 15px;
@@ -126,6 +126,7 @@
         display: none;
     }
 
+
     .place_categories_mobile {
         display: flex;
         height: fit-content;
@@ -156,39 +157,26 @@
         font-size: 20px;
         gap : 10px;    
     }
-    
-    .categories_list {
-        position: absolute;
-        top: 0; /* Justo debajo del botón */
-        left: 50%; /* Mueve el punto de referencia al centro del botón */
-        transform: translateX(-50%); /* Centra horizontalmente */
-        z-index: 1000;
-        background-color: var(--catalog);
-        padding: 10px 0;
-        width: 100vw;
-        height: fit-content;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        border-radius:20px
-    }
 
-    .categories_list div {
-        display: flex;
-        width: 100px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
+    .catalog_category.selected {
+        background-color: var(--category);
+        color: var(--background);
+        cursor: pointer;
+        border-radius: 15px;
+        padding: 5px 10px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
     }
+    
+ 
     .place_categories_container{
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         width: 100%;
-        min-height: 30px;
-        height: fit-content;
+        height: 50px;
         padding: 10px;
         background-color: var(--catalog);
         color: var(--foreground);
@@ -265,7 +253,7 @@
 
 
 .skeleton {
-    background: linear-gradient(90deg, #686868 25%, #646464 50%, #686868 75%);
+    background: linear-gradient(90deg, #232323 25%, #1b1b1b 50%, #232323 75%);
     background-color: var(--foreground-dark);
     background-size: 200% 100%;
     animation: loading 1.5s infinite linear;
@@ -318,6 +306,7 @@
     z-index: 1000;
 }
 
+
 .popup_content {
     position: absolute;
     display: flex;
@@ -326,12 +315,18 @@
     justify-content: center;
     background: var(--foreground);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 20px;
     width: 100%;
     color: var(--background);
     bottom: 0px;
     left: 0px;
 }
+
+.popup_content.cat div {
+    width: 200px;
+    text-align: start;
+}
+
 
 .popup_content img {
     width: 90%;
