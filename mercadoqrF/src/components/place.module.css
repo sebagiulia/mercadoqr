@@ -203,6 +203,7 @@
     }
 .product_skeleton {
     height: 300px;
+        width: 100%;
     }
 
 }
