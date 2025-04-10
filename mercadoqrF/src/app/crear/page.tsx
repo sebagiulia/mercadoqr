@@ -145,7 +145,7 @@ export function FormularioNegocio() {
                 name="instagram"
                 value={formData.instagram}
                 onChange={handleChange}
-                placeholder="https://instagram.com/perfil"
+                placeholder="nombre de usuario"
                 className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
@@ -304,10 +304,16 @@ export function FormularioNegocio() {
   }
 
   function Succeed() {
+    const handleClick = () => {
+      window.location.href = "/";
+    };
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center">
         <h1 className="text-2xl font-bold text-green-500">¡Solitud enviada correctamente!</h1>
-        <p className="mt-4 text-gray-600">Analizaremos la información y te estaremos notificando por email con las credenciales para tu negocio digital.</p>
+        <p className="mt-4 text-[var(--foreground)]">Analizaremos la información y te estaremos notificando por email con las credenciales para tu negocio digital.</p>
+        <button onClick={handleClick} className="cursor-pointer mt-10 bg-[var(--foreground)] text-[var(--background)] font-semibold py-2 px-6 rounded-full hover:bg-indigo-700 transition-all duration-300 active:opacity-80">
+          Volver al inicio
+        </button>
       </div>
     );
   }

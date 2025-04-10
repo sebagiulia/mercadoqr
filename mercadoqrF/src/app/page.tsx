@@ -27,7 +27,7 @@ export default function Home( ) {
 
   function IngresoVendedoresButton () {
     const handleClick = () => {
-      alert("En desarrollo");
+      window.location.href = `/vendedores`;
     }
 
     return (
