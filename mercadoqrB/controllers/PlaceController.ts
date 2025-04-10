@@ -11,8 +11,19 @@ export default class PlaceController {
         this.getProducts = this.getProducts.bind(this);
         this.getProduct = this.getProduct.bind(this);
         this.getCategories = this.getCategories.bind(this);
+        this.createPlace = this.createPlace.bind(this);
         console.log('✅ Servicio de Places activo');
 
+    }
+
+    async createPlace(req: Request, res: Response, next:NextFunction): Promise<void> {
+        const place = req.body;
+        try {
+            //const newPlace = await this.placeService.createPlace(place);
+            sendSuccess(res, 'Solicitud recibida');
+        } catch (error) {
+            next(error)
+        }
     }
 
     async getPlace(req: Request, res: Response, next:NextFunction): Promise<void> {

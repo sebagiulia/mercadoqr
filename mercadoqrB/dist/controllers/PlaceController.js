@@ -18,7 +18,21 @@ class PlaceController {
         this.getProducts = this.getProducts.bind(this);
         this.getProduct = this.getProduct.bind(this);
         this.getCategories = this.getCategories.bind(this);
+        this.createPlace = this.createPlace.bind(this);
         console.log('✅ Servicio de Places activo');
+    }
+    createPlace(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const place = req.body;
+            try {
+                console.log('place', place);
+                //const newPlace = await this.placeService.createPlace(place);
+                (0, respondeUtil_1.sendSuccess)(res, 'newPlace');
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
     getPlace(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {

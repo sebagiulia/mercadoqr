@@ -84,6 +84,9 @@ app.get('/api/categories/:place', placeController.getCategories);
 app.get('/api/qrid/:qr', qrController.getQrById);
 app.get('/api/scann/consume/:id', scannController.consumeQrByQrId);
 app.get('/api/scann/getprod/:id', scannController.getProdByQrId);
+// POST
+// Place
+app.post('/api/place/create', placeController.createPlace);
 // Scann
 app.post('/api/scann/validate', scannController.validateScanner);
 app.post('/api/scann/consume', scannController.consumeQrByQrCode);
