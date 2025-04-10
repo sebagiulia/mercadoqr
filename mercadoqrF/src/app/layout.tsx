@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Roboto_Condensed } from "next/font/google";
+import { Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,16 +7,6 @@ import Logo from "@/public/qrcodelogo.svg";
 import styles from "./layout.module.css";
 import InstagramIcon from "@/public/instagram.svg";
 import WhatsappIcon from "@/public/whatsapp.svg";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const roboto = Roboto_Condensed({
   weight: '400',

@@ -11,7 +11,7 @@ export default function Page() {
     )
 }
 
-export function FormularioNegocio() {
+function FormularioNegocio() {
     const [step, setStep] = useState(1);
   
     const [formData, setFormData] = useState({
@@ -226,7 +226,7 @@ export function FormularioNegocio() {
     onImageUrlChange: (url: string) => void;
   };
   
-  export function ImagenNegocio({ onImageUrlChange }: ImagenNegocioProps) {
+  function ImagenNegocio({ onImageUrlChange }: ImagenNegocioProps) {
     const [modo, setModo] = useState("url");
     const [imagenUrl, setImagenUrl] = useState("");
     const [preview, setPreview] = useState("");
