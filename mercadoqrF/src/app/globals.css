@@ -6,7 +6,7 @@
   --secondary: #1f1f1f;
   --secondary-active:#2d2d2d;
   --input-color: #c8c8c8;
-  --catalog: #1f1f1f;
+  --catalog: #272727;
   --product: #ffffff;
   --product-skeleton: #565656;
   --category: rgb(150, 102, 47);
@@ -21,6 +21,8 @@
   --button-compra-active: rgb(135, 93, 44);
 
 }
+
+@import "tailwindcss";
 
 html,
 body {
@@ -41,7 +43,7 @@ body {
 
 
 
-* {
+body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;

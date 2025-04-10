@@ -85,7 +85,7 @@
 
 .catalog_category_desktop.selected {
     background-color: var(--category);
-    color: var(--background);
+    color: var(--foreground);
     cursor: pointer;
     border-radius: 15px;
     padding: 5px;
@@ -160,7 +160,7 @@
 
     .catalog_category.selected {
         background-color: var(--category);
-        color: var(--background);
+        color: var(--foreground);
         cursor: pointer;
         border-radius: 15px;
         padding: 5px 10px;
@@ -253,7 +253,7 @@
 
 
 .skeleton {
-    background: linear-gradient(90deg, #232323 25%, #1b1b1b 50%, #232323 75%);
+    background: linear-gradient(90deg, #2c2c2c 25%, #282828 50%, #2c2c2c 75%);
     background-color: var(--foreground-dark);
     background-size: 200% 100%;
     animation: loading 1.5s infinite linear;

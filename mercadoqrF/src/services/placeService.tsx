@@ -24,4 +24,14 @@ export default class PlaceService {
     static async getCategories(placeName: string):Promise<ErrorType<string[]>> {
         return apiClient(endpoints.places.getCategories(placeName))
     }
+
+    static async createPlace(form: Record<string, string>):Promise<ErrorType<Place>> {
+        return apiClient(endpoints.places.create, { 
+            method: 'POST',
+            body: JSON.stringify(form),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    }
 }

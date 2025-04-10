@@ -1,3 +1,4 @@
+
 const server = process.env.NEXT_PUBLIC_SERVER || 'http://localhost:3000';
 const dn = server + '/api';
 
@@ -10,6 +11,7 @@ const endpoints = {
       getProduct: (place: string, prod: string) => dn + `/product/${place}/${prod}`,
       getProducts: (placeid: number, category:string) => dn + `/products/${placeid}/${category}`,
       getCategories: (place:string) => dn + '/categories/' + place,
+      create: dn + '/place/create',
     },
     payment: {
       processPayment: dn + '/payment'

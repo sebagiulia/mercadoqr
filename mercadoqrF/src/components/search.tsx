@@ -19,7 +19,7 @@ export default function Search({ onSubmit }: { onSubmit: (sq: string) => void })
     }
     return (<div className={styles.container}>
         <form onSubmit={handleSubmitEnter}>
-        <input className={styles.input} type="text" placeholder="Buscar local" onChange={handleChange} autoCapitalize='none'/>
+        <input className={styles.input} type="text" placeholder="Buscar negocio" onChange={handleChange} autoCapitalize='none'/>
         </form>
         <span className={styles.span} onClick={handleSubmitClick}><IoIosSearch /></span>
         </div>)

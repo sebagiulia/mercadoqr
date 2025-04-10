@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
@@ -18,6 +18,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const roboto = Roboto_Condensed({
+  weight: '400',
+  subsets: ['latin'],
+});
+
 export const metadata: Metadata = {
   title: "mercadoqr",
   description: "comprá ahora, retirá después",
@@ -29,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (  
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={roboto.className} >
+      <body >
         <header>
           <Link href="/" >
             <Image
@@ -42,7 +47,7 @@ export default function RootLayout({
             />
           </Link>
         </header>
-        <main>{children}</main>
+        <main className={`${roboto.className}`} >{children}</main>
         <footer>
           <div className={styles.footer_social_media}>
           <Image
@@ -58,13 +63,13 @@ export default function RootLayout({
               height={20}
             />
           </div>
-          <div className={styles.footer_options}>
+          <div className={`${styles.footer_options} ${roboto.className} `}>
             <Link href="/">Preguntas frecuentes</Link>
             <Link href="/">Términos y condiciones</Link>
             <Link href="/">Ingreso vendedores</Link>
             <Link href="/">Contacto</Link>
-          </div>
           <p>© 2021 MercadoQR</p>
+          </div>
         </footer>
       </body>
     </html>

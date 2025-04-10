@@ -29,7 +29,7 @@ function ButtonPlace({place}:
   {place: Place}) {
 
   const handleClick = () => { 
-    window.location.href = `/local/${place.name}`;
+    window.location.href = `/n/${place.name}`;
   }
   return (
   <div className={styles.buttonPlace} onClick={handleClick} >

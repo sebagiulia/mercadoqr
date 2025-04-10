@@ -149,7 +149,7 @@ return (
 export function PopupProduct({ product, placename, handleClose }: { product: ProductType, placename: string, handleClose: () => void }) {
 
   const handleClick = () => {
-      window.location.href = "/local/" + placename + '/' + product.name.replace(" ", "-");
+      window.location.href = "/n/" + placename + '/' + product.name.replace(" ", "-");
   };
 
   const handlePopupClick = (e: React.MouseEvent<HTMLDivElement>) => {
