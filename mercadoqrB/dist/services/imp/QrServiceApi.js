@@ -27,6 +27,7 @@ class QrServiceImp {
             const place = yield this.placeRepository.getPlaceById(qr.place_id);
             const product = yield this.placeRepository.getProductById(qr.place_id, qr.prod_id);
             if (!qr || !place || !product) {
+                console.error(`Qr not found for id: ${qrId}`);
                 throw new errors_1.NotFoundError('Qr not found');
             }
             else {
@@ -39,6 +40,7 @@ class QrServiceImp {
                     end_date: qr.end_date,
                     start_date: qr.start_date,
                     prod_cant: qr.prod_cant,
+                    prod_price: product.price,
                 });
             }
         });

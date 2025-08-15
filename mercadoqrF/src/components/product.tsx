@@ -30,15 +30,15 @@ export default function Product({ product, place }: { product: ProductType, plac
         Object.fromEntries(etiquetasEnvio.map((etiqueta) => [etiqueta, ""]))
     );
 
-     // Manejar cambios en los inputs
+    // Manejar cambios en los inputs
     const handleChangeDatosEnvio = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDatosEnvio({ ...datosEnvio, [e.target.name]: e.target.value });
-     };
+    };
 
     const handleChangeCantidad = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCant(e.target.value);
     }
-
+    
     const handleDatosComprador = () => {
         if(Object.values(datosComprador).some((value) => value === "")) {
             alert("Debe completar todos los campos");
@@ -46,6 +46,7 @@ export default function Product({ product, place }: { product: ProductType, plac
         }
         setStep(1);
     }
+
 
     const handleDatosEnvio = () => {
         if(Object.values(datosEnvio).some((value) => value === "")) {
@@ -63,25 +64,22 @@ export default function Product({ product, place }: { product: ProductType, plac
             return;
         }
 
-        setStep(2);
+        setStep(product.stock > 1 ? 2 : 3);
     }
 
     const handleCantidad = () => {
         const number = parseInt(cant);
         if(isNaN(number)) {
             alert("Escriba un número válido");
-            return;
         }
-        if(number <= 0) {
+        else if(number <= 0) {
             alert("La cantidad debe ser mayor a 0");
-            return;
+        } else {
+
+            setStep(3);
         }
-        setStep(3);
     }
 
-    const handleStep = (step: number) => () => {
-        setStep(step);
-    }
 
     const handleCompra = async () => {
         setIsProcessing(true);
@@ -98,6 +96,9 @@ export default function Product({ product, place }: { product: ProductType, plac
         }
     }
 
+    const handleStep = (step: number) => {
+        setStep(step);
+    }
     return (
         <div className={styles.page}>
             <div className={styles.title}><p>{product.name}</p></div>
@@ -108,7 +109,10 @@ export default function Product({ product, place }: { product: ProductType, plac
                 </div>
                 <div className={styles.description_product}>{product.description}</div>
             </div>
-            {step === 0 ?
+            { product.stock === 0 ? 
+                <div className="">AGOTADO</div>
+                :
+              step === 0 ?
                 <Block  title={"Datos del comprador"}
                         description={"Estos datos son solicitados directamente por el vendedor"}
                         form={datosComprador}
@@ -134,7 +138,8 @@ export default function Product({ product, place }: { product: ProductType, plac
                         button="Siguiente"
                         buttonAction={handleCantidad}
                         change={handleChangeCantidad} />
-            :
+                
+            : step === 3 ?
                 <DetalleCompra
                  title='Revisa tu pedido'
                  datosComprador={datosComprador}
@@ -143,9 +148,11 @@ export default function Product({ product, place }: { product: ProductType, plac
                  service_price={0}
                  button='Comprar'
                  buttonAction={handleCompra}
-                 setStep={handleStep}
+                 handleStep={handleStep}
                  processing={isProcessing}
+                    stock={product.stock}
                 />
+            : <></>
             }
         </div>
     );
@@ -171,13 +178,14 @@ function Block({title, description, form, etiquetas, button, buttonAction, chang
     )
 }
 
-function DetalleCompra({title, datosComprador, datosEnvio, items, service_price, button, buttonAction, setStep, processing}:
+function DetalleCompra({title, datosComprador, datosEnvio, items, service_price, button, buttonAction, handleStep, stock, processing}:
     {title: string,
      datosComprador:Record<string,string>,
      datosEnvio:Record<string,string>,
      items: Array<{name:string, price:number, cant:number}>,
      service_price:number, button: string, buttonAction: () => void,
-     setStep: (step: number) => MouseEventHandler<HTMLSpanElement>,
+     handleStep: (step: number) => void,
+     stock: number,
      processing: boolean}) {
 return(
 <div className={styles.block}>
@@ -186,7 +194,7 @@ return(
 
 {Object.keys(datosComprador).length > 0 &&
    <div className={styles.block_section}>
-<div className={styles.block_section_hd}><p>Datos del comprador</p><span onClick={setStep(0)}>Modificar</span></div>
+<div className={styles.block_section_hd}><p>Datos del comprador</p><span onClick={() => handleStep(0)}>Modificar</span></div>
 <div className={styles.block_data_block}>
 
        {Object.entries(datosComprador).map(([key, value]: [string, string], index: number) => <div key={index} className={styles.block_item} >
@@ -198,7 +206,7 @@ return(
    </div>
      }
      <div className={styles.block_section}>
-<div className={styles.block_section_hd}><p>Datos del envío</p><span onClick={setStep(1)}>Modificar</span></div>
+<div className={styles.block_section_hd}><p>Datos del envío</p><span onClick={() => handleStep(1)}>Modificar</span></div>
 <div className={styles.block_data_block}>
  {Object.entries(datosEnvio).map(([key,value], index) => <div key={index} className={styles.block_item} >
                                 <p className={styles.block_item_name}>{key}</p>
@@ -208,7 +216,7 @@ return(
                                 </div>
 </div>
      <div className={styles.block_section}>
-     <div className={styles.block_section_hd}><p>Detalle de la compra</p><span onClick={setStep(2)}>Modificar</span></div>
+      <div className={styles.block_section_hd}><p>Detalle de la compra</p>{stock > 1 ?<span onClick={() => handleStep(2)}>Modificar</span>:<></>}</div>
 <div className={styles.block_data_block}>
 {items.map((item, index) => <div key={index} className={styles.block_item} >
                                 <p className={styles.block_item_name}>{item.name} x {item.cant}</p>

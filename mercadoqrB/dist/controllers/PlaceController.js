@@ -25,9 +25,8 @@ class PlaceController {
         return __awaiter(this, void 0, void 0, function* () {
             const place = req.body;
             try {
-                console.log('place', place);
                 //const newPlace = await this.placeService.createPlace(place);
-                (0, respondeUtil_1.sendSuccess)(res, 'newPlace');
+                (0, respondeUtil_1.sendSuccess)(res, 'Solicitud recibida');
             }
             catch (error) {
                 next(error);

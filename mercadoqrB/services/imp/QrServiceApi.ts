@@ -25,6 +25,7 @@ export default class QrServiceImp implements QrService {
         const product = await this.placeRepository.getProductById(qr.place_id, qr.prod_id);
 
         if(!qr || !place || !product) {
+            console.error(`Qr not found for id: ${qrId}`);
             throw new NotFoundError('Qr not found');
         } else {
             return ({
@@ -36,6 +37,7 @@ export default class QrServiceImp implements QrService {
                 end_date: qr.end_date,
                 start_date: qr.start_date,
                 prod_cant: qr.prod_cant,
+                prod_price: product.price,
             })
         }
     }

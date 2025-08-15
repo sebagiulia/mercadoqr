@@ -1,4 +1,4 @@
-export default interface Qr {
+export default interface Product {
     id: string;
     prod_cant:number;
     prod_name: string;

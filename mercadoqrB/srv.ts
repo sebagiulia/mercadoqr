@@ -7,13 +7,13 @@ import { connectDB, sequelize } from "./config/database";
 
 import PlaceController from './controllers/PlaceController'
 import PlaceServiceJSON from './services/imp/PlaceServiceJSON'
-import PlaceRepositorySequelize from './repositories/imp/placeRepositorySequelize';
-const placeRepository = new PlaceRepositorySequelize ()
+import PlaceRepositoryJSON from './repositories/imp/placeRepositoryJSON';
+const placeRepository = new PlaceRepositoryJSON ()
 const placeService = new PlaceServiceJSON(placeRepository)
 const placeController = new PlaceController(placeService)
 
-import QrRepositorySequelize from './repositories/imp/qrRepositorySequelize'
-const qrRepository = new QrRepositorySequelize()
+import QrRepositoryJSON from './repositories/imp/qrRepositoryJSON';
+const qrRepository = new QrRepositoryJSON()
 import QrController from './controllers/QrController'
 import QrServiceImp from './services/imp/QrServiceApi'
 const qrService = new QrServiceImp(qrRepository, placeRepository)
@@ -32,8 +32,8 @@ const notifierService = new NotifierDefault()
 
 import MercadoPagoController from './controllers/MercadoPagoController'
 import MercadoPagoServiceDefault from './services/imp/MercadoPagoServiceDefault'
-import MercadoPagoRepositorySequelize from './repositories/imp/mercadoPagoRepositorySequelize';
-const mercadoPagoRepository = new MercadoPagoRepositorySequelize()
+    import MercadoPagoRepositoryJSON from './repositories/imp/mercadoPagoRepositoryJSON';
+const mercadoPagoRepository = new MercadoPagoRepositoryJSON()
 const mercadoPagoService = new MercadoPagoServiceDefault(placeRepository, mercadoPagoRepository, notifierService, qrService)
 const mercadoPagoController = new MercadoPagoController(mercadoPagoService, placeService)
 
@@ -79,10 +79,10 @@ app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotificati
 app.use(errorHandler);
 
 
-connectDB()
-sequelize.sync().then(() => {
-    console.log("✅ Modelos sincronizados"); 
-    });
+//connectDB()
+//sequelize.sync().then(() => {
+//    console.log("✅ Modelos sincronizados"); 
+//      });
     
 //import DBtest from './data/dbStore'
 //DBtest() /* Actualiza de 0 la base de datos */

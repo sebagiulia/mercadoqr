@@ -6,13 +6,7 @@ const database_1 = require("../config/database");
 const Place_1 = require("./Place");
 class Product extends sequelize_1.Model {
     getStatus() {
-        if (this.stock > 0 && this.stock < 5) {
-            return "Quedan pocos";
-        }
-        if (this.stock > 5) {
-            return "Disponible";
-        }
-        return "Agotado";
+        return this.stock < 10 ? this.stock : 10;
     }
 }
 exports.Product = Product;

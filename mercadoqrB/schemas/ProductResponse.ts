@@ -6,7 +6,7 @@ export default interface Product {
     description: string;
     category: string;
     img: string;
-    stock:string
+    stock:number;
     start_date: string;
     end_date: string;
 }

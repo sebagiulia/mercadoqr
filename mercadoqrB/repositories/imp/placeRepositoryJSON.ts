@@ -37,11 +37,7 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
     async getProducts(placeId: string): Promise<ProductResp[]> {
         const products = this.products.filter(product => product.place_id.toString() === placeId)
         if (products.length > 0) {
-            return products.map(product => {
-                const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible' 
-                const productResp = {...product}
-                return {...productResp, stock}
-            })
+            return products
         }
         throw new NotFoundError('Products not found')
     }   
@@ -52,9 +48,7 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
         if (!place) throw new NotFoundError('Place not found')
         const product = this.products.find(product => product.place_id === place.id && product.name === productName)
         if (product){
-            const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible' 
-            const productResp = {...product}
-            return {...productResp, stock}
+            return product
         }
         throw new NotFoundError('Product not found')
     }
@@ -62,9 +56,7 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
     async getProductById(placeId: number, prodId: number): Promise<ProductResp> {
         const product = this.products.find(product => product.id === prodId && product.place_id === placeId)
         if (product){
-            const stock = product.stock === 0 ? 'Agotado' : product.stock < 5 ? 'Quedan pocos' : 'Disponible' 
-            const productResp = {...product}
-            return {...productResp, stock}            
+            return product         
         }
         throw new NotFoundError('Product not found')
     }

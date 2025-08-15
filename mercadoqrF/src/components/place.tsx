@@ -32,7 +32,7 @@ export function PlaceHeader({place}: { place: PlaceType }) {
 
 function Product({hp, product}: { hp: (prod:ProductType) => void, product: ProductType }) {
     const handleClick = () => {
-        if (product.stock === "Agotado") {
+        if (product.stock === 0) {
           alert("Producto agotado");
           return;
         }
@@ -50,7 +50,7 @@ function Product({hp, product}: { hp: (prod:ProductType) => void, product: Produ
         <div className={styles.product_info}>
             <div className={styles.product_cat}>{product.category}</div>
             <div className={styles.product_name}>{(product.name)}</div>
-            {product.stock === "Agotado" ? 
+            {product.stock === 0 ? 
             <div className={styles.product_stock_agotado}>AGOTADO</div> :
             <div className={styles.product_price}>$ {product.price}</div>}
         </div>

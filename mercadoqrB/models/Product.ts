@@ -14,14 +14,8 @@ export class Product extends Model {
   public start_date!: string;
   public end_date!: string;
 
-  public getStatus(): string {
-    if(this.stock > 0 && this.stock < 5) {
-      return "Quedan pocos";
-    }
-    if(this.stock > 5) {
-      return "Disponible";
-    }
-    return "Agotado";
+  public getStatus(): number {
+    return this.stock < 10 ? this.stock : 10;
   }
 }
 

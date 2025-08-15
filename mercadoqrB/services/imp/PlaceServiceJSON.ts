@@ -1,5 +1,4 @@
 import Place from '../../schemas/Place'
-import Product from '../../schemas/Product'
 import ProductResp from '../../schemas/ProductResponse'
 import PlaceService from '../PlaceService'
 import PlaceRepository from '../../repositories/placeRepository'

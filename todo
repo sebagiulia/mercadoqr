@@ -1,17 +1,11 @@
 Cambios cercanos:
 
 Frontend
---> Mejorar catalogo en escritorio
-
 --> Mejorar estetica de productos
 
---> Cambiar de stock:string a stock:number y no dejar elegir cantidad para stock=1
-
---> Mantener en cache los productos al cambiar de categoria
+--> Arreglar url para productos de distintas categorias con el mismo nombre
 
 --> Si no carga una imagen tener una imagen por defecto guardada
-
---> Cambiar /loacal/:sucursal por /:sucursal y agregar palabras reservadas
 
 --> Agregar mensajes legales y de responsabilidad en la parte de compra
 
