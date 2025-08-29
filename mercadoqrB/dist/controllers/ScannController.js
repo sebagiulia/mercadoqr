@@ -12,57 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const respondeUtil_1 = require("../utils/respondeUtil");
 class ScannController {
     constructor(scannService) {
-        this.getProdByQrId = this.getProdByQrId.bind(this);
-        this.getProdByQrCode = this.getProdByQrCode.bind(this);
-        this.consumeQrByQrCode = this.consumeQrByQrCode.bind(this);
         this.consumeQrByQrId = this.consumeQrByQrId.bind(this);
         this.validateScanner = this.validateScanner.bind(this);
         this.scannService = scannService;
         console.log("✅ Servicio de Scann activo");
     }
-    getProdByQrCode(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log("solicitud getProdByQrCode");
-            const { code } = req.body;
-            try {
-                const prod = yield this.scannService.getProdByQrCode(code);
-                (0, respondeUtil_1.sendSuccess)(res, prod);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-    }
-    getProdByQrId(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log("solicitud getProdByQrId");
-            const qrId = req.params.id;
-            try {
-                const prod = yield this.scannService.getProdByQrId(qrId);
-                (0, respondeUtil_1.sendSuccess)(res, prod);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-    }
-    consumeQrByQrCode(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log("solicitud consumeQrByQrCode");
-            const { qrcode } = req.body;
-            try {
-                const prod = yield this.scannService.consumeQrByQrCode(qrcode);
-                (0, respondeUtil_1.sendSuccess)(res, prod);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-    }
     consumeQrByQrId(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("solicitud consumeQrByQrId");
             const qrId = req.params.id;
+            // TEST //
+            if (qrId === "ESTOesUNtestDEprueba") {
+                (0, respondeUtil_1.sendSuccess)(res, { message: "QR de prueba consumido correctamente" });
+                return;
+            }
             try {
                 const prod = yield this.scannService.consumeQrByQrId(qrId);
                 (0, respondeUtil_1.sendSuccess)(res, prod);

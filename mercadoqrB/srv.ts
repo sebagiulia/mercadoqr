@@ -1,7 +1,7 @@
 
 import express, { json, urlencoded } from 'express'
 import { errorHandler } from './errors/errorHandler'
-import { connectDB, sequelize } from "./config/database";
+//import { connectDB, sequelize } from "./config/database";
 
 
 
@@ -48,18 +48,16 @@ app.use(cors())
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-// GET
 app.get('/test', (req, res) => {
     res.json('Hello World!')
 } )
+
+// Place & Product
 app.get('/api/place/:place', placeController.getPlace)
 app.get('/api/places/:place', placeController.getPlaces)
 app.get('/api/product/:place/:product', placeController.getProduct)
 app.get('/api/products/:id/:category', placeController.getProducts)
 app.get('/api/categories/:place', placeController.getCategories)
-app.get('/api/qrid/:qr', qrController.getQrById)
-app.get('/api/scann/consume/:id', scannController.consumeQrByQrId)
-app.get('/api/scann/getprod/:id', scannController.getProdByQrId)
 
 // POST
 
@@ -67,9 +65,9 @@ app.get('/api/scann/getprod/:id', scannController.getProdByQrId)
 app.post('/api/place/create', placeController.createPlace)
 
 // Scann
+app.get('/api/scann/consume/:id', scannController.consumeQrByQrId)
+app.get('/api/scann/getprod/:id', qrController.getQrById)
 app.post('/api/scann/validate', scannController.validateScanner)
-app.post('/api/scann/consume', scannController.consumeQrByQrCode)
-app.post('/api/scann/getscann', scannController.getProdByQrCode)
 
 // MercadoPago
 app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint)

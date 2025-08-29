@@ -15,28 +15,6 @@ class ScannServiceJSON {
         this.placeRepository = placeRepository;
         this.scannRepository = scannRepository;
     }
-    getProdByQrCode(qrCode) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrById(qrCode);
-            const place = yield this.placeRepository.getPlaceById(qr.place_id);
-            const prod = yield this.placeRepository.getProductById(place.id, qr.prod_id);
-            return prod;
-        });
-    }
-    getProdByQrId(qrId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrById(qrId);
-            const place = yield this.placeRepository.getPlace(qr.place_id.toString());
-            const prod = yield this.placeRepository.getProduct(place.name, qr.prod_id.toString());
-            return prod;
-        });
-    }
-    consumeQrByQrCode(qrCode) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield this.qrRepository.getQrById(qrCode);
-            return this.qrRepository.deleteQr(qr.id);
-        });
-    }
     consumeQrByQrId(qrId) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.qrRepository.deleteQr(qrId);

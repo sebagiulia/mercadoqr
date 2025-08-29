@@ -15,25 +15,6 @@ export default class ScannServiceJSON implements ScannService {
         this.scannRepository = scannRepository;
     }
 
-    async getProdByQrCode(qrCode: string): Promise<Product> {
-        const qr = await this.qrRepository.getQrById(qrCode);
-        const place = await this.placeRepository.getPlaceById(qr.place_id);
-        const prod = await this.placeRepository.getProductById(place.id, qr.prod_id);
-        return prod
-    }
-
-    async getProdByQrId(qrId: string): Promise<Product> {
-        const qr = await this.qrRepository.getQrById(qrId);
-        const place = await this.placeRepository.getPlace(qr.place_id.toString());
-        const prod = await this.placeRepository.getProduct(place.name, qr.prod_id.toString());
-        return prod
-    }
-
-    async consumeQrByQrCode(qrCode: string): Promise<any> {
-        const qr = await this.qrRepository.getQrById(qrCode);
-        return this.qrRepository.deleteQr(qr.id);
-    }
-
     async consumeQrByQrId(qrId: string): Promise<any> {
         return this.qrRepository.deleteQr(qrId);
     }

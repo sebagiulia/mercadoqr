@@ -18,7 +18,7 @@ class QrController {
     }
     getQrById(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const qrId = req.params.qr;
+            const qrId = req.params.id;
             try {
                 const qr = yield this.qrService.getQrById(qrId);
                 (0, respondeUtil_1.sendSuccess)(res, qr);

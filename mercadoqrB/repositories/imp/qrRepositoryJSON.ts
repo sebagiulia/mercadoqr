@@ -28,6 +28,7 @@ export default class QrRepositoryJSON implements QrRepository {
         return qr.id
     }
     async getQrById(qrId: string): Promise<Qr> {
+        
         const qrsString = fs.readFileSync(filePath, 'utf-8');
         this.qrs = JSON.parse(qrsString) as Qr[];
         const qr = this.qrs.find((qr:Qr) => qr.id === qrId);

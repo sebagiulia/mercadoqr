@@ -28,7 +28,7 @@ export default class QrServiceImp implements QrService {
             console.error(`Qr not found for id: ${qrId}`);
             throw new NotFoundError('Qr not found');
         } else {
-            return ({
+            const qrResponse = {
                 id: qr.id,
                 place_name: place.name,
                 place_img: place.img,
@@ -38,7 +38,8 @@ export default class QrServiceImp implements QrService {
                 start_date: qr.start_date,
                 prod_cant: qr.prod_cant,
                 prod_price: product.price,
-            })
+            }
+            return qrResponse
         }
     }
 }

@@ -31,7 +31,7 @@ class QrServiceImp {
                 throw new errors_1.NotFoundError('Qr not found');
             }
             else {
-                return ({
+                const qrResponse = {
                     id: qr.id,
                     place_name: place.name,
                     place_img: place.img,
@@ -41,7 +41,8 @@ class QrServiceImp {
                     start_date: qr.start_date,
                     prod_cant: qr.prod_cant,
                     prod_price: product.price,
-                });
+                };
+                return qrResponse;
             }
         });
     }

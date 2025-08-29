@@ -12,7 +12,7 @@ export default class QrController {
     }
 
     async getQrById(req: Request, res: Response, next:NextFunction): Promise<void> {
-        const qrId = req.params.qr;
+        const qrId = req.params.id;
         try {
             const qr = await this.qrService.getQrById(qrId);
             sendSuccess(res, qr);
