@@ -1,5 +1,6 @@
 // services/qrService.ts
 import Product from "../models/Product";
+import endpoints from "../utils/endpoints";
 const example= {
     prod_name: "Chandone Decile",
     place_name: "Sucursal Central",
@@ -14,7 +15,7 @@ const example= {
   
   export async function fetchQRData(qrCode: string): Promise<Product> {
     try {
-       const res = await fetch(`http://192.168.0.100:8080/api/qrid/${qrCode}`);
+       const res = await fetch(endpoints.GET_QR_DATA_API + qrCode);
   
       if (!res.ok) {
         throw new Error(`Error HTTP: ${res.status}`);
@@ -37,7 +38,7 @@ const example= {
 
   export async function consumeQrByQrId(qrCode:string): Promise<boolean>{
     try {
-      const res = await fetch(`http://192.168.0.100:8080/api/scann/consume/${qrCode}`);
+      const res = await fetch(endpoints.CONSUME_API + qrCode);
  
      if (!res.ok) {
        throw new Error(`Error HTTP: ${res.status}`);

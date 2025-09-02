@@ -13,11 +13,14 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Product } from "../../domain/entities/Product";
-import { MockProductRepository } from "../../infrastructure/products/MockProductsRepository";
+import { BackProductsRepository } from "../../infrastructure/products/BackProductsRepository";
 
-const repository = new MockProductRepository();
+const repository = new BackProductsRepository();
 
 export default function CatalogScreen() {
+
+  const token = "1" /* Cambiar */ 
+
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,7 +32,7 @@ export default function CatalogScreen() {
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      const list = await repository.getAll();
+      const list = await repository.getAll(token);
       setProducts(list);
       setLoading(false);
     };
@@ -66,7 +69,7 @@ export default function CatalogScreen() {
     setSaving(true);
 
     if (selectedProduct) {
-      await repository.update(selectedProduct.id, { ...selectedProduct, ...form } as Product);
+      await repository.update(token,selectedProduct.id, { ...selectedProduct, ...form } as Product);
     } else {
       const newProduct: Product = {
         id: Date.now(),
@@ -80,10 +83,10 @@ export default function CatalogScreen() {
         end_date: form.end_date || "",
         stock: form.stock || 0,
       };
-      await repository.create(newProduct);
+      await repository.create(token,newProduct);
     }
 
-    const list = await repository.getAll();
+    const list = await repository.getAll(token);
     setProducts(list);
     setSaving(false);
     closeModal();
@@ -91,8 +94,8 @@ export default function CatalogScreen() {
 
   const deleteProduct = async (id: number) => {
     setSaving(true);
-    await repository.delete(id);
-    const list = await repository.getAll();
+    await repository.delete(token,id);
+    const list = await repository.getAll(token);
     setProducts(list);
     setSaving(false);
     closeModal();

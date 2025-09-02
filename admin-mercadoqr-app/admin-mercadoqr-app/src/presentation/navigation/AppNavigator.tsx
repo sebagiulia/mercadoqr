@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "../screens/LoginScreen";
 import CatalogScreen from "../screens/CatalogScreen";
 import AnalyticsScreen from "../screens/AnalyticsScreen";
+import PlaceScreen from "../screens/PlaceScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -13,8 +14,9 @@ const Tab = createBottomTabNavigator();
 function HomeTabs() {
   return (
     <Tab.Navigator>
+      <Tab.Screen name="Sucursal" component={PlaceScreen} />
       <Tab.Screen name="Catalogo" component={CatalogScreen} />
-      <Tab.Screen name="Analytics" component={AnalyticsScreen} />
+      <Tab.Screen name="Movimientos" component={AnalyticsScreen} />
     </Tab.Navigator>
   );
 }

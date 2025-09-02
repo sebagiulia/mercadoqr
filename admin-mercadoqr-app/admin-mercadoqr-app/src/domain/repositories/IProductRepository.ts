@@ -1,8 +1,8 @@
 import { Product } from "../entities/Product";
 
 export interface IProductRepository {
-    getAll(): Promise<Product[]>;
-    create(product: Product): Promise<Product>;
-    update(productId: number, updatedFields: Partial<Product>): Promise<Product>;
-    delete(productId: number): Promise<void>;
+    getAll(place_id: string): Promise<Product[]>;
+    create(place_id:string, product: Product): Promise<Product>;
+    update(place_id:string, productId: number, updatedFields: Partial<Product>): Promise<Product>;
+    delete(place_id:string, productId: number): Promise<void>;
 }

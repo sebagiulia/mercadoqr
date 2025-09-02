@@ -33,7 +33,7 @@ export default function AnalyticsScreen() {
       setLoading(true);
 
       const data = await analytics.execute();
-      const products: Product[] = await productRepo.getAll();
+      const products: Product[] = await productRepo.getAll("1");
       setAllProducts(products);
       const enrichWithImages = (movements: Movement[]) =>
         movements.map((m) => {
@@ -84,9 +84,9 @@ export default function AnalyticsScreen() {
   if (!report) return <Text style={{ margin: 16 }}>No hay datos disponibles.</Text>;
 
   const categories: { title: string; data: (Movement & { img?: string })[] }[] = [
-    { title: "Consumidos", data: report.consumed },
-    { title: "Por consumir", data: report.toConsume },
     { title: "Movimientos", data: report.allMovements || [] },
+    { title: "Por consumir", data: report.toConsume },
+    { title: "Consumidos", data: report.consumed },
   ];
 
   return (
@@ -101,11 +101,11 @@ export default function AnalyticsScreen() {
           return (
             <Pressable
               key={movement.payment_id + "-" + movement.prod_id}
-              style={styles.productCard}
+              style={ styles.productCard}
               onPress={() => openModal(movement)}
             >
               <Image source={{ uri: product.img }} style={styles.productImage} />
-              <View style={styles.productInfo}>
+              <View style={title === "Consumidos" ? styles.productInfoConsumed :styles.productInfo}>
                 <Text style={styles.productName}>{product?.name}</Text>
                 <Text style={styles.productPrice}>Total: ${movement.total_price}</Text>
                 <Text style={styles.productStock}>Cantidad: {movement.quantity}</Text>
@@ -159,8 +159,12 @@ const styles = StyleSheet.create({
     elevation: 3,
     overflow: "hidden",
   },
-  productImage: { width: 100, height: 100 },
+  productInfoConsumed:{
+    flex: 1, padding: 12, justifyContent: "center",
+    backgroundColor: "#e0e0e0",
+  },
   productInfo: { flex: 1, padding: 12, justifyContent: "center" },
+  productImage: { width: 100, height: 100 },
   productName: { fontWeight: "bold", fontSize: 16, marginBottom: 4 },
   productPrice: { color: "#2E8B57", fontWeight: "bold", marginBottom: 4 },
   productStock: { color: "#555", marginBottom: 4 },

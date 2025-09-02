@@ -139,24 +139,24 @@ let mockProducts: Product[] = [
 ];
 
 export class MockProductRepository implements IProductRepository {
-    async getAll(): Promise<Product[]> {
+    async getAll(place_id:string): Promise<Product[]> {
         return new Promise(resolve => setTimeout(() => resolve([...mockProducts]), 300));
     }
 
-    async create(product: Product): Promise<Product> {
+    async create(place_id:string, product: Product): Promise<Product> {
         const newProduct = { ...product, id: mockProducts.length + 1 };
         mockProducts.push(newProduct);
         return newProduct;
     }
 
-    async update(productId: number, updatedFields: Partial<Product>): Promise<Product> {
+    async update(place_id:string, productId: number, updatedFields: Partial<Product>): Promise<Product> {
         const index = mockProducts.findIndex(p => p.id === productId);
         if (index === -1) throw new Error("Producto no encontrado");
         mockProducts[index] = { ...mockProducts[index], ...updatedFields };
         return mockProducts[index];
     }
 
-    async delete(productId: number): Promise<void> {
+    async delete(place_id:string, productId: number): Promise<void> {
         mockProducts = mockProducts.filter(p => p.id !== productId);
     }
 }
