@@ -7,7 +7,7 @@ export default class QrRepositorySequelize implements QrRepository {
 
     async createQr(qr: QrType): Promise<string> {
         const qrO = await Qr.create({...qr})
-        return qrO.payment_id;
+        return qrO.id;
     }
 
     async getQrById(qrId: string): Promise<QrType> {

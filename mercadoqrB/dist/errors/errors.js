@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MercadoPagoError = exports.PaymentError = exports.InternalServerError = exports.NotFoundError = exports.ValidationError = exports.AppError = void 0;
+exports.RegistrationError = exports.TokenError = exports.AuthorizationError = exports.MercadoPagoError = exports.PaymentError = exports.InternalServerError = exports.NotFoundError = exports.ValidationError = exports.AppError = void 0;
 class AppError extends Error {
     constructor(message, statusCode, details) {
         super(message);
@@ -42,3 +42,21 @@ class MercadoPagoError extends AppError {
     }
 }
 exports.MercadoPagoError = MercadoPagoError;
+class AuthorizationError extends AppError {
+    constructor(message = 'Autorización invalida', details) {
+        super(message, 403, details);
+    }
+}
+exports.AuthorizationError = AuthorizationError;
+class TokenError extends AppError {
+    constructor(message = 'Token inválido', details) {
+        super(message, 401, details);
+    }
+}
+exports.TokenError = TokenError;
+class RegistrationError extends AppError {
+    constructor(message = 'Registro inválido', details) {
+        super(message, 403, details);
+    }
+}
+exports.RegistrationError = RegistrationError;

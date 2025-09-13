@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  FlatList,
   Modal,
   Image,
   TextInput,
@@ -14,13 +13,13 @@ import {
 } from "react-native";
 import { Product } from "../../domain/entities/Product";
 import { BackProductsRepository } from "../../infrastructure/products/BackProductsRepository";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const repository = new BackProductsRepository();
 
-export default function CatalogScreen() {
+export default function CatalogScreen({navigation}: any) {
 
-  const token = "1" /* Cambiar */ 
-
+  const [token, setToken] = useState<string>("");
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,15 +28,39 @@ export default function CatalogScreen() {
   const [loading, setLoading] = useState(true); // Para cargar productos
   const [saving, setSaving] = useState(false); // Para guardar/eliminar producto
 
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      const list = await repository.getAll(token);
-      setProducts(list);
-      setLoading(false);
+  
+      let authToken = token;
+  
+      if (!authToken) {
+        authToken = (await AsyncStorage.getItem("token"))!;
+        if (authToken) {
+          setToken(authToken);
+        } else {
+          navigation.replace("Login");
+          return;
+        }
+      }
+  
+      try {
+        const response = await repository.getAll(authToken);
+        if(response.success && response.data){
+          setProducts(response.data);
+        } else {
+          console.error("Error en la respuesta del servidor", response.message);
+        }
+      } catch (e) {
+        console.error("Error cargando productos", e);
+      } finally {
+        setLoading(false);
+      }
     };
+  
     fetchProducts();
-  }, []);
+  }, [token]);
 
   const openModal = (product?: Product) => {
     if (product) {
@@ -64,41 +87,73 @@ export default function CatalogScreen() {
   };
 
   const saveProduct = async () => {
-    if (!form.name || !form.price) return;
+    if (!form.name || !form.price || !form.category) return;
 
     setSaving(true);
+    const updatedProduct: Product = 
+          selectedProduct ? 
+          { ...selectedProduct, ...form } 
+          : 
+          {
+            id: 0, // El backend asignará el ID
+            place_id: 0, // Asignar un valor predeterminado o manejar según sea necesario
+            category: form.category,
+            name: form.name,
+            price: form.price,
+            description: form.description || "",
+            img: form.img || "",
+            start_date: form.start_date || "",
+            end_date: form.end_date || "",
+            stock: form.stock || 0,
+          };
 
-    if (selectedProduct) {
-      await repository.update(token,selectedProduct.id, { ...selectedProduct, ...form } as Product);
-    } else {
-      const newProduct: Product = {
-        id: Date.now(),
-        place_id: 1,
-        category: form.category || "Sin categoría",
-        name: form.name,
-        price: form.price,
-        description: form.description || "",
-        img: form.img || "",
-        start_date: form.start_date || "",
-        end_date: form.end_date || "",
-        stock: form.stock || 0,
-      };
-      await repository.create(token,newProduct);
+    try {
+      if (selectedProduct) {
+        const response = await repository.update(token, selectedProduct.id,updatedProduct);
+        if(!response.success){
+          console.error("Error actualizando producto", response.message);
+        }
+      } else {
+        const response = await repository.create(token,updatedProduct);
+        if(!response.success){
+          console.error("Error creando producto", response.message);
+        }
+        const responseList = await repository.getAll(token);
+        if(responseList.success && responseList.data){
+          setProducts(responseList.data);
+        } else {
+          console.error("Error obteniendo lista de productos", responseList.message);
+        }
+      }
+    } catch (e) {
+      console.error("Error guardando producto", e);
+    } finally {
+      setSaving(false);
+      closeModal();
     }
 
-    const list = await repository.getAll(token);
-    setProducts(list);
-    setSaving(false);
-    closeModal();
   };
 
   const deleteProduct = async (id: number) => {
     setSaving(true);
-    await repository.delete(token,id);
-    const list = await repository.getAll(token);
-    setProducts(list);
-    setSaving(false);
-    closeModal();
+    try {
+
+      const resp = await repository.delete(token,id);
+      if(!resp.success){
+        console.error("Error eliminando producto", resp.message);
+      }
+      const respList = await repository.getAll(token);
+      if(respList.success && respList.data){
+        setProducts(respList.data);
+      } else {
+        console.error("Error obteniendo lista de productos", respList.message);
+      }
+    } catch (e) {
+      console.error("Error eliminando producto", e);
+    } finally {
+      setSaving(false);
+      closeModal();
+    }
   };
 
   const grouped = products.reduce((acc: Record<string, Product[]>, p) => {

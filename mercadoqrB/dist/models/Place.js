@@ -12,5 +12,6 @@ Place.init({
     description: { type: sequelize_1.DataTypes.STRING, allowNull: false },
     address: { type: sequelize_1.DataTypes.STRING, allowNull: false },
     img: { type: sequelize_1.DataTypes.STRING, allowNull: false },
-    credential: { type: sequelize_1.DataTypes.STRING, allowNull: false },
+    passwordHash: { type: sequelize_1.DataTypes.STRING, allowNull: false },
+    mpToken: { type: sequelize_1.DataTypes.STRING, allowNull: false }, // MercadoPago private token
 }, { sequelize: database_1.sequelize, modelName: "place", timestamps: false });

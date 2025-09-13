@@ -1,13 +1,18 @@
-import { IUserRepository } from "../../domain/repositories/IUserRepository";
-import { User } from "../../domain/entities/User";
+import AuthResponse from "../../domain/entities/AuthResponse";
+import { IAuthRepository } from "../../domain/repositories/IAuthRepository";
+import { apiClient } from "../../utils/apiClient";
+import ErrorType from "../../utils/errorType";
 
-export class AuthDummyRepository implements IUserRepository {
-  async login(email: string, password: string, branchCredential: string): Promise<User | null> {
+export class AuthDummyRepository implements IAuthRepository {
+  async login(name: string, password: string): Promise<ErrorType<AuthResponse>> {
     // Por ahora siempre devuelve un usuario válido
-    return {
-      id: "1",
-      email,
-      branchCredential
-    };
+    const  error = { success: true, data: {token:"n"} };
+    return error;
+  }
+
+  async logout(): Promise<ErrorType<null>> {
+    // No hace nada en este repositorio dummy
+    
+    return { success: true, data: null};
   }
 }

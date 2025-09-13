@@ -1,4 +1,4 @@
-import e, { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import MercadoPagoService from '../services/MercadoPagoService';
 import { sendSuccess } from '../utils/respondeUtil';
 import PlaceService from '../services/PlaceService';

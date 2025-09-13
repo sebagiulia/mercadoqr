@@ -1,6 +1,7 @@
 import { Place } from "../entities/Place";
+import ErrorType from "../../utils/errorType";
 
 export interface IPlaceRepository {
-    getPlaceData(place_id: string): Promise<Place>;
-    updatePlaceData(place_id:string, updatedFields: Partial<Place>): Promise<Place>;
+    getPlaceData(token: string): Promise<ErrorType<Place>>;
+    updatePlaceData(token:string, updatedFields: Partial<Place>): Promise<ErrorType<Place>>;
 }

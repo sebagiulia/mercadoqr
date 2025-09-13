@@ -28,7 +28,7 @@ class MercadoPagoServiceDefault {
             if (email === "test@test.com" && telefono === "0123456789") {
                 return process.env.FRONTEND_URL + '/compra/' + 'ESTOesUNtestDEprueba';
             }
-            const client = new mercadopago_1.MercadoPagoConfig({ accessToken: place.credential });
+            const client = new mercadopago_1.MercadoPagoConfig({ accessToken: place.mpToken });
             const payment_id = yield this.mercadoPagoRepository.createNewPayment(place_id, prod_id, prod_cant);
             const preference = new mercadopago_1.Preference(client);
             const preferenceConcrete = yield preference.create({
@@ -68,20 +68,19 @@ class MercadoPagoServiceDefault {
             const payment = yield this.mercadoPagoRepository.getDataPayment(payment_id);
             if (payment.status === "approved")
                 return;
+            const place = yield this.PlaceRepository.getPlaceById(payment.place_id);
             const product = yield this.PlaceRepository.getProductById(payment.place_id, payment.prod_id);
             const qr = { id: payment_id,
-                payment_id: payment_id,
-                code: payment_id,
                 place_id: payment.place_id,
                 prod_id: payment.prod_id,
                 prod_cant: payment.prod_cant,
                 start_date: product.start_date,
                 end_date: product.end_date };
-            console.log("Pago confirmado: place:" + payment.place_id + " prod:" + payment.prod_id + " cant:" + payment.prod_cant);
-            yield this.mercadoPagoRepository.updateStatus(payment_id, "approved");
             yield this.QrService.createQr(qr);
+            yield this.mercadoPagoRepository.updateStatus(payment_id, "approved");
             yield this.NotifierService.notifyByEmail(payment.email, payment_id);
             yield this.NotifierService.notifyByWhatsapp(payment.telefono, payment_id);
+            console.log("Pago confirmado: Sucursal:" + place.name + "| Producto[" + payment.prod_cant + "]: " + product.name + ".");
             //await this.mercadoPagoRepository.removeDataPayment(payment_id);
         });
     }
@@ -92,8 +91,8 @@ class MercadoPagoServiceDefault {
                 throw new errors_1.MercadoPagoError("No se encontro el pago");
             if (status === "approved")
                 return;
-            const { credential } = yield this.PlaceRepository.getPlaceById(place_id);
-            const client = new mercadopago_1.MercadoPagoConfig({ accessToken: credential });
+            const { mpToken } = yield this.PlaceRepository.getPlaceById(place_id);
+            const client = new mercadopago_1.MercadoPagoConfig({ accessToken: mpToken });
             const payment = new mercadopago_1.Payment(client);
             const merchantOrders = new mercadopago_1.MerchantOrder(client);
             try {

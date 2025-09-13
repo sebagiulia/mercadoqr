@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const respondeUtil_1 = require("../utils/respondeUtil");
+const errors_1 = require("../errors/errors");
 class PlaceController {
     constructor(placeService) {
         this.placeService = placeService;
@@ -19,14 +20,17 @@ class PlaceController {
         this.getProduct = this.getProduct.bind(this);
         this.getCategories = this.getCategories.bind(this);
         this.createPlace = this.createPlace.bind(this);
+        this.createProduct = this.createProduct.bind(this);
+        this.updateProduct = this.updateProduct.bind(this);
+        this.deleteProduct = this.deleteProduct.bind(this);
         console.log('✅ Servicio de Places activo');
     }
     createPlace(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const place = req.body;
             try {
-                //const newPlace = await this.placeService.createPlace(place);
-                (0, respondeUtil_1.sendSuccess)(res, 'Solicitud recibida');
+                const newPlace = yield this.placeService.createPlace(place);
+                (0, respondeUtil_1.sendSuccess)(res, newPlace, 'Solicitud recibida');
             }
             catch (error) {
                 next(error);
@@ -89,6 +93,48 @@ class PlaceController {
             try {
                 const categories = yield this.placeService.getCategories(placeName);
                 (0, respondeUtil_1.sendSuccess)(res, categories);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    }
+    createProduct(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const product = req.body;
+            try {
+                if (req.placeId !== product.place_id) {
+                    throw new errors_1.TokenError('El token no es válido para este lugar');
+                }
+                const newProduct = yield this.placeService.createProduct(req.placeId || 0, product);
+                (0, respondeUtil_1.sendSuccess)(res, newProduct);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    }
+    updateProduct(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const placeId = req.params.placeId;
+            const productId = req.params.productId;
+            const product = req.body;
+            try {
+                const updatedProduct = yield this.placeService.updateProduct(parseInt(placeId, 10), parseInt(productId, 10), product);
+                (0, respondeUtil_1.sendSuccess)(res, updatedProduct);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    }
+    deleteProduct(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const placeId = req.params.placeId;
+            const productId = req.params.productId;
+            try {
+                yield this.placeService.deleteProduct(parseInt(placeId, 10), parseInt(productId, 10));
+                (0, respondeUtil_1.sendSuccess)(res, 'Producto eliminado');
             }
             catch (error) {
                 next(error);

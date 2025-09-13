@@ -6,7 +6,9 @@ const ROUTER = {
     GET_PLACE_PRODUCTS: '/api/products/' /* place_id / category_id["Todo"] */,
     CREATE_PRODUCT: '/api/product/create',
     UPDATE_PRODUCT: '/api/product/update',
-    DELETE_PRODUCT: '/api/product/delete'
+    DELETE_PRODUCT: '/api/product/delete',
+    LOGIN: '/api/admin/login',
+    LOGOUT: '/api/admin/logout'
 };
 
 export default {
@@ -15,5 +17,7 @@ export default {
     GET_PLACE_PRODUCTS_API: EXTERNAL_API + ROUTER.GET_PLACE_PRODUCTS,
     CREATE_PRODUCT_API: EXTERNAL_API + ROUTER.CREATE_PRODUCT,
     UPDATE_PRODUCT_API: EXTERNAL_API + ROUTER.UPDATE_PRODUCT,
-    DELETE_PRODUCT_API: EXTERNAL_API + ROUTER.DELETE_PRODUCT
+    DELETE_PRODUCT_API: EXTERNAL_API + ROUTER.DELETE_PRODUCT,
+    LOGIN_API: EXTERNAL_API + ROUTER.LOGIN,
+    LOGOUT_API: EXTERNAL_API + ROUTER.LOGOUT
 }

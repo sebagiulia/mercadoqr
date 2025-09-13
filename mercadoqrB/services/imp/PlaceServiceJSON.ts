@@ -2,17 +2,16 @@ import Place from '../../schemas/Place'
 import ProductResp from '../../schemas/ProductResponse'
 import PlaceService from '../PlaceService'
 import PlaceRepository from '../../repositories/placeRepository'
+import Product from '../../schemas/ProductResponse'
+import PlaceResponse from '../../schemas/PlaceResponse'
+import bcrypt from 'bcrypt';
 
 export default class PlaceServiceImp implements PlaceService {
     private placeRepository: PlaceRepository
 
     constructor(placeRepository: PlaceRepository) {
         this.placeRepository = placeRepository
-    }
-
-    async getTendences(): Promise<Place[]> {
-        const places = await this.placeRepository.getPlaces("")
-        return places.sort((a, b) => b.id - a.id).slice(0, 4)
+        
     }
     
     async getPlace(placeName: string): Promise<Place> {
@@ -42,7 +41,33 @@ export default class PlaceServiceImp implements PlaceService {
         })
     }
 
-    async getPlaceToken(placeId: number): Promise<string> {
-        return this.placeRepository.getPlaceToken(placeId)
+    async createProduct(placeId: number, product:Product): Promise<Product> {
+        return this.placeRepository.createProduct(placeId, product)
+    }
+
+    async updateProduct(placeId: number, productId:number, product: Partial<Product>): Promise<Product> {
+        return this.placeRepository.updateProduct(placeId, productId,product)
+    }
+
+    async deleteProduct(placeId: number, productId:number): Promise<void> {
+        return this.placeRepository.deleteProduct(placeId, productId)
+    }
+
+
+    async createPlace(data: Place): Promise<PlaceResponse> {
+        const SALT_ROUNDS = 10;
+        const hashedPassword = await bcrypt.hash(data.passwordHash, SALT_ROUNDS);
+
+        const placeWithoutPassword = await this.placeRepository.createPlace({
+          id: data.id,
+          name: data.name,
+          description: data.description,
+          address: data.address,
+          img: data.img,
+          passwordHash: hashedPassword,
+          mpToken: data.mpToken || "",
+        });
+      
+        return placeWithoutPassword;
     }
 }

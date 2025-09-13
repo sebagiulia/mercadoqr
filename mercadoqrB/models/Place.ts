@@ -7,7 +7,8 @@ export class Place extends Model {
   public description!: string;
   public address!: string;
   public img!: string;
-  public credential!: string;
+  public passwordHash!: string;     // contraseña hasheada
+  public mpToken!: string;          // token de MercadoPago
 }
 
 Place.init(
@@ -17,7 +18,8 @@ Place.init(
     description: { type: DataTypes.STRING, allowNull: false },
     address: { type: DataTypes.STRING, allowNull: false },
     img: { type: DataTypes.STRING, allowNull: false },
-    credential: { type: DataTypes.STRING, allowNull: false },
+    passwordHash: { type: DataTypes.STRING, allowNull: false },
+    mpToken: { type: DataTypes.STRING, allowNull: false }, // MercadoPago private token
   },
   { sequelize, modelName: "place", timestamps: false }
 );

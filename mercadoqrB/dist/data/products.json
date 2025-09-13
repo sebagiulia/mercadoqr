@@ -252,18 +252,6 @@
         "stock": 2
     },
     {
-        "id": 26,
-        "place_id": 2,
-        "name": "Diario de Ana Frank",
-        "price": 500,
-        "description": "Lea",
-        "img": "https://acdn-us.mitiendanube.com/stores/001/168/109/products/el-diario-de-ana-frank1-99dead8318abd7caf215882607216972-640-0.jpg",
-        "category": "Historia",
-        "start_date": "2025-11-01",
-        "end_date": "2025-11-30",
-        "stock": 0
-    },
-    {
         "id": 27,
         "place_id": 2,
         "name": "Codigo Da Vinci",

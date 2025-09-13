@@ -43,3 +43,21 @@ export class AppError extends Error {
       }
     }
   
+    export class AuthorizationError extends AppError {
+      constructor(message = 'Autorización invalida', details?: unknown) {
+        super(message, 403, details);
+      }
+    }
+
+    export class TokenError extends AppError {
+      constructor(message = 'Token inválido', details?: unknown) {
+        super(message, 401, details);
+    }
+
+}
+
+export class RegistrationError extends AppError {
+  constructor(message = 'Registro inválido', details?: unknown) {
+    super(message, 403, details);
+  }
+}

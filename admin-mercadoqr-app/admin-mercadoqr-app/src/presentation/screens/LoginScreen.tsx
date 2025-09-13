@@ -1,50 +1,46 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { LoginUser } from "../../application/auth/LoginUser";
-import { AuthDummyRepository } from "../../infrastructure/auth/AuthDummyRepository";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackAuthRepository } from "../../infrastructure/auth/BackAuthRepository";
 
 export default function LoginScreen({ navigation }: any) {
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [branch, setBranch] = useState("");
 
   const handleLogin = async () => {
-    const repo = new AuthDummyRepository();
-    const loginUser = new LoginUser(repo);
-
-    const user = await loginUser.execute(email, password, branch);
-    if (user) {
-      navigation.replace("HomeTabs");
+    const repo = new BackAuthRepository();
+    const result = await repo.login(name, password);
+    if (result.success && result.data) {
+      await AsyncStorage.setItem('token', result.data.token);
+      navigation.replace("Home");
     } else {
-      alert("Credenciales inválidas");
+      alert("Error al iniciar sesión: " + result.error);
     }
+    
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Iniciar sesión</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
+      <View style={{ height: 20 }} />
 
+      <Text>Nombre sucursal</Text>
       <TextInput
         style={styles.input}
-        placeholder="Contraseña"
+        value={name}
+        onChangeText={setName}
+      />
+      <View />
+      <View style={{ height: 20 }} />
+      <Text>Contraseña</Text>
+      <TextInput
+        style={styles.input}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Credencial de sucursal"
-        value={branch}
-        onChangeText={setBranch}
-      />
+      <View />
 
       <Button title="Ingresar" onPress={handleLogin} />
     </View>
@@ -59,6 +55,6 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 15,
+    marginBottom: 15
   },
 });

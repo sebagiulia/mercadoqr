@@ -65,6 +65,10 @@ const mercadoPagoRepositoryJSON_1 = __importDefault(require("./repositories/imp/
 const mercadoPagoRepository = new mercadoPagoRepositoryJSON_1.default();
 const mercadoPagoService = new MercadoPagoServiceDefault_1.default(placeRepository, mercadoPagoRepository, notifierService, qrService);
 const mercadoPagoController = new MercadoPagoController_1.default(mercadoPagoService, placeService);
+const AuthController_1 = __importDefault(require("./controllers/AuthController"));
+const AuthServiceJSON_1 = __importDefault(require("./services/imp/AuthServiceJSON"));
+const authService = new AuthServiceJSON_1.default(placeRepository, scannRepository);
+const authController = new AuthController_1.default(authService);
 const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const app = (0, express_1.default)();
@@ -75,6 +79,14 @@ app.use((0, express_1.urlencoded)({ extended: true }));
 app.get('/test', (req, res) => {
     res.json('Hello World!');
 });
+// Auth
+app.post('/api/admin/login', authController.authAdmin);
+app.post('/api/scann/login', authController.authScann);
+// Admin
+const tokenAuth_1 = require("./middleware/tokenAuth");
+app.post('/api/admin/product/create', tokenAuth_1.authenticateToken, placeController.createProduct);
+app.put('/api/admin/product/update/:id', tokenAuth_1.authenticateToken, placeController.updateProduct);
+app.delete('/api/admin/product/delete/:id', tokenAuth_1.authenticateToken, placeController.deleteProduct);
 // Place & Product
 app.get('/api/place/:place', placeController.getPlace);
 app.get('/api/places/:place', placeController.getPlaces);

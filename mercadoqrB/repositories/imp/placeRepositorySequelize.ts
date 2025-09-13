@@ -73,11 +73,63 @@ export default class PlaceRepositorySequelize implements PlaceRepository {
         throw new NotFoundError('Product not found')
     }
 
-    async getPlaceToken(placeId: number): Promise<string> {
-        const place = await Place.findByPk(placeId)
-        if (place) {
-            return place.credential
+    async createProduct(placeId: number, product: ProductType): Promise<ProductType> {
+        const newProduct = await Product.create({
+            place_id: placeId,
+            name: transformToSpaceCase(product.name),
+            description: product.description,
+            price: product.price,
+            category: product.category,
+            image: product.img,
+            stock: product.stock
+        })
+        const stock = newProduct.getStatus()
+        const productResponse = newProduct.dataValues
+        delete productResponse.stock
+        return {...productResponse, stock}
+    }
+
+    async updateProduct(placeId: number, productId: number, product: Partial<ProductType>): Promise<ProductType> {
+        const prod = await Product.findByPk(productId)
+        if (prod) {
+            if (prod.place_id !== placeId) {
+                throw new NotFoundError('Product not found in this place')
+            }
+            if (product.name) {
+                product.name = transformToSpaceCase(product.name)
+            }
+            await prod.update(product)
+            const stock = prod.getStatus()
+            const productResponse = prod.dataValues
+            delete productResponse.stock
+            return {...productResponse, stock}
         }
-        throw new NotFoundError('Place not found')
+        throw new NotFoundError('Product not found')
+    }
+
+    async deleteProduct(placeId: number, productId: number): Promise<void> {
+        const prod = await Product.findByPk(productId)
+        if (prod) {
+            if (prod.place_id !== placeId) {
+                throw new NotFoundError('Product not found in this place')
+            }
+            await prod.destroy()
+            return
+        }
+        throw new NotFoundError('Product not found')
+    }
+
+    async createPlace(data: PlaceType): Promise<PlaceType> {
+        const newPlace = await Place.create({
+            name: transformToSpaceCase(data.name),
+            description: data.description,
+            img: data.img,
+            address: data.address,
+            passwordHash: data.passwordHash,
+            mpToken: data.mpToken
+        })
+        return newPlace;
     }
 }
+    
+    

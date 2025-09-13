@@ -1,8 +1,9 @@
 import { Product } from "../entities/Product";
+import ErrorType from "../../utils/errorType";
 
 export interface IProductRepository {
-    getAll(place_id: string): Promise<Product[]>;
-    create(place_id:string, product: Product): Promise<Product>;
-    update(place_id:string, productId: number, updatedFields: Partial<Product>): Promise<Product>;
-    delete(place_id:string, productId: number): Promise<void>;
+    getAll(token: string): Promise<ErrorType<Product[]>>;
+    create(token:string, product: Product): Promise<ErrorType<Product>>;
+    update(token: string, productId: number, updatedFields: Partial<Product>): Promise<ErrorType<Product>>;
+    delete(token:string, productId: number): Promise<ErrorType<void>>;
 }

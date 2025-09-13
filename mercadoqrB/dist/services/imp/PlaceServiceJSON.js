@@ -8,16 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const bcrypt_1 = __importDefault(require("bcrypt"));
 class PlaceServiceImp {
     constructor(placeRepository) {
         this.placeRepository = placeRepository;
-    }
-    getTendences() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const places = yield this.placeRepository.getPlaces("");
-            return places.sort((a, b) => b.id - a.id).slice(0, 4);
-        });
     }
     getPlace(placeName) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -52,9 +50,35 @@ class PlaceServiceImp {
             });
         });
     }
-    getPlaceToken(placeId) {
+    createProduct(placeId, product) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.placeRepository.getPlaceToken(placeId);
+            return this.placeRepository.createProduct(placeId, product);
+        });
+    }
+    updateProduct(placeId, productId, product) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.placeRepository.updateProduct(placeId, productId, product);
+        });
+    }
+    deleteProduct(placeId, productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.placeRepository.deleteProduct(placeId, productId);
+        });
+    }
+    createPlace(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const SALT_ROUNDS = 10;
+            const hashedPassword = yield bcrypt_1.default.hash(data.passwordHash, SALT_ROUNDS);
+            const placeWithoutPassword = yield this.placeRepository.createPlace({
+                id: data.id,
+                name: data.name,
+                description: data.description,
+                address: data.address,
+                img: data.img,
+                passwordHash: hashedPassword,
+                mpToken: data.mpToken || "",
+            });
+            return placeWithoutPassword;
         });
     }
 }

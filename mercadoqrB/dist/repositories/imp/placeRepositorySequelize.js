@@ -84,13 +84,66 @@ class PlaceRepositorySequelize {
             throw new errors_1.NotFoundError('Product not found');
         });
     }
-    getPlaceToken(placeId) {
+    createProduct(placeId, product) {
         return __awaiter(this, void 0, void 0, function* () {
-            const place = yield Place_1.Place.findByPk(placeId);
-            if (place) {
-                return place.credential;
+            const newProduct = yield Product_1.Product.create({
+                place_id: placeId,
+                name: (0, clean_1.transformToSpaceCase)(product.name),
+                description: product.description,
+                price: product.price,
+                category: product.category,
+                image: product.img,
+                stock: product.stock
+            });
+            const stock = newProduct.getStatus();
+            const productResponse = newProduct.dataValues;
+            delete productResponse.stock;
+            return Object.assign(Object.assign({}, productResponse), { stock });
+        });
+    }
+    updateProduct(placeId, productId, product) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const prod = yield Product_1.Product.findByPk(productId);
+            if (prod) {
+                if (prod.place_id !== placeId) {
+                    throw new errors_1.NotFoundError('Product not found in this place');
+                }
+                if (product.name) {
+                    product.name = (0, clean_1.transformToSpaceCase)(product.name);
+                }
+                yield prod.update(product);
+                const stock = prod.getStatus();
+                const productResponse = prod.dataValues;
+                delete productResponse.stock;
+                return Object.assign(Object.assign({}, productResponse), { stock });
             }
-            throw new errors_1.NotFoundError('Place not found');
+            throw new errors_1.NotFoundError('Product not found');
+        });
+    }
+    deleteProduct(placeId, productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const prod = yield Product_1.Product.findByPk(productId);
+            if (prod) {
+                if (prod.place_id !== placeId) {
+                    throw new errors_1.NotFoundError('Product not found in this place');
+                }
+                yield prod.destroy();
+                return;
+            }
+            throw new errors_1.NotFoundError('Product not found');
+        });
+    }
+    createPlace(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const newPlace = yield Place_1.Place.create({
+                name: (0, clean_1.transformToSpaceCase)(data.name),
+                description: data.description,
+                img: data.img,
+                address: data.address,
+                passwordHash: data.passwordHash,
+                mpToken: data.mpToken
+            });
+            return newPlace;
         });
     }
 }

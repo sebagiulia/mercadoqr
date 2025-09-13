@@ -1,33 +1,33 @@
 import { Place } from "../../domain/entities/Place";
 import { IPlaceRepository } from "../../domain/repositories/IPlaceRepository";
+import { apiClient } from "../../utils/apiClient";
 import endpoints from "../../utils/endpoints";
+import ErrorType from "../../utils/errorType";
 
 export class BackPlaceRepository implements IPlaceRepository {
 
-  async getPlaceData(place_id: string): Promise<Place> {
-    const response = await fetch(`${endpoints.GET_PLACE_DATA_API + place_id}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch place data");
+  async getPlaceData(token: string): Promise<ErrorType<Place>> {
+    return apiClient(endpoints.GET_PLACE_DATA_API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
     }
-    const data = await response.json();
-    return data.data as Place;
+    )
   }
 
   async updatePlaceData(
-    place_id: string,
+    token: string,
     updatedData: Partial<Place>
-  ): Promise<Place> {
-    const response = await fetch(`${endpoints.UPDATE_PLACE_DATA_API + place_id}`, {
+  ): Promise<ErrorType<Place>> {
+    return apiClient(endpoints.UPDATE_PLACE_DATA_API, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(updatedData),
+      body: JSON.stringify(updatedData)
     });
-    if (!response.ok) {
-      throw new Error("Failed to update place data");
-    }
-    const data = await response.json();
-    return data as Place;
   }
 }

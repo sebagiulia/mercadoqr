@@ -15,7 +15,7 @@ class QrRepositorySequelize {
     createQr(qr) {
         return __awaiter(this, void 0, void 0, function* () {
             const qrO = yield Qr_1.Qr.create(Object.assign({}, qr));
-            return qrO.payment_id;
+            return qrO.id;
         });
     }
     getQrById(qrId) {

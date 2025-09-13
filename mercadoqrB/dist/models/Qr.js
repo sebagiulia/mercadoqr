@@ -14,7 +14,6 @@ class Qr extends sequelize_1.Model {
 exports.Qr = Qr;
 Qr.init({
     id: { type: sequelize_1.DataTypes.STRING, primaryKey: true, allowNull: false, defaultValue: () => crypto_1.default.randomUUID() },
-    payment_id: { type: sequelize_1.DataTypes.STRING, allowNull: true },
     prod_id: { type: sequelize_1.DataTypes.INTEGER, allowNull: false },
     place_id: { type: sequelize_1.DataTypes.INTEGER, allowNull: false },
     prod_cant: { type: sequelize_1.DataTypes.INTEGER, allowNull: false },

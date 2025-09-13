@@ -32,7 +32,7 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
       }
       
       
-      const client = new MercadoPagoConfig({ accessToken: place.credential });
+      const client = new MercadoPagoConfig({ accessToken: place.mpToken });
       const payment_id = await this.mercadoPagoRepository.createNewPayment(place_id, prod_id, prod_cant);
       const preference = new Preference(client);
       const preferenceConcrete = await preference.create({
@@ -70,20 +70,19 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
     async notifyPayment(payment_id:string): Promise<void> {
         const payment = await this.mercadoPagoRepository.getDataPayment(payment_id);
         if(payment.status ===  "approved") return;
+        const place = await this.PlaceRepository.getPlaceById(payment.place_id);
         const product = await this.PlaceRepository.getProductById(payment.place_id, payment.prod_id);
         const qr = { id: payment_id,
-                     payment_id: payment_id,
-                     code: payment_id,
                      place_id: payment.place_id,
                      prod_id: payment.prod_id,
                      prod_cant: payment.prod_cant,
                      start_date: product.start_date,
                     end_date: product.end_date };
-        console.log("Pago confirmado: place:" + payment.place_id + " prod:" + payment.prod_id + " cant:" + payment.prod_cant);
-        await this.mercadoPagoRepository.updateStatus(payment_id, "approved"); 
         await this.QrService.createQr(qr);
+        await this.mercadoPagoRepository.updateStatus(payment_id, "approved"); 
         await this.NotifierService.notifyByEmail(payment.email, payment_id);
         await this.NotifierService.notifyByWhatsapp(payment.telefono, payment_id);
+        console.log("Pago confirmado: Sucursal:" + place.name + "| Producto["+ payment.prod_cant + "]: " + product.name + ".");
         //await this.mercadoPagoRepository.removeDataPayment(payment_id);
     }
 
@@ -91,8 +90,8 @@ export default class MercadoPagoServiceDefault implements MercadoPagoService {
       const { place_id, status } = await this.mercadoPagoRepository.getDataPayment(payment_id);
       if(!place_id ) throw new MercadoPagoError("No se encontro el pago");
       if(status === "approved") return;
-      const { credential } = await this.PlaceRepository.getPlaceById(place_id);
-      const client = new MercadoPagoConfig({ accessToken: credential });
+      const { mpToken } = await this.PlaceRepository.getPlaceById(place_id);
+      const client = new MercadoPagoConfig({ accessToken: mpToken });
       const payment = new Payment(client)
       const merchantOrders = new MerchantOrder(client)
       try { 

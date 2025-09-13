@@ -13,27 +13,55 @@ import {
 } from "react-native";
 import { Place } from "../../domain/entities/Place";
 import { BackPlaceRepository } from "../../infrastructure/place/BackPlaceRepository";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const repository = new BackPlaceRepository();
 
-export default function PlaceScreen() {
-  const place_id = "tuevento"; // fijo, se puede cambiar según tu lógica
+export default function PlaceScreen({navigation}: any) {
   const [place, setPlace] = useState<Place | null>(null);
   const [form, setForm] = useState<Partial<Place>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [animation] = useState(new Animated.Value(0));
+  const [token, setToken] = useState<string>("");
 
   useEffect(() => {
     const fetchPlace = async () => {
       setLoading(true);
-      const data = await repository.getPlaceData("tuevento");
-      setPlace(data);
-      setForm(data);
-      setLoading(false);
+  
+      // Recuperar token de AsyncStorage
+      let storedToken = token;
+      if (!storedToken) {
+        storedToken = (await AsyncStorage.getItem("token")) || "";
+        if (storedToken) {
+          setToken(storedToken);
+        } else {
+          navigation.replace("Login");
+          return;
+        }
+      }
+  
+      // Usar el token en la llamada al repo
+      try {
+        const response = await repository.getPlaceData(storedToken);
+        if(response.success && response.data) {
+          setPlace(response.data);
+          setForm(response.data);
+        } else {
+          console.error("Error en la respuesta del servidor:", response.message);
+          if (response.message === "Token inválido o expirado") {
+            navigation.replace("Login");
+          }
+        }
+      } catch (err) {
+        console.error("Error cargando sucursal:", err);
+      } finally {
+        setLoading(false);
+      }
     };
+  
     fetchPlace();
-  }, []);
+  }, [token]);
 
   const openModal = () => {
     setForm(place || {});
@@ -56,10 +84,34 @@ export default function PlaceScreen() {
   const savePlace = async () => {
     if (!form.name || !form.address) return;
     setSaving(true);
-    const updated = await repository.updatePlaceData(place_id, form);
-    setPlace(updated);
-    setSaving(false);
-    closeModal();
+    if(token === "") {
+      const storedToken = await AsyncStorage.getItem("token");
+      if (!storedToken) {
+        // redirigir a login o mostrar error
+        navigation.replace("Login");
+        setSaving(false);
+        return;
+      }
+      setToken(storedToken);
+   }
+    
+    try {
+      const response = await repository.updatePlaceData(token, form as Place);
+      if(response.success && response.data) {
+        setPlace(response.data);
+        closeModal();
+      } else {
+        console.error("Error en la respuesta del servidor:", response.message);
+        if (response.message === "Token inválido o expirado") {
+          navigation.replace("Login");
+        }
+      }
+    } catch (err) {
+      console.error("Error guardando sucursal:", err);
+    } finally {
+      setSaving(false);
+      closeModal();
+    }
   };
 
   const modalScale = animation.interpolate({
