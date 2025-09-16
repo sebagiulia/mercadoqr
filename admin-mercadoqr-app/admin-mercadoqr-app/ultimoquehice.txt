@@ -1,0 +1,5 @@
+lo ultimo que hice fue: 13/09/2025
+
+agregue las consultas mediante tokens en Place, Catalog y Analytics.
+Falta testear si estas actualizaciones funcionan 
+(Para ello tambien hay que actualizar las apis y los controladores en el back)

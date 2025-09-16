@@ -1,5 +1,6 @@
 import { Place } from "../../domain/entities/Place";
 import { IPlaceRepository } from "../../domain/repositories/IPlaceRepository";
+import ErrorType from "../../utils/errorType";
 
 let mockPlace = {
     "id": 1,
@@ -11,15 +12,15 @@ let mockPlace = {
 }
 
 export class MockPlaceRepository implements IPlaceRepository {
-    async getPlaceData(place_id: string): Promise<Place> {
+    async getPlaceData(token: string): Promise<ErrorType<Place>> {
         // In a real implementation, you would fetch data based on place_id
-        return mockPlace;
+        return {success:true, data:mockPlace};
     }
 
-    async updatePlaceData(place_id: string, updatedFields: Partial<Place>): Promise<Place> {
+    async updatePlaceData(token: string, updatedFields: Partial<Place>): Promise<ErrorType<Place>> {
         // In a real implementation, you would update the data in a database
         const updatedPlace = { ...mockPlace, ...updatedFields };
         mockPlace = updatedPlace; // Update the mock data
-        return updatedPlace;
+        return {success:true, data:updatedPlace};
     }
 }

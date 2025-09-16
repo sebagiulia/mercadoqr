@@ -1,6 +1,7 @@
 import { AnalyticsReport, Movement } from "../../domain/entities/AnalyticsReport";
 import { IAnalyticsRepository } from "../../domain/repositories/IAnalyticsRepository";
 import { MockAnalyticsRepository } from "../../infrastructure/analytics/MockAnalyticsRepository";
+import ErrorType from "../../utils/errorType";
 
 export class GetSalesStats {
     private repo: IAnalyticsRepository;
@@ -10,9 +11,8 @@ export class GetSalesStats {
         this.repo = repo ?? new MockAnalyticsRepository();
     }
 
-    async execute(): Promise<AnalyticsReport> {
-        const movements: Movement[] = await this.repo.getMovements();
-    
+    async execute(token:string): Promise<ErrorType<AnalyticsReport>> {
+
         const groupByProduct = (movs: Movement[]) => {
             const grouped: Record<number, Movement> = {};
     
@@ -27,11 +27,20 @@ export class GetSalesStats {
     
             return Object.values(grouped);
         };
-    
-        const consumed = groupByProduct(movements.filter(m => m.status === "Consumido"));
-        const toConsume = groupByProduct(movements.filter(m => m.status === "Por consumir"));
-    
-        return { consumed, toConsume, allMovements: movements };
+
+        try {
+            const response = await this.repo.getMovements(token);
+            if (!response.success || !response.data) {
+                return { success: false, error: response.error };
+            } else {
+                const movements = response.data;
+                const consumed = groupByProduct(movements.filter(m => m.status === "Consumido"));
+                const toConsume = groupByProduct(movements.filter(m => m.status === "Por consumir"));
+                return { success: true, data: { consumed, toConsume, allMovements: movements } };
+            }
+
+        } catch (error) {
+            return { success: false, error: {message:"Unknown error", code:"500", details:""} };};
+        }       
+
     }
-    
-}

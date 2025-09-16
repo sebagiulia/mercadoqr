@@ -1,5 +1,6 @@
 import { IAnalyticsRepository } from "../../domain/repositories/IAnalyticsRepository";
 import { Movement } from "../../domain/entities/AnalyticsReport";
+import ErrorType from "../../utils/errorType";
 
 const mockMovements: Movement[] = [
     { payment_id: 101, prod_id: 3, place_id: 1, quantity: 2, total_price: 200, status: "Consumido", user_id: 201 },
@@ -11,7 +12,7 @@ const mockMovements: Movement[] = [
 ];
 
 export class MockAnalyticsRepository implements IAnalyticsRepository {
-    async getMovements(): Promise<Movement[]> {
-        return new Promise(resolve => setTimeout(() => resolve(mockMovements), 500));
+    async getMovements(token:string): Promise<ErrorType<Movement[]>> {
+        return new Promise(resolve => setTimeout(() => resolve({success:true, data:mockMovements}), 500));
     }
 }

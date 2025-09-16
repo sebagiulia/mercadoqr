@@ -11,47 +11,76 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { AnalyticsReport, Movement } from "../../domain/entities/AnalyticsReport";
-import { MockAnalyticsRepository } from "../../infrastructure/analytics/MockAnalyticsRepository";
+import { BackAnalyticsRepository } from "../../infrastructure/analytics/BackAnalyticsRepository";
 import { GetSalesStats } from "../../application/analytics/GetSaleStats";
 import { Product } from "../../domain/entities/Product";
-import { MockProductRepository } from "../../infrastructure/products/MockProductsRepository";
+import { BackProductsRepository } from "../../infrastructure/products/BackProductsRepository";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const analyticsRepo = new MockAnalyticsRepository();
+const analyticsRepo = new BackAnalyticsRepository();
 const analytics = new GetSalesStats(analyticsRepo);
-const productRepo = new MockProductRepository();
+const productRepo = new BackProductsRepository();
 
-export default function AnalyticsScreen() {
+export default function AnalyticsScreen({navigation}: any) {
   const [report, setReport] = useState<AnalyticsReport & { allMovements?: (Movement & { img?: string })[] } | null>(null);
   const [selectedMovement, setSelectedMovement] = useState<Movement & { img?: string } | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [animation] = useState(new Animated.Value(0));
   const [loading, setLoading] = useState(true);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [token, setToken] = useState<string>("");
 
   useEffect(() => {
     const fetchReport = async () => {
       setLoading(true);
+      let storedToken = token;
+      if (!storedToken) {
+        storedToken = (await AsyncStorage.getItem("token")) || "";
+        if (storedToken) {
+          setToken(storedToken);
+        } else {
+          navigation.replace("Login");
+          return;
+        }
+      }
 
-      const data = await analytics.execute();
-      const products: Product[] = await productRepo.getAll("1");
-      setAllProducts(products);
-      const enrichWithImages = (movements: Movement[]) =>
-        movements.map((m) => {
-          const product = allProducts.find((p) => p.id === m.prod_id);
-          return { ...m, img: product?.img ?? "" };
-        });
+      const responseAn = await analytics.execute(token);
+      if (!responseAn.success || !responseAn.data) {
+        console.error("Failed to fetch analytics data");
+        setLoading(false);
+        return;
+      } 
 
-      setReport({
-        consumed: enrichWithImages(data.consumed),
-        toConsume: enrichWithImages(data.toConsume),
-        allMovements: enrichWithImages(data.allMovements), // Movimientos
-      });
+      try {
+        const response = await productRepo.getAll(storedToken);
+        if (response.success && response.data) {
+          const products = response.data;
+          setAllProducts(products);
+          const enrichWithImages = (movements: Movement[]) =>
+            movements.map((m) => {
+              const product = allProducts.find((p) => p.id === m.prod_id);
+              return { ...m, img: product?.img ?? "" };
+            });
+    
+          setReport({
+            consumed: enrichWithImages(responseAn.data.consumed),
+            toConsume: enrichWithImages(responseAn.data.toConsume),
+            allMovements: enrichWithImages(responseAn.data.allMovements), // Movimientos
+          });
+        } else {
+          console.error("Failed to fetch products");
+        }
+      }
+      catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
 
-      setLoading(false);
     };
 
     fetchReport();
-  }, []);
+  }, [token]);
 
   const openModal = (movement: Movement & { img?: string }) => {
     setSelectedMovement(movement);
