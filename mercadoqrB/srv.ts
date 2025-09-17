@@ -42,6 +42,10 @@ import AuthServiceJSON from './services/imp/AuthServiceJSON';
 const authService = new AuthServiceJSON(placeRepository, scannRepository)
 const authController = new AuthController(authService);
 
+import { authenticateToken } from './middleware/tokenAuth';
+import AdminPlaceController from './controllers/AdminPlaceController';
+const adminPlaceController = new AdminPlaceController(placeService);
+
 import cors from 'cors'
 import 'dotenv/config'
 
@@ -63,10 +67,12 @@ app.post('/api/admin/login', authController.authAdmin);
 app.post('/api/scann/login', authController.authScann);
 
 // Admin
-import { authenticateToken } from './middleware/tokenAuth';
-app.post('/api/admin/product/create', authenticateToken, placeController.createProduct);
-app.put('/api/admin/product/update/:id', authenticateToken, placeController.updateProduct);
-app.delete('/api/admin/product/delete/:id', authenticateToken, placeController.deleteProduct);
+app.get('/api/admin/place', authenticateToken, adminPlaceController.getPlace);
+app.get('/api/admin/products', authenticateToken, adminPlaceController.getProducts);
+app.get('/api/admin/movements', authenticateToken, adminPlaceController.getMovements);
+app.post('/api/admin/product/create', authenticateToken, adminPlaceController.createProduct);
+app.put('/api/admin/product/update/:id', authenticateToken, adminPlaceController.updateProduct);
+app.delete('/api/admin/product/delete/:id', authenticateToken, adminPlaceController.deleteProduct);
 
 
 // Place & Product

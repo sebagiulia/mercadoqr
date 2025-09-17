@@ -69,6 +69,9 @@ const AuthController_1 = __importDefault(require("./controllers/AuthController")
 const AuthServiceJSON_1 = __importDefault(require("./services/imp/AuthServiceJSON"));
 const authService = new AuthServiceJSON_1.default(placeRepository, scannRepository);
 const authController = new AuthController_1.default(authService);
+const tokenAuth_1 = require("./middleware/tokenAuth");
+const AdminPlaceController_1 = __importDefault(require("./controllers/AdminPlaceController"));
+const adminPlaceController = new AdminPlaceController_1.default(placeService);
 const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const app = (0, express_1.default)();
@@ -83,10 +86,12 @@ app.get('/test', (req, res) => {
 app.post('/api/admin/login', authController.authAdmin);
 app.post('/api/scann/login', authController.authScann);
 // Admin
-const tokenAuth_1 = require("./middleware/tokenAuth");
-app.post('/api/admin/product/create', tokenAuth_1.authenticateToken, placeController.createProduct);
-app.put('/api/admin/product/update/:id', tokenAuth_1.authenticateToken, placeController.updateProduct);
-app.delete('/api/admin/product/delete/:id', tokenAuth_1.authenticateToken, placeController.deleteProduct);
+app.get('/api/admin/place', tokenAuth_1.authenticateToken, adminPlaceController.getPlace);
+app.get('/api/admin/products', tokenAuth_1.authenticateToken, adminPlaceController.getProducts);
+app.get('/api/admin/movements', tokenAuth_1.authenticateToken, adminPlaceController.getMovements);
+app.post('/api/admin/product/create', tokenAuth_1.authenticateToken, adminPlaceController.createProduct);
+app.put('/api/admin/product/update/:id', tokenAuth_1.authenticateToken, adminPlaceController.updateProduct);
+app.delete('/api/admin/product/delete/:id', tokenAuth_1.authenticateToken, adminPlaceController.deleteProduct);
 // Place & Product
 app.get('/api/place/:place', placeController.getPlace);
 app.get('/api/places/:place', placeController.getPlaces);

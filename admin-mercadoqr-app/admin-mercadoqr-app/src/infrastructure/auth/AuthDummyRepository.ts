@@ -6,7 +6,7 @@ import ErrorType from "../../utils/errorType";
 export class AuthDummyRepository implements IAuthRepository {
   async login(name: string, password: string): Promise<ErrorType<AuthResponse>> {
     // Por ahora siempre devuelve un usuario válido
-    const  error = { success: true, data: {token:"n"} };
+    const  error = { success: true, data: {token:"1234"} };
     return error;
   }
 

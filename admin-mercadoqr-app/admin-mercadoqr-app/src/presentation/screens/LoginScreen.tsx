@@ -7,14 +7,31 @@ export default function LoginScreen({ navigation }: any) {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
+
+  React.useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (token) {
+        navigation.replace("HomeTabs");
+      }
+    };
+    checkToken();
+  }, []);
+
   const handleLogin = async () => {
     const repo = new BackAuthRepository();
-    const result = await repo.login(name, password);
-    if (result.success && result.data) {
-      await AsyncStorage.setItem('token', result.data.token);
-      navigation.replace("Home");
-    } else {
-      alert("Error al iniciar sesión: " + result.error);
+    try {
+
+      const result = await repo.login(name, password);
+      if (result.success && result.data) {
+        await AsyncStorage.setItem('token', result.data.token);
+        navigation.replace("HomeTabs");
+      } else {
+        console.log("Login failed:", result.error);
+        alert("Error al iniciar sesión: " + (result.error?.message || "Credenciales inválidas"));
+    }
+    } catch (error) {
+      alert("Error en llamada a login: " + error);
     }
     
   };

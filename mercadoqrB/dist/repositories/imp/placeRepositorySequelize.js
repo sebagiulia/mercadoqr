@@ -84,6 +84,17 @@ class PlaceRepositorySequelize {
             throw new errors_1.NotFoundError('Product not found');
         });
     }
+    getMovements(placeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            /* const place = await Place.findByPk(placeId)
+            if (place) {
+                const movements = await place.getMovements()
+                return movements
+            }
+            throw new NotFoundError('Place not found') */
+            return [];
+        });
+    }
     createProduct(placeId, product) {
         return __awaiter(this, void 0, void 0, function* () {
             const newProduct = yield Product_1.Product.create({

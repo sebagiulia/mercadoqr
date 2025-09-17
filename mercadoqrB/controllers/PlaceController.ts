@@ -1,9 +1,6 @@
 import PlaceService from "../services/PlaceService";
 import { NextFunction, Request, Response } from "express";
 import { sendSuccess } from "../utils/respondeUtil";
-import { AuthRequest } from "../middleware/tokenAuth";
-import Product from "../schemas/ProductResponse";
-import { TokenError } from "../errors/errors";
 export default class PlaceController {
     private placeService: PlaceService;
 
@@ -15,7 +12,6 @@ export default class PlaceController {
         this.getProduct = this.getProduct.bind(this);
         this.getCategories = this.getCategories.bind(this);
         this.createPlace = this.createPlace.bind(this);
-        this.createProduct = this.createProduct.bind(this);
         this.updateProduct = this.updateProduct.bind(this);
         this.deleteProduct = this.deleteProduct.bind(this);
         console.log('✅ Servicio de Places activo');
@@ -80,20 +76,6 @@ export default class PlaceController {
             sendSuccess(res, categories);
         } catch (error) {
             next(error)        
-        }
-    }
-
-
-    async createProduct(req: AuthRequest, res: Response, next:NextFunction): Promise<void> {
-        const product = req.body as Product;
-        try {
-            if(req.placeId !== product.place_id) {
-                throw new TokenError('El token no es válido para este lugar');
-            }
-            const newProduct = await this.placeService.createProduct(req.placeId || 0, product);
-            sendSuccess(res, newProduct);
-        } catch (error) {
-            next(error)
         }
     }
 

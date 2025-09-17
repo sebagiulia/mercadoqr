@@ -39,6 +39,7 @@ export default function CatalogScreen({navigation}: any) {
         authToken = (await AsyncStorage.getItem("token"))!;
         if (authToken) {
           setToken(authToken);
+          return;
         } else {
           navigation.replace("Login");
           return;
@@ -50,7 +51,7 @@ export default function CatalogScreen({navigation}: any) {
         if(response.success && response.data){
           setProducts(response.data);
         } else {
-          console.error("Error en la respuesta del servidor", response.message);
+          console.error("Error en la respuesta del servidor", (response.error?.message) || "Internal Server Error");
         }
       } catch (e) {
         console.error("Error cargando productos", e);

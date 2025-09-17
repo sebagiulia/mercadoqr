@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Combo absolut",
     "price": 200,
     "description": "Absolut + 4 speed",
@@ -13,7 +13,7 @@
   },
   {
     "id": 2,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Combo fernet",
     "price": 150,
     "description": "Fernet + 2 Coca cola",
@@ -25,7 +25,7 @@
   },
   {
     "id": 3,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Cerveza corona",
     "price": 100,
     "description": "Cerveza corona 1L",
@@ -73,7 +73,7 @@
   },
   {
     "id": 11,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Combo Jaggermaister",
     "price": 700,
     "description": "Jagger 750ml + 4 speed",
@@ -85,7 +85,7 @@
   },
   {
     "id": 12,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Combo Black Label",
     "price": 1000,
     "description": "Black Label 750ml + 4 Red Bull",
@@ -97,7 +97,7 @@
   },
   {
     "id": 13,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Cerveza Budweiser",
     "price": 100,
     "description": "Cerveza Budweiser 350ml",
@@ -109,7 +109,7 @@
   },
   {
     "id": 14,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Chandon Demi",
     "price": 1000,
     "description": "Champagne Chandon Demi Botella 750ml",
@@ -121,7 +121,7 @@
   },
   {
     "id": 15,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Mumm",
     "price": 500,
     "description": "Champagne Mumm Botella 750ml",
@@ -133,7 +133,7 @@
   },
   {
     "id": 16,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Agua mineral",
     "price": 50,
     "description": "Agua 600ml",
@@ -265,7 +265,7 @@
   },
   {
     "id": 28,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Entrada común",
     "price": 500,
     "description": "Sin beneficios",
@@ -277,7 +277,7 @@
   },
   {
     "id": 29,
-    "place_id": 1,
+    "place_id": 4,
     "name": "Entrada VIP",
     "price": 1000,
     "description": "Con beneficios",

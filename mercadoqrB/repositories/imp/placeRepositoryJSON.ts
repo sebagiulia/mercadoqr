@@ -4,6 +4,7 @@ import ProductResp from '../../schemas/ProductResponse'
 import PlaceRepository from '../placeRepository'
 import places from '../../data/places.json'
 import products from '../../data/products.json'
+import movements from '../../data/movements.json'
 import { NotFoundError, RegistrationError } from '../../errors/errors'
 import { transformToSpaceCase } from '../../utils/clean'
 import PlaceResponse from '../../schemas/PlaceResponse'
@@ -12,6 +13,7 @@ import * as path from 'path';
 
 const filePathPlace = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/places.json');
 const filePathProds = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/products.json');
+const filePathMovs = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/movements.json');
 
 // Función para agregar datos al JSON
 function writePlace(place:Place): void {
@@ -121,6 +123,15 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
             return product         
         }
         throw new NotFoundError('Product not found')
+    }
+
+    async getMovements(placeId: string): Promise<any[]> {
+        const movsString = fs.readFileSync(filePathMovs, 'utf-8');
+        const movs = JSON.parse(movsString) as any[];
+
+        const placeMovs = movs.filter(mov => mov.place_id.toString() === placeId)
+        if (placeMovs.length > 0) return placeMovs
+        throw new NotFoundError('Movements not found')
     }
 
    async createProduct(placeId: number, product: Product): Promise<Product> {

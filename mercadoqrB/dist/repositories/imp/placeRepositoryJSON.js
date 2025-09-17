@@ -48,6 +48,7 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const filePathPlace = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/places.json');
 const filePathProds = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/products.json');
+const filePathMovs = path.join("/home/seba/Escritorio/mvp-mercadoQR/mercadoqrB", '/data/movements.json');
 // Función para agregar datos al JSON
 function writePlace(place) {
     const placeString = fs.readFileSync(filePathPlace, 'utf-8');
@@ -153,6 +154,16 @@ class PlaceRepositoryJSON {
                 return product;
             }
             throw new errors_1.NotFoundError('Product not found');
+        });
+    }
+    getMovements(placeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const movsString = fs.readFileSync(filePathMovs, 'utf-8');
+            const movs = JSON.parse(movsString);
+            const placeMovs = movs.filter(mov => mov.place_id.toString() === placeId);
+            if (placeMovs.length > 0)
+                return placeMovs;
+            throw new errors_1.NotFoundError('Movements not found');
         });
     }
     createProduct(placeId, product) {

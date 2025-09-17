@@ -18,6 +18,10 @@ export default class PlaceServiceImp implements PlaceService {
         return this.placeRepository.getPlace(placeName)
     }
 
+    async getPlaceById(placeId: number): Promise<Place> {
+        return this.placeRepository.getPlaceById(placeId)
+    }
+
     async getPlaces(placeName: string): Promise<Place[]> {
         return this.placeRepository.getPlaces(placeName)
     }
@@ -26,6 +30,10 @@ export default class PlaceServiceImp implements PlaceService {
         const prods = await this.placeRepository.getProducts(placeId.toString())
         if(category == "Todo") return prods
         return prods.filter((prod) => prod.category === category)
+    }
+
+    async getMovements(placeId: number): Promise<any[]> {
+        return this.placeRepository.getMovements(placeId.toString())
     }
 
     async getProduct(placeName: string, productName: string): Promise<ProductResp> {

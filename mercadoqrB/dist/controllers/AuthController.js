@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const respondeUtil_1 = require("../utils/respondeUtil");
 class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -21,10 +22,10 @@ class AuthController {
             const { name, password } = req.body;
             try {
                 const result = yield this.authService.loginAdmin(name, password);
-                res.json(result);
+                (0, respondeUtil_1.sendSuccess)(res, result);
             }
             catch (err) {
-                res.status(400).json({ message: err.message });
+                next(err);
             }
         });
     }
@@ -33,10 +34,10 @@ class AuthController {
             const { name, password } = req.body;
             try {
                 const result = yield this.authService.loginScanner(name, password);
-                res.json(result);
+                (0, respondeUtil_1.sendSuccess)(res, result);
             }
             catch (err) {
-                res.status(400).json({ message: err.message });
+                next(err);
             }
         });
     }

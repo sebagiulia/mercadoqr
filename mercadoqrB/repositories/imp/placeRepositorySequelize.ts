@@ -6,6 +6,7 @@ import { Place } from "../../models/Place"
 import { Product } from "../../models/Product"
 import { transformToSpaceCase } from "../../utils/clean"
 import { Op } from "sequelize"
+import Movement from "../../models/Movement"
 
 export default class PlaceRepositorySequelize implements PlaceRepository {
 
@@ -71,6 +72,16 @@ export default class PlaceRepositorySequelize implements PlaceRepository {
             return {...productResponse, stock}
         }
         throw new NotFoundError('Product not found')
+    }
+
+    async getMovements(placeId: string): Promise<Movement[]> {
+        /* const place = await Place.findByPk(placeId)
+        if (place) {
+            const movements = await place.getMovements()
+            return movements
+        }
+        throw new NotFoundError('Place not found') */
+        return []
     }
 
     async createProduct(placeId: number, product: ProductType): Promise<ProductType> {

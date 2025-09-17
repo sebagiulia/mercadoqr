@@ -12,7 +12,6 @@ export class GetSalesStats {
     }
 
     async execute(token:string): Promise<ErrorType<AnalyticsReport>> {
-
         const groupByProduct = (movs: Movement[]) => {
             const grouped: Record<number, Movement> = {};
     

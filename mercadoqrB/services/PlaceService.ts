@@ -1,11 +1,14 @@
+import Movement from '../models/Movement';
 import Place from '../schemas/Place';
 import PlaceResponse from '../schemas/PlaceResponse';
 import Product from '../schemas/ProductResponse';
 
 export default interface PlaceService {
     getPlace(placeName: string): Promise<Place>;
+    getPlaceById(placeId: number): Promise<Place>;
     getPlaces(placeName: string): Promise<Place[]>;
     getProducts(placeId: number, category:string): Promise<Product[]>;
+    getMovements(placeId: number): Promise<Movement[]>;
     getProduct(placeName: string, productName: string): Promise<Product>;
     getCategories(placeName: string): Promise<string[]>;
 

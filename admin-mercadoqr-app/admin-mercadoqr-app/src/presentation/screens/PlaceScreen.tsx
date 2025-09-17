@@ -35,6 +35,7 @@ export default function PlaceScreen({navigation}: any) {
         storedToken = (await AsyncStorage.getItem("token")) || "";
         if (storedToken) {
           setToken(storedToken);
+          return;
         } else {
           navigation.replace("Login");
           return;

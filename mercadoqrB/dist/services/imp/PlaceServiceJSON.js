@@ -22,6 +22,11 @@ class PlaceServiceImp {
             return this.placeRepository.getPlace(placeName);
         });
     }
+    getPlaceById(placeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.placeRepository.getPlaceById(placeId);
+        });
+    }
     getPlaces(placeName) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.placeRepository.getPlaces(placeName);
@@ -33,6 +38,11 @@ class PlaceServiceImp {
             if (category == "Todo")
                 return prods;
             return prods.filter((prod) => prod.category === category);
+        });
+    }
+    getMovements(placeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.placeRepository.getMovements(placeId.toString());
         });
     }
     getProduct(placeName, productName) {

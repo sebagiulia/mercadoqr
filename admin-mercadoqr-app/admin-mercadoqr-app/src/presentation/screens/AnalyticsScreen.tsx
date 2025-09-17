@@ -38,6 +38,7 @@ export default function AnalyticsScreen({navigation}: any) {
         storedToken = (await AsyncStorage.getItem("token")) || "";
         if (storedToken) {
           setToken(storedToken);
+          return;
         } else {
           navigation.replace("Login");
           return;
@@ -46,7 +47,7 @@ export default function AnalyticsScreen({navigation}: any) {
 
       const responseAn = await analytics.execute(token);
       if (!responseAn.success || !responseAn.data) {
-        console.error("Failed to fetch analytics data");
+        console.error("Failed to fetch analytics data", (responseAn.error?.message|| "Error desconocido"));
         setLoading(false);
         return;
       } 

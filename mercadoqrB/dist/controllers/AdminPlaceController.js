@@ -10,25 +10,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const respondeUtil_1 = require("../utils/respondeUtil");
-class PlaceController {
+const errors_1 = require("../errors/errors");
+class AdminPlaceController {
     constructor(placeService) {
         this.placeService = placeService;
         this.getPlace = this.getPlace.bind(this);
-        this.getPlaces = this.getPlaces.bind(this);
         this.getProducts = this.getProducts.bind(this);
-        this.getProduct = this.getProduct.bind(this);
-        this.getCategories = this.getCategories.bind(this);
-        this.createPlace = this.createPlace.bind(this);
+        this.getMovements = this.getMovements.bind(this);
+        this.createProduct = this.createProduct.bind(this);
         this.updateProduct = this.updateProduct.bind(this);
         this.deleteProduct = this.deleteProduct.bind(this);
+        this.createProduct = this.createProduct.bind(this);
         console.log('✅ Servicio de Places activo');
     }
-    createPlace(req, res, next) {
+    createProduct(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const place = req.body;
+            const product = req.body;
             try {
-                const newPlace = yield this.placeService.createPlace(place);
-                (0, respondeUtil_1.sendSuccess)(res, newPlace, 'Solicitud recibida');
+                if (req.placeId !== product.place_id) {
+                    throw new errors_1.TokenError('El token no es válido para este lugar');
+                }
+                const newProduct = yield this.placeService.createProduct(req.placeId || 0, product);
+                (0, respondeUtil_1.sendSuccess)(res, newProduct);
             }
             catch (error) {
                 next(error);
@@ -37,22 +40,10 @@ class PlaceController {
     }
     getPlace(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const placeName = req.params.place;
+            const place_id = req.placeId;
             try {
-                const place = yield this.placeService.getPlace(placeName);
+                const place = yield this.placeService.getPlaceById(place_id || 0);
                 (0, respondeUtil_1.sendSuccess)(res, place);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-    }
-    getPlaces(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const placeName = req.params.place;
-            try {
-                const places = yield this.placeService.getPlaces(placeName);
-                (0, respondeUtil_1.sendSuccess)(res, places);
             }
             catch (error) {
                 next(error);
@@ -61,36 +52,22 @@ class PlaceController {
     }
     getProducts(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const placeId = req.params.id;
-            const category = req.params.category;
+            const place_id = req.placeId;
             try {
-                const products = yield this.placeService.getProducts(parseInt(placeId, 10), category);
-                (0, respondeUtil_1.sendSuccess)(res, products);
+                const place = yield this.placeService.getProducts(place_id || 0, "Todo");
+                (0, respondeUtil_1.sendSuccess)(res, place);
             }
             catch (error) {
                 next(error);
             }
         });
     }
-    getProduct(req, res, next) {
+    getMovements(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const placeName = req.params.place;
-            const productName = req.params.product;
+            const place_id = req.placeId;
             try {
-                const product = yield this.placeService.getProduct(placeName, productName);
-                (0, respondeUtil_1.sendSuccess)(res, product);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-    }
-    getCategories(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const placeName = req.params.place;
-            try {
-                const categories = yield this.placeService.getCategories(placeName);
-                (0, respondeUtil_1.sendSuccess)(res, categories);
+                const movements = yield this.placeService.getMovements(place_id || 0);
+                (0, respondeUtil_1.sendSuccess)(res, movements);
             }
             catch (error) {
                 next(error);
@@ -125,4 +102,4 @@ class PlaceController {
         });
     }
 }
-exports.default = PlaceController;
+exports.default = AdminPlaceController;

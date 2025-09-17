@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '../services/AuthService';
+import { sendSuccess } from '../utils/respondeUtil';
 
 export default class AuthController {
     private authService: AuthService;
@@ -11,13 +12,13 @@ export default class AuthController {
     }
 
     async authAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
-        const { name, password } = req.body;
+	    const { name, password } = req.body;
 
         try {
           const result = await this.authService.loginAdmin(name, password);
-          res.json(result);
+          sendSuccess(res, result);
         } catch (err: any) {
-          res.status(400).json({ message: err.message });
+          next(err);
         }
     }
 
@@ -26,9 +27,9 @@ export default class AuthController {
 
         try {
           const result = await this.authService.loginScanner(name, password);
-          res.json(result);
+          sendSuccess(res, result);
         } catch (err: any) {
-          res.status(400).json({ message: err.message });
+          next(err);
         }
       }
     }
