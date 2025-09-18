@@ -18,7 +18,6 @@ export default class AuthServiceJSON implements AuthService {
     async loginAdmin(name: string, password: string): Promise<{ token: string }> {
         const place = await this.placeRepository.getPlace(name);
         if (!place) throw new NotFoundError("Lugar no encontrado");
-
         const valid = await bcrypt.compare(password, place.passwordHash);
         if (!valid) throw new AuthorizationError("Credenciales inválidas");
 

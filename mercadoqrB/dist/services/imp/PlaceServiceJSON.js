@@ -93,10 +93,6 @@ class PlaceServiceImp {
     }
     updatePlace(placeId, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (data.passwordHash) {
-                const SALT_ROUNDS = 10;
-                data.passwordHash = yield bcrypt_1.default.hash(data.passwordHash, SALT_ROUNDS);
-            }
             return this.placeRepository.updatePlace(placeId, data);
         });
     }

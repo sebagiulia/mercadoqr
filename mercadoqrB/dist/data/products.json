@@ -217,15 +217,15 @@
     },
     {
         "id": 24,
-        "place_id": 5,
-        "name": "Turno 12:00",
-        "price": 50,
-        "description": "",
-        "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
-        "category": "Martes",
-        "start_date": "2025-11-01",
-        "end_date": "2025-11-30",
-        "stock": 0
+        "place_id": 4,
+        "name": "Speed ",
+        "price": 5000,
+        "description": "Lata 250ml",
+        "img": "https://acdn-us.mitiendanube.com/stores/001/163/250/products/speed-2501-d97ff5f74c15105f4215854808473493-1024-10241-3381d42d9f9385d79015881047021042-1024-1024.jpg",
+        "category": "Sin alcohol",
+        "start_date": "",
+        "end_date": "",
+        "stock": 20
     },
     {
         "id": 25,

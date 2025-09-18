@@ -80,10 +80,6 @@ export default class PlaceServiceImp implements PlaceService {
     }
 
     async updatePlace(placeId: number, data: Partial<Place>): Promise<PlaceResponse> {
-        if (data.passwordHash) {
-            const SALT_ROUNDS = 10;
-            data.passwordHash = await bcrypt.hash(data.passwordHash, SALT_ROUNDS);
-        }
         return this.placeRepository.updatePlace(placeId, data);
     }
 
