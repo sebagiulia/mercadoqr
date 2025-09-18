@@ -141,6 +141,27 @@ export default class PlaceRepositorySequelize implements PlaceRepository {
         })
         return newPlace;
     }
+
+    async updatePlace(placeId: number, data: Partial<PlaceType>): Promise<PlaceType> {
+        const place = await Place.findByPk(placeId)
+        if (place) {
+            if (data.name) {
+                data.name = transformToSpaceCase(data.name)
+            }
+            await place.update(data)
+            return place
+        }
+        throw new NotFoundError('Place not found')
+    }
+
+    async deletePlace(placeId: number): Promise<void> {
+        const place = await Place.findByPk(placeId)
+        if (place) {
+            await place.destroy()
+            return
+        }
+        throw new NotFoundError('Place not found')
+    }
 }
     
     

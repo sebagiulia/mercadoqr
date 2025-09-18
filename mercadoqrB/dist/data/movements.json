@@ -1,1 +1,13 @@
-[]
+[
+    {
+        "id": "feoifjeiofjeiofjeofij",
+        "expired_at": "2023-06-15T10:30:00Z",
+        "balance": 5000,
+        "user_email": "sebastiangiulia@gmail.com",
+        "user_phone": "3413620939",
+        "prod_quant": 3,
+        "prod_id": 3,
+        "place_id": 4,
+        "status": "Consumido"
+    }
+]

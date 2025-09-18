@@ -157,5 +157,28 @@ class PlaceRepositorySequelize {
             return newPlace;
         });
     }
+    updatePlace(placeId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const place = yield Place_1.Place.findByPk(placeId);
+            if (place) {
+                if (data.name) {
+                    data.name = (0, clean_1.transformToSpaceCase)(data.name);
+                }
+                yield place.update(data);
+                return place;
+            }
+            throw new errors_1.NotFoundError('Place not found');
+        });
+    }
+    deletePlace(placeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const place = yield Place_1.Place.findByPk(placeId);
+            if (place) {
+                yield place.destroy();
+                return;
+            }
+            throw new errors_1.NotFoundError('Place not found');
+        });
+    }
 }
 exports.default = PlaceRepositorySequelize;

@@ -231,5 +231,29 @@ class PlaceRepositoryJSON {
             return newPlace;
         });
     }
+    updatePlace(placeId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const placesString = fs.readFileSync(filePathPlace, 'utf-8');
+            this.places = JSON.parse(placesString);
+            const placeIndex = this.places.findIndex(place => place.id === placeId);
+            if (placeIndex === -1)
+                throw new errors_1.NotFoundError('Place not found');
+            const updatedPlace = Object.assign(Object.assign({}, this.places[placeIndex]), data);
+            this.places[placeIndex] = updatedPlace;
+            writePlace(updatedPlace);
+            return updatedPlace;
+        });
+    }
+    deletePlace(placeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const placesString = fs.readFileSync(filePathPlace, 'utf-8');
+            this.places = JSON.parse(placesString);
+            const place = this.places.find(place => place.id === placeId);
+            if (!place)
+                throw new errors_1.NotFoundError('Place not found');
+            this.places = this.places.filter(place => place.id !== placeId);
+            fs.writeFileSync(filePathPlace, JSON.stringify(this.places, null, 2));
+        });
+    }
 }
 exports.default = PlaceRepositoryJSON;

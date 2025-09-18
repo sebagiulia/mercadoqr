@@ -130,16 +130,15 @@ export default function AnalyticsScreen({navigation}: any) {
 
           return (
             <Pressable
-              key={movement.payment_id + "-" + movement.prod_id}
+              key={movement.id}
               style={ styles.productCard}
               onPress={() => openModal(movement)}
             >
               <Image source={{ uri: product.img }} style={styles.productImage} />
               <View style={title === "Consumidos" ? styles.productInfoConsumed :styles.productInfo}>
                 <Text style={styles.productName}>{product?.name}</Text>
-                <Text style={styles.productPrice}>Total: ${movement.total_price}</Text>
-                <Text style={styles.productStock}>Cantidad: {movement.quantity}</Text>
-                <Text style={styles.productDescription}>Estado: {movement.status}</Text>
+                <Text style={styles.productPrice}>Total: ${movement.balance}</Text>
+                <Text style={styles.productStock}>Cantidad: {movement.prod_quant}</Text>
               </View>
             </Pressable>
           )})}
@@ -157,10 +156,10 @@ export default function AnalyticsScreen({navigation}: any) {
                 {selectedMovement.img ? (
                   <Image source={{ uri: selectedMovement.img }} style={styles.modalImage} />
                 ) : null}
-                <Text>Producto ID: {selectedMovement.prod_id}</Text>
-                <Text>Place ID: {selectedMovement.place_id}</Text>
-                <Text>Cantidad: {selectedMovement.quantity}</Text>
-                <Text>Total: ${selectedMovement.total_price}</Text>
+                <Text>Email: {selectedMovement.user_email}</Text>
+                <Text>Phone: {selectedMovement.user_phone}</Text>
+                <Text>Cantidad: {selectedMovement.prod_quant}</Text>
+                <Text>Total: ${selectedMovement.balance}</Text>
                 <Text>Estado: {selectedMovement.status}</Text>
               </>
             )}

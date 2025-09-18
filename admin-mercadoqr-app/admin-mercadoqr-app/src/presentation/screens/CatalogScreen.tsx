@@ -117,7 +117,7 @@ export default function CatalogScreen({navigation}: any) {
       } else {
         const response = await repository.create(token,updatedProduct);
         if(!response.success){
-          console.error("Error creando producto", response.message);
+          console.error("Error creando producto: ", response.error);
         }
         const responseList = await repository.getAll(token);
         if(responseList.success && responseList.data){
@@ -141,7 +141,7 @@ export default function CatalogScreen({navigation}: any) {
 
       const resp = await repository.delete(token,id);
       if(!resp.success){
-        console.error("Error eliminando producto", resp.message);
+        console.error("Error eliminando producto:", resp.error);
       }
       const respList = await repository.getAll(token);
       if(respList.success && respList.data){

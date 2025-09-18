@@ -1,5 +1,9 @@
-lo ultimo que hice fue: 13/09/2025
+lo ultimo que hice fue: 17/09/2025
 
-agregue las consultas mediante tokens en Place, Catalog y Analytics.
-Falta testear si estas actualizaciones funcionan 
-(Para ello tambien hay que actualizar las apis y los controladores en el back)
+-> Operaciones update, delete y create ya testeadas.
+-> Falta agregar la opcion de cambiar el token de mp, eliminar sucursal y cerrar sesion.
+-> Arreglar el tema del navigation.replace para cuando hay token invalido en almacenamiento
+-> Al hacer un cambio, hay que hacer automaticamente un refresco de la pagina. 
+-> Cuando hay un refresco, la aplicacion deberia volver a la pestaña donde se hizo este.
+-> Falta mejorar los manejos de errores, las animaciones y los estilos.
+-> Pasar todo a android

@@ -200,4 +200,27 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
         writePlace(newPlace);
         return newPlace as PlaceResponse
     }
+
+    async updatePlace(placeId: number, data: Partial<Place>): Promise<PlaceResponse> {
+        const placesString = fs.readFileSync(filePathPlace, 'utf-8');
+        this.places = JSON.parse(placesString) as Place[];
+
+        const placeIndex = this.places.findIndex(place => place.id === placeId)
+        if (placeIndex === -1) throw new NotFoundError('Place not found')
+        const updatedPlace = { ...this.places[placeIndex], ...data }
+        this.places[placeIndex] = updatedPlace
+        writePlace(updatedPlace);
+        return updatedPlace as PlaceResponse
+    }
+
+    async deletePlace(placeId: number): Promise<void> {
+        const placesString = fs.readFileSync(filePathPlace, 'utf-8');
+        this.places = JSON.parse(placesString) as Place[];
+        
+        const place = this.places.find(place => place.id === placeId)
+        if (!place) throw new NotFoundError('Place not found')
+        this.places = this.places.filter(place => place.id !== placeId)
+        fs.writeFileSync(filePathPlace, JSON.stringify(this.places, null, 2));
+    }
+
 }

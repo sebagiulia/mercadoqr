@@ -17,4 +17,6 @@ export default interface PlaceService {
     deleteProduct(placeId: number, productId:number): Promise<void>;
 
     createPlace(place: Place): Promise<PlaceResponse>;
+    updatePlace(placeId: number, place: Partial<Place>): Promise<PlaceResponse>;
+    deletePlace(placeId: number): Promise<void>;
 }

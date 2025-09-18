@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const respondeUtil_1 = require("../utils/respondeUtil");
-const errors_1 = require("../errors/errors");
 class AdminPlaceController {
     constructor(placeService) {
         this.placeService = placeService;
@@ -21,15 +20,14 @@ class AdminPlaceController {
         this.updateProduct = this.updateProduct.bind(this);
         this.deleteProduct = this.deleteProduct.bind(this);
         this.createProduct = this.createProduct.bind(this);
+        this.updatePlace = this.updatePlace.bind(this);
+        this.deletePlace = this.deletePlace.bind(this);
         console.log('✅ Servicio de Places activo');
     }
     createProduct(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const product = req.body;
             try {
-                if (req.placeId !== product.place_id) {
-                    throw new errors_1.TokenError('El token no es válido para este lugar');
-                }
                 const newProduct = yield this.placeService.createProduct(req.placeId || 0, product);
                 (0, respondeUtil_1.sendSuccess)(res, newProduct);
             }
@@ -76,11 +74,10 @@ class AdminPlaceController {
     }
     updateProduct(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const placeId = req.params.placeId;
-            const productId = req.params.productId;
+            const placeId = req.placeId;
             const product = req.body;
             try {
-                const updatedProduct = yield this.placeService.updateProduct(parseInt(placeId, 10), parseInt(productId, 10), product);
+                const updatedProduct = yield this.placeService.updateProduct(placeId || 0, parseInt(product.id, 10), product);
                 (0, respondeUtil_1.sendSuccess)(res, updatedProduct);
             }
             catch (error) {
@@ -90,11 +87,36 @@ class AdminPlaceController {
     }
     deleteProduct(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const placeId = req.params.placeId;
-            const productId = req.params.productId;
+            const placeId = req.placeId;
+            const productId = req.body.id;
             try {
-                yield this.placeService.deleteProduct(parseInt(placeId, 10), parseInt(productId, 10));
+                yield this.placeService.deleteProduct(placeId || 0, parseInt(productId, 10));
                 (0, respondeUtil_1.sendSuccess)(res, 'Producto eliminado');
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    }
+    updatePlace(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const place_id = req.placeId;
+            const placeData = req.body;
+            try {
+                const updatedPlace = yield this.placeService.updatePlace(place_id || 0, placeData);
+                (0, respondeUtil_1.sendSuccess)(res, updatedPlace);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    }
+    deletePlace(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const place_id = req.placeId;
+            try {
+                yield this.placeService.deletePlace(place_id || 0);
+                (0, respondeUtil_1.sendSuccess)(res, 'Lugar eliminado');
             }
             catch (error) {
                 next(error);

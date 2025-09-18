@@ -16,6 +16,8 @@ export default class AdminPlaceController {
         this.updateProduct = this.updateProduct.bind(this);
         this.deleteProduct = this.deleteProduct.bind(this);
         this.createProduct = this.createProduct.bind(this);
+        this.updatePlace = this.updatePlace.bind(this);
+        this.deletePlace = this.deletePlace.bind(this);
         console.log('✅ Servicio de Places activo');
 
     }
@@ -23,9 +25,6 @@ export default class AdminPlaceController {
     async createProduct(req: AuthRequest, res: Response, next:NextFunction): Promise<void> {
         const product = req.body as Product;
         try {
-            if(req.placeId !== product.place_id) {
-                throw new TokenError('El token no es válido para este lugar');
-            }
             const newProduct = await this.placeService.createProduct(req.placeId || 0, product);
             sendSuccess(res, newProduct);
         } catch (error) {
@@ -64,11 +63,10 @@ export default class AdminPlaceController {
     }
 
     async updateProduct(req: AuthRequest, res: Response, next:NextFunction): Promise<void> {
-        const placeId = req.params.placeId;
-        const productId = req.params.productId;
+        const placeId = req.placeId;
         const product = req.body;
         try {
-            const updatedProduct = await this.placeService.updateProduct(parseInt(placeId, 10), parseInt(productId, 10), product);
+            const updatedProduct = await this.placeService.updateProduct(placeId || 0, parseInt(product.id, 10), product);
             sendSuccess(res, updatedProduct);
         } catch (error) {
             next(error)
@@ -76,11 +74,32 @@ export default class AdminPlaceController {
     }
 
     async deleteProduct(req: AuthRequest, res: Response, next:NextFunction): Promise<void> {
-        const placeId = req.params.placeId;
-        const productId = req.params.productId;
+        const placeId = req.placeId;
+        const productId = req.body.id;
         try {
-            await this.placeService.deleteProduct(parseInt(placeId, 10), parseInt(productId, 10));
+            await this.placeService.deleteProduct(placeId||0 , parseInt(productId, 10));
             sendSuccess(res, 'Producto eliminado');
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async updatePlace(req: AuthRequest, res: Response, next:NextFunction): Promise<void> {
+        const place_id = req.placeId;
+        const placeData = req.body;
+        try {
+            const updatedPlace = await this.placeService.updatePlace(place_id || 0, placeData);
+            sendSuccess(res, updatedPlace);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async deletePlace(req: AuthRequest, res: Response, next:NextFunction): Promise<void> {
+        const place_id = req.placeId;
+        try {
+            await this.placeService.deletePlace(place_id || 0);
+            sendSuccess(res, 'Lugar eliminado');
         } catch (error) {
             next(error)
         }

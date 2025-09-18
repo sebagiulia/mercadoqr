@@ -1,11 +1,13 @@
 export interface Movement {
-    payment_id: number;
-    prod_id: number;
-    place_id: number;
-    quantity: number;
-    total_price: number;
-    status: "Consumido" | "Por consumir";
-    user_id: number;
+        id: string;
+        place_id: number;
+        prod_id: number;
+        prod_quant: number;
+        balance: number;
+        user_email: string;
+        user_phone: string;
+        expired_at: Date;
+        status: "Consumido" | "Por consumir";
 }
 
 export interface AnalyticsReport {

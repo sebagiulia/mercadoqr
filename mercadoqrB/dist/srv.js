@@ -87,11 +87,13 @@ app.post('/api/admin/login', authController.authAdmin);
 app.post('/api/scann/login', authController.authScann);
 // Admin
 app.get('/api/admin/place', tokenAuth_1.authenticateToken, adminPlaceController.getPlace);
+app.put('/api/admin/place/update', tokenAuth_1.authenticateToken, adminPlaceController.updatePlace);
+app.put('/api/admin/place/delete', tokenAuth_1.authenticateToken, adminPlaceController.deletePlace);
 app.get('/api/admin/products', tokenAuth_1.authenticateToken, adminPlaceController.getProducts);
 app.get('/api/admin/movements', tokenAuth_1.authenticateToken, adminPlaceController.getMovements);
 app.post('/api/admin/product/create', tokenAuth_1.authenticateToken, adminPlaceController.createProduct);
-app.put('/api/admin/product/update/:id', tokenAuth_1.authenticateToken, adminPlaceController.updateProduct);
-app.delete('/api/admin/product/delete/:id', tokenAuth_1.authenticateToken, adminPlaceController.deleteProduct);
+app.put('/api/admin/product/update', tokenAuth_1.authenticateToken, adminPlaceController.updateProduct);
+app.delete('/api/admin/product/delete', tokenAuth_1.authenticateToken, adminPlaceController.deleteProduct);
 // Place & Product
 app.get('/api/place/:place', placeController.getPlace);
 app.get('/api/places/:place', placeController.getPlaces);

@@ -68,11 +68,13 @@ app.post('/api/scann/login', authController.authScann);
 
 // Admin
 app.get('/api/admin/place', authenticateToken, adminPlaceController.getPlace);
+app.put('/api/admin/place/update', authenticateToken, adminPlaceController.updatePlace);
+app.put('/api/admin/place/delete', authenticateToken, adminPlaceController.deletePlace);
 app.get('/api/admin/products', authenticateToken, adminPlaceController.getProducts);
 app.get('/api/admin/movements', authenticateToken, adminPlaceController.getMovements);
 app.post('/api/admin/product/create', authenticateToken, adminPlaceController.createProduct);
-app.put('/api/admin/product/update/:id', authenticateToken, adminPlaceController.updateProduct);
-app.delete('/api/admin/product/delete/:id', authenticateToken, adminPlaceController.deleteProduct);
+app.put('/api/admin/product/update', authenticateToken, adminPlaceController.updateProduct);
+app.delete('/api/admin/product/delete', authenticateToken, adminPlaceController.deleteProduct);
 
 
 // Place & Product
