@@ -5,4 +5,5 @@ export interface Place {
     address: string;
     img: string;
     credential: string;
+    mpToken: string;
 }

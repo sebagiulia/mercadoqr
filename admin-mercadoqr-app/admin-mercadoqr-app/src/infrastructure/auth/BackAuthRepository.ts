@@ -7,7 +7,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export class BackAuthRepository implements IAuthRepository {
   async login(name: string, password: string): Promise<ErrorType<AuthResponse>> {
-    
       return apiClient(endpoints.LOGIN_API, {
       method: "POST",
       headers: {

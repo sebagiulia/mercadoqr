@@ -14,22 +14,25 @@ import {
 import { Place } from "../../domain/entities/Place";
 import { BackPlaceRepository } from "../../infrastructure/place/BackPlaceRepository";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const repository = new BackPlaceRepository();
 
-export default function PlaceScreen({navigation}: any) {
+export default function PlaceScreen({ navigation }: any) {
   const [place, setPlace] = useState<Place | null>(null);
   const [form, setForm] = useState<Partial<Place>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [mpModalVisible, setMpModalVisible] = useState(false);
   const [animation] = useState(new Animated.Value(0));
+  const [mpAnimation] = useState(new Animated.Value(0));
   const [token, setToken] = useState<string>("");
+  const [mpToken, setMpToken] = useState<string>("");
 
   useEffect(() => {
     const fetchPlace = async () => {
       setLoading(true);
-  
-      // Recuperar token de AsyncStorage
+
       let storedToken = token;
       if (!storedToken) {
         storedToken = (await AsyncStorage.getItem("token")) || "";
@@ -41,11 +44,10 @@ export default function PlaceScreen({navigation}: any) {
           return;
         }
       }
-  
-      // Usar el token en la llamada al repo
+
       try {
         const response = await repository.getPlaceData(storedToken);
-        if(response.success && response.data) {
+        if (response.success && response.data) {
           setPlace(response.data);
           setForm(response.data);
         } else {
@@ -60,9 +62,19 @@ export default function PlaceScreen({navigation}: any) {
         setLoading(false);
       }
     };
-  
+
     fetchPlace();
   }, [token]);
+
+  const modalScale = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.8, 1],
+  });
+
+  const mpModalScale = mpAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.8, 1],
+  });
 
   const openModal = () => {
     setForm(place || {});
@@ -82,23 +94,39 @@ export default function PlaceScreen({navigation}: any) {
     }).start(() => setModalVisible(false));
   };
 
+  const openMpModal = () => {
+    setMpModalVisible(true);
+    Animated.timing(mpAnimation, {
+      toValue: 1,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeMpModal = () => {
+    Animated.timing(mpAnimation, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start(() => setMpModalVisible(false));
+  };
+
   const savePlace = async () => {
     if (!form.name || !form.address) return;
     setSaving(true);
-    if(token === "") {
+    if (token === "") {
       const storedToken = await AsyncStorage.getItem("token");
       if (!storedToken) {
-        // redirigir a login o mostrar error
         navigation.replace("Login");
         setSaving(false);
         return;
       }
       setToken(storedToken);
-   }
-    
+    }
+
     try {
       const response = await repository.updatePlaceData(token, form as Place);
-      if(response.success && response.data) {
+      if (response.success && response.data) {
         setPlace(response.data);
         closeModal();
       } else {
@@ -115,10 +143,32 @@ export default function PlaceScreen({navigation}: any) {
     }
   };
 
-  const modalScale = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.8, 1],
-  });
+  const logout = async () => {
+    await AsyncStorage.removeItem("token");
+    navigation.replace("Login");
+  };
+
+  const saveMpToken = async () => {
+    if (!place) return;
+  
+    const updatedForm = { ...form, mpToken }; // construyo el form actualizado
+  
+    setSaving(true);
+    try {
+      const response = await repository.updatePlaceData(token, updatedForm as Place);
+      if (response.success && response.data) {
+        setPlace(response.data); // actualizo el estado local
+        setForm(response.data);  // también actualizo el form
+        closeMpModal();
+      } else {
+        console.error("Error guardando token de MP:", (response.error?.message || "Error del servidor"));
+      }
+    } catch (err) {
+      console.error("Error guardando token de MP:", err);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   if (loading || !place) {
     return (
@@ -133,58 +183,77 @@ export default function PlaceScreen({navigation}: any) {
     );
   }
 
+  const renderLabelInput = (
+    label: string,
+    value: string | undefined,
+    onChangeText: (text: string) => void
+  ) => (
+    <View style={{ marginBottom: 12 }}>
+      <Text style={styles.label}>{label}</Text>
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={onChangeText}
+      />
+    </View>
+  );
+
   return (
     <ScrollView style={styles.container}>
-      {/* Imagen superior */}
       <Image source={{ uri: place.img }} style={styles.placeImage} />
 
-      {/* Info */}
       <View style={styles.infoSection}>
         <Text style={styles.placeName}>{place.name}</Text>
         <Text style={styles.placeDescription}>{place.description}</Text>
         <Text style={styles.placeAddress}>Dirección: {place.address}</Text>
       </View>
 
-      {/* Botón de edición */}
       <Pressable style={styles.editButton} onPress={openModal}>
-        <Text style={styles.editButtonText}>Editar Sucursal</Text>
+        <Text style={styles.editButtonText}>Editar Información</Text>
       </Pressable>
 
-      {/* Modal de edición */}
+      <Pressable
+        style={[styles.editButton, { backgroundColor: "#009ee3" }]}
+        onPress={openMpModal}
+      >
+        <Text style={styles.editButtonText}>Mercado Pago Token</Text>
+        <View style={styles.mpTokenContainer}>
+          <Text
+            style={styles.mpTokenText}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {place.mpToken ? place.mpToken : "No configurado"}
+          </Text>
+        </View>
+      </Pressable>
+
+      <Pressable
+        style={[styles.editButton, { backgroundColor: "red" }]}
+        onPress={logout}
+      >
+        <Text style={styles.editButtonText}>Cerrar sesión</Text>
+      </Pressable>
+
+      {/* Modal sucursal */}
       <Modal transparent visible={modalVisible} animationType="none">
         <View style={styles.modalBackground}>
           <Animated.View
-            style={[
-              styles.modalContainer,
-              { transform: [{ scale: modalScale }] },
-            ]}
+            style={[styles.modalContainer, { transform: [{ scale: modalScale }] }]}
           >
-            <Text style={styles.modalTitle}>Editar Sucursal</Text>
-
-            <TextInput
-              style={styles.input}
-              placeholder="Nombre"
-              value={form.name}
-              onChangeText={(text) => setForm({ ...form, name: text })}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Descripción"
-              value={form.description}
-              onChangeText={(text) => setForm({ ...form, description: text })}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Dirección"
-              value={form.address}
-              onChangeText={(text) => setForm({ ...form, address: text })}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Imagen (URL)"
-              value={form.img}
-              onChangeText={(text) => setForm({ ...form, img: text })}
-            />
+            <Text style={styles.modalTitle}>Editar Información</Text>
+            {renderLabelInput("Nombre", form.name, (text) =>
+              setForm({ ...form, name: text })
+            )}
+            {renderLabelInput("Descripción", form.description, (text) =>
+              setForm({ ...form, description: text })
+            )}
+            {renderLabelInput("Dirección", form.address, (text) =>
+              setForm({ ...form, address: text })
+            )}
+            {renderLabelInput("Imagen (URL)", form.img, (text) =>
+              setForm({ ...form, img: text })
+            )}
 
             {saving && (
               <ActivityIndicator
@@ -206,6 +275,29 @@ export default function PlaceScreen({navigation}: any) {
                 style={[styles.modalButton, { backgroundColor: "#aaa" }]}
                 onPress={closeModal}
                 disabled={saving}
+              >
+                <Text style={styles.modalButtonText}>Cancelar</Text>
+              </Pressable>
+            </View>
+          </Animated.View>
+        </View>
+      </Modal>
+
+      {/* Modal MP */}
+      <Modal transparent visible={mpModalVisible} animationType="none">
+        <View style={styles.modalBackground}>
+          <Animated.View
+            style={[styles.modalContainer, { transform: [{ scale: mpModalScale }] }]}
+          >
+            <Text style={styles.modalTitle}>Actualizar Token de Mercado Pago</Text>
+            {renderLabelInput("Token", mpToken, setMpToken)}
+            <View style={styles.modalButtons}>
+              <Pressable style={styles.modalButton} onPress={saveMpToken}>
+                <Text style={styles.modalButtonText}>Guardar</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.modalButton, { backgroundColor: "#aaa" }]}
+                onPress={closeMpModal}
               >
                 <Text style={styles.modalButtonText}>Cancelar</Text>
               </Pressable>
@@ -256,12 +348,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     marginHorizontal: 16,
-    marginBottom: 24,
+    marginBottom: 16,
   },
   editButtonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+    textAlign: "center",
   },
   modalBackground: {
     flex: 1,
@@ -280,12 +373,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 12,
   },
+  label: {
+    fontSize: 14,
+    fontWeight: "500",
+    marginBottom: 4,
+    color: "#333",
+  },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     padding: 8,
-    marginBottom: 8,
   },
   modalButtons: {
     flexDirection: "row",
@@ -303,5 +401,18 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  mpTokenContainer: {
+    backgroundColor: "#e6f7fb",
+    padding: 8,
+    borderRadius: 8,
+    marginTop: 6,
+    width: "100%",
+  },
+  mpTokenText: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: "#003f5c",
+    marginTop: 4,
   },
 });
