@@ -17,9 +17,9 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const errors_1 = require("../../errors/errors");
 const JWT_SECRET = process.env.JWT_SECRET || "supersecreto";
 class AuthServiceJSON {
-    constructor(placeRepository, scannRepository) {
+    constructor(placeRepository, scannerRepository) {
         this.placeRepository = placeRepository;
-        this.scannRepository = scannRepository;
+        this.scannerRepository = scannerRepository;
     }
     loginAdmin(name, password) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -35,7 +35,13 @@ class AuthServiceJSON {
     }
     loginScanner(name, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            const token = "Not implemented";
+            const scanner = yield this.scannerRepository.getScanner(name);
+            if (!scanner)
+                throw new errors_1.NotFoundError("Escáner no encontrado");
+            const valid = yield bcrypt_1.default.compare(password, scanner.passwordHash);
+            if (!valid)
+                throw new errors_1.AuthorizationError("Credenciales inválidas");
+            const token = jsonwebtoken_1.default.sign({ placeId: scanner.place_id, scannerId: scanner.id }, JWT_SECRET, { expiresIn: "5h" });
             return { token };
         });
     }

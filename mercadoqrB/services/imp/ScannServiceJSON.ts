@@ -15,7 +15,15 @@ export default class ScannServiceJSON implements ScannService {
         this.scannRepository = scannRepository;
     }
 
-    async consumeQrByQrId(qrId: string): Promise<any> {
+    async consumeQrByQrId(qrId: string, place_id:number, scanner_id:number): Promise<any> {
+        /* const qr = await this.qrRepository.getQrById(qrId);
+        if (!qr) {
+            throw new Error("QR no encontrado");
+        } else if (qr.place_id !== place_id) {
+            throw new Error("El QR no pertenece a este local");
+        } else if (true) {
+            // Aquí puedes agregar lógica adicional para verificar si el QR ya fue escaneado, si el scanner esta habilitado, etc, etc.
+        } */
         return this.qrRepository.deleteQr(qrId);
     }
 

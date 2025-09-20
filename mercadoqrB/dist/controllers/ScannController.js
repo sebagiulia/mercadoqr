@@ -21,13 +21,14 @@ class ScannController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("solicitud consumeQrByQrId");
             const qrId = req.params.id;
+            const { placeId, scannerId } = req;
             // TEST //
             if (qrId === "ESTOesUNtestDEprueba") {
                 (0, respondeUtil_1.sendSuccess)(res, { message: "QR de prueba consumido correctamente" });
                 return;
             }
             try {
-                const prod = yield this.scannService.consumeQrByQrId(qrId);
+                const prod = yield this.scannService.consumeQrByQrId(qrId, placeId || 0, scannerId || 0);
                 (0, respondeUtil_1.sendSuccess)(res, prod);
             }
             catch (error) {

@@ -6,6 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "supersecreto";
 
 export interface AuthRequest extends Request {
   placeId?: number;
+  scannerId?: number;
 }
 
 export function authenticateToken(req: AuthRequest, res: Response, next: NextFunction): void {
@@ -15,6 +16,19 @@ export function authenticateToken(req: AuthRequest, res: Response, next: NextFun
     throw new TokenError("Token no proporcionado.");
   jwt.verify(token, JWT_SECRET, (err:any, payload: any) => {
     if (err)
+      throw new TokenError();
+    req.placeId = payload.placeId;
+    next();
+  });
+}
+
+export function authenticateScannerToken (req: AuthRequest, res: Response, next: NextFunction): void {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader?.split(" ")[1];
+  if (!token) 
+    throw new TokenError("Token no proporcionado.");
+  jwt.verify(token, JWT_SECRET, (err:any, payload: any) => {
+    if (err || payload.scannerId! )
       throw new TokenError();
     req.placeId = payload.placeId;
     next();

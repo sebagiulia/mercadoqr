@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import {  Response, NextFunction } from "express";
 import { sendSuccess } from "../utils/respondeUtil";
 import ScannService from "../services/ScannService";
+import { AuthRequest } from "../middleware/tokenAuth";
 
 export default class ScannController {
   private scannService: ScannService;
@@ -11,9 +12,10 @@ export default class ScannController {
     console.log("✅ Servicio de Scann activo");
   }
 
-  async consumeQrByQrId(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async consumeQrByQrId(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
    console.log("solicitud consumeQrByQrId");
     const qrId = req.params.id;
+    const { placeId, scannerId } = req;
     
     // TEST //
     if(qrId === "ESTOesUNtestDEprueba") {
@@ -23,7 +25,7 @@ export default class ScannController {
       
     
     try {
-      const prod = await this.scannService.consumeQrByQrId(qrId);
+      const prod = await this.scannService.consumeQrByQrId(qrId, placeId || 0, scannerId || 0);
       sendSuccess(res, prod);
     } catch (error) {
       next(error);
@@ -31,7 +33,7 @@ export default class ScannController {
 
   }
 
-  async validateScanner(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async validateScanner(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
     console.log("solicitud validateScanner");
     const { localName, validationCode } = req.body;
     try {

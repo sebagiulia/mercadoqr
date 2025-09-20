@@ -15,8 +15,16 @@ class ScannServiceJSON {
         this.placeRepository = placeRepository;
         this.scannRepository = scannRepository;
     }
-    consumeQrByQrId(qrId) {
+    consumeQrByQrId(qrId, place_id, scanner_id) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* const qr = await this.qrRepository.getQrById(qrId);
+            if (!qr) {
+                throw new Error("QR no encontrado");
+            } else if (qr.place_id !== place_id) {
+                throw new Error("El QR no pertenece a este local");
+            } else if (true) {
+                // Aquí puedes agregar lógica adicional para verificar si el QR ya fue escaneado, si el scanner esta habilitado, etc, etc.
+            } */
             return this.qrRepository.deleteQr(qrId);
         });
     }

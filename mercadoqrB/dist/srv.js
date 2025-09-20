@@ -65,9 +65,15 @@ const mercadoPagoRepositoryJSON_1 = __importDefault(require("./repositories/imp/
 const mercadoPagoRepository = new mercadoPagoRepositoryJSON_1.default();
 const mercadoPagoService = new MercadoPagoServiceDefault_1.default(placeRepository, mercadoPagoRepository, notifierService, qrService);
 const mercadoPagoController = new MercadoPagoController_1.default(mercadoPagoService, placeService);
+const ScannerController_1 = __importDefault(require("./controllers/ScannerController"));
+const ScannerServiceImp_1 = __importDefault(require("./services/imp/ScannerServiceImp"));
+const scannerRepositoryJSON_1 = __importDefault(require("./repositories/imp/scannerRepositoryJSON"));
+const scannerRepository = new scannerRepositoryJSON_1.default();
+const scannerService = new ScannerServiceImp_1.default(scannerRepository);
+const scannerController = new ScannerController_1.default(scannerService);
 const AuthController_1 = __importDefault(require("./controllers/AuthController"));
 const AuthServiceJSON_1 = __importDefault(require("./services/imp/AuthServiceJSON"));
-const authService = new AuthServiceJSON_1.default(placeRepository, scannRepository);
+const authService = new AuthServiceJSON_1.default(placeRepository, scannerRepository);
 const authController = new AuthController_1.default(authService);
 const tokenAuth_1 = require("./middleware/tokenAuth");
 const AdminPlaceController_1 = __importDefault(require("./controllers/AdminPlaceController"));
@@ -94,6 +100,11 @@ app.get('/api/admin/movements', tokenAuth_1.authenticateToken, adminPlaceControl
 app.post('/api/admin/product/create', tokenAuth_1.authenticateToken, adminPlaceController.createProduct);
 app.put('/api/admin/product/update', tokenAuth_1.authenticateToken, adminPlaceController.updateProduct);
 app.delete('/api/admin/product/delete', tokenAuth_1.authenticateToken, adminPlaceController.deleteProduct);
+// Scanner
+app.get('/api/scanner/scanners', tokenAuth_1.authenticateToken, scannerController.getScanners);
+app.post('/api/scanner/create', tokenAuth_1.authenticateToken, scannerController.addScanner);
+app.delete('/api/scanner/remove', tokenAuth_1.authenticateToken, scannerController.removeScanner);
+app.put('/api/scanner/update', tokenAuth_1.authenticateToken, scannerController.updateScanner);
 // Place & Product
 app.get('/api/place/:place', placeController.getPlace);
 app.get('/api/places/:place', placeController.getPlaces);
@@ -104,12 +115,13 @@ app.get('/api/categories/:place', placeController.getCategories);
 // Place
 app.post('/api/place/create', placeController.createPlace);
 // Scann
-app.get('/api/scann/consume/:id', scannController.consumeQrByQrId);
-app.get('/api/scann/getprod/:id', qrController.getQrById);
-app.post('/api/scann/validate', scannController.validateScanner);
+app.get('/api/scann/consume/:id', tokenAuth_1.authenticateScannerToken, scannController.consumeQrByQrId);
+app.get('/api/scann/getprod/:id', tokenAuth_1.authenticateScannerToken, qrController.getQrById);
+app.post('/api/scann/validate', tokenAuth_1.authenticateScannerToken, scannController.validateScanner);
 // MercadoPago
 app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint);
 app.post('/api/mp/notify/:payment_id', mercadoPagoController.processMPNotification);
+// Scanner
 // Middleware de errores
 app.use(errorHandler_1.errorHandler);
 //connectDB()
