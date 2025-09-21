@@ -23,6 +23,11 @@ export default class ScannerRepositoryJSON implements ScannerRepository {
         this.scanners = JSON.parse(scannersString) as Scanner[];
     }
     async addScanner(place_id:number, sc: Scanner): Promise<Scanner> {
+        const newId = this.scanners.length > 0 ? Math.max(...this.scanners.map(s => s.id)) + 1 : 1;
+        const accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+        sc.id = newId;
+        sc.place_id = place_id;
+        sc.accessCode = accessCode;
         createScanner(sc);
         return sc
     }

@@ -1,7 +1,6 @@
 export default interface Scanner { 
     id: number;
-    place_id: number;
     name: string;
-    level: number;
-    accessCode: string; 
+    accessCode: string;
+    category: number;
 }

@@ -21,7 +21,6 @@ class ScannerController {
     }
     getScanners(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("solicitud getScanners");
             const { placeId } = req;
             try {
                 const scanners = yield this.scannerService.getScanners(placeId || 0);
@@ -47,7 +46,7 @@ class ScannerController {
     }
     removeScanner(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const id = req.body.id;
+            const id = req.body.scannerId;
             try {
                 const result = yield this.scannerService.removeScanner(id);
                 (0, respondeUtil_1.sendSuccess)(res, result);

@@ -10,6 +10,9 @@ const ROUTER = {
     LOGIN: '/api/admin/login',
     LOGOUT: '/api/admin/logout',
     GET_PLACE_MOVEMENTS: '/api/admin/movements' /* place_id */,
+    GET_SCANNERS: '/api/scanner/scanners',
+    CREATE_SCANNER: '/api/scanner/create',
+    DELETE_SCANNER: '/api/scanner/remove'
 };
 
 export default {
@@ -22,4 +25,7 @@ export default {
     LOGIN_API: EXTERNAL_API + ROUTER.LOGIN,
     LOGOUT_API: EXTERNAL_API + ROUTER.LOGOUT,
     GET_PLACE_MOVEMENTS_API: EXTERNAL_API + ROUTER.GET_PLACE_MOVEMENTS,
+    GET_SCANNERS_API: EXTERNAL_API + ROUTER.GET_SCANNERS,
+    CREATE_SCANNER_API: EXTERNAL_API + ROUTER.CREATE_SCANNER,
+    DELETE_SCANNER_API: EXTERNAL_API + ROUTER.DELETE_SCANNER
 }

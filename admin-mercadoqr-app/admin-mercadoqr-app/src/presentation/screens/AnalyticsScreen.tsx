@@ -21,14 +21,22 @@ const analyticsRepo = new BackAnalyticsRepository();
 const analytics = new GetSalesStats(analyticsRepo);
 const productRepo = new BackProductsRepository();
 
-export default function AnalyticsScreen({navigation}: any) {
-  const [report, setReport] = useState<AnalyticsReport & { allMovements?: (Movement & { img?: string })[] } | null>(null);
-  const [selectedMovement, setSelectedMovement] = useState<Movement & { img?: string } | null>(null);
+export default function AnalyticsScreen({ navigation }: any) {
+  const [report, setReport] = useState<
+    AnalyticsReport & { allMovements?: (Movement & { img?: string })[] } | null
+  >(null);
+  const [selectedMovement, setSelectedMovement] = useState<
+    Movement & { img?: string } | null
+  >(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [animation] = useState(new Animated.Value(0));
   const [loading, setLoading] = useState(true);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [token, setToken] = useState<string>("");
+
+  const [selectedCategory, setSelectedCategory] = useState<
+    "Consumidos" | "Por consumir"
+  >("Consumidos");
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -47,10 +55,13 @@ export default function AnalyticsScreen({navigation}: any) {
 
       const responseAn = await analytics.execute(token);
       if (!responseAn.success || !responseAn.data) {
-        console.error("Failed to fetch analytics data", (responseAn.error?.message|| "Error desconocido"));
+        console.error(
+          "Failed to fetch analytics data",
+          responseAn.error?.message || "Error desconocido"
+        );
         setLoading(false);
         return;
-      } 
+      }
 
       try {
         const response = await productRepo.getAll(storedToken);
@@ -59,25 +70,23 @@ export default function AnalyticsScreen({navigation}: any) {
           setAllProducts(products);
           const enrichWithImages = (movements: Movement[]) =>
             movements.map((m) => {
-              const product = allProducts.find((p) => p.id === m.prod_id);
+              const product = products.find((p) => p.id === m.prod_id);
               return { ...m, img: product?.img ?? "" };
             });
-    
+
           setReport({
             consumed: enrichWithImages(responseAn.data.consumed),
             toConsume: enrichWithImages(responseAn.data.toConsume),
-            allMovements: enrichWithImages(responseAn.data.allMovements), // Movimientos
+            allMovements: enrichWithImages(responseAn.data.allMovements),
           });
         } else {
           console.error("Failed to fetch products");
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
-
     };
 
     fetchReport();
@@ -106,45 +115,98 @@ export default function AnalyticsScreen({navigation}: any) {
     outputRange: [0.8, 1],
   });
 
-  if (loading) 
-  return (<View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
-          <ActivityIndicator size="large" color="#4caf50" />
-          </View>);
+  if (loading)
+    return (
+      <View
+        style={[
+          styles.container,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
+        <ActivityIndicator size="large" color="#4caf50" />
+      </View>
+    );
 
   if (!report) return <Text style={{ margin: 16 }}>No hay datos disponibles.</Text>;
 
-  const categories: { title: string; data: (Movement & { img?: string })[] }[] = [
-    { title: "Movimientos", data: report.allMovements || [] },
-    { title: "Por consumir", data: report.toConsume },
-    { title: "Consumidos", data: report.consumed },
-  ];
+  const categories: {
+    [key in "Consumidos" | "Por consumir"]: (Movement & { img?: string })[];
+  } = {
+    "Por consumir": report.toConsume,
+    Consumidos: report.consumed,
+  };
+
+  const currentData = categories[selectedCategory] || [];
 
   return (
     <ScrollView style={styles.container}>
-      {categories.map(({ title, data }) => (
-        <View key={title} style={styles.categorySection}>
-          <Text style={styles.productCategory}>{title}</Text>
-          {data.map((movement) => {
-
-          const product = allProducts.find((p) => p.id === movement.prod_id);
-
-          return (
+      {/* Selector de categoría */}
+      <View style={styles.selectorContainer}>
+        {(Object.keys(categories) as ("Consumidos" | "Por consumir")[]).map(
+          (cat) => (
             <Pressable
-              key={movement.id}
-              style={ styles.productCard}
-              onPress={() => openModal(movement)}
+              key={cat}
+              style={[
+                styles.selectorButton,
+                selectedCategory === cat && styles.selectorButtonActive,
+              ]}
+              onPress={() => setSelectedCategory(cat)}
             >
-              <Image source={{ uri: product.img }} style={styles.productImage} />
-              <View style={title === "Consumidos" ? styles.productInfoConsumed :styles.productInfo}>
-                <Text style={styles.productName}>{product?.name}</Text>
-                <Text style={styles.productPrice}>Total: ${movement.balance}</Text>
-                <Text style={styles.productStock}>Cantidad: {movement.prod_quant}</Text>
-              </View>
+              <Text
+                style={[
+                  styles.selectorButtonText,
+                  selectedCategory === cat && styles.selectorButtonTextActive,
+                ]}
+              >
+                {cat} ({categories[cat].length})
+              </Text>
             </Pressable>
-          )})}
-        </View>
-      ))}
+          )
+        )}
+      </View>
 
+      {/* Lista de movimientos */}
+      <View style={styles.categorySection}>
+        <Text style={styles.productCategory}>{selectedCategory}</Text>
+        {currentData.length === 0 ? (
+          <Text style={{ marginTop: 12, color: "#777" }}>
+            No hay datos para mostrar.
+          </Text>
+        ) : (
+          currentData.map((movement) => {
+            const product = allProducts.find((p) => p.id === movement.prod_id);
+            return (
+              <Pressable
+                key={movement.id}
+                style={styles.productCard}
+                onPress={() => openModal(movement)}
+              >
+                <Image
+                  source={{ uri: product?.img }}
+                  style={styles.productImage}
+                />
+                <View
+                  style={
+                    selectedCategory === "Consumidos"
+                      ? styles.productInfoConsumed
+                      : styles.productInfo
+                  }
+                >
+                  <Text style={styles.productName}>{product?.name}</Text>
+                  <Text style={styles.productPrice}>
+                    Total: ${movement.balance}
+                  </Text>
+                  <Text style={styles.productStock}>
+                    Cantidad: {movement.prod_quant}
+                  </Text>
+                </View>
+              </Pressable>
+            );
+          })
+        )}
+      </View>
+
+      {/* Modal detalle */}
       <Modal transparent visible={modalVisible} animationType="none">
         <View style={styles.modalBackground}>
           <Animated.View
@@ -154,14 +216,35 @@ export default function AnalyticsScreen({navigation}: any) {
             {selectedMovement && (
               <>
                 {selectedMovement.img ? (
-                  <Image source={{ uri: selectedMovement.img }} style={styles.modalImage} />
+                  <Image
+                    source={{ uri: selectedMovement.img }}
+                    style={styles.modalImage}
+                  />
                 ) : null}
-                <Text>Email: {selectedMovement.user_email}</Text>
-                <Text>Phone: {selectedMovement.user_phone}</Text>
-                <Text>Cantidad: {selectedMovement.prod_quant}</Text>
-                <Text>Total: ${selectedMovement.balance}</Text>
-                <Text>Estado: {selectedMovement.status}</Text>
+                <View style={styles.detailRow}></View>
+                  <Text style={styles.detailLabel}>Email</Text>
+                  <Text style={styles.detailValue}>{selectedMovement.user_email}</Text>
+                <View/>
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Teléfono</Text>
+                  <Text style={styles.detailValue}>{selectedMovement.user_phone}</Text>
+                </View>
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Cantidad</Text>
+                  <Text style={styles.detailValue}> {selectedMovement.prod_quant}</Text>
+                </View>
+
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Total</Text>
+                  <Text style={styles.detailValue}>${selectedMovement.balance} </Text>
+                </View>
+
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Estado</Text>
+                  <Text style={styles.detailValue}>{selectedMovement.status} </Text>
+                </View>
               </>
+
             )}
             <Pressable style={styles.closeButton} onPress={closeModal}>
               <Text style={styles.closeButtonText}>Cerrar</Text>
@@ -175,8 +258,28 @@ export default function AnalyticsScreen({navigation}: any) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, backgroundColor: "#f2f2f2" },
+  selectorContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 16,
+  },
+  selectorButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    backgroundColor: "#e0e0e0",
+  },
+  selectorButtonActive: { backgroundColor: "#4caf50" },
+  selectorButtonText: { color: "#333", fontWeight: "bold" },
+  selectorButtonTextActive: { color: "#fff" },
+
   categorySection: { marginBottom: 24 },
-  productCategory: { fontSize: 18, fontWeight: "bold", marginVertical: 8, color: "#333" },
+  productCategory: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginVertical: 8,
+    color: "#333",
+  },
   productCard: {
     flexDirection: "row",
     marginBottom: 16,
@@ -188,8 +291,10 @@ const styles = StyleSheet.create({
     elevation: 3,
     overflow: "hidden",
   },
-  productInfoConsumed:{
-    flex: 1, padding: 12, justifyContent: "center",
+  productInfoConsumed: {
+    flex: 1,
+    padding: 12,
+    justifyContent: "center",
     backgroundColor: "#e0e0e0",
   },
   productInfo: { flex: 1, padding: 12, justifyContent: "center" },
@@ -197,7 +302,6 @@ const styles = StyleSheet.create({
   productName: { fontWeight: "bold", fontSize: 16, marginBottom: 4 },
   productPrice: { color: "#2E8B57", fontWeight: "bold", marginBottom: 4 },
   productStock: { color: "#555", marginBottom: 4 },
-  productDescription: { color: "#777", fontSize: 12 },
   modalBackground: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.4)",
@@ -211,7 +315,12 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   modalTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 12 },
-  modalImage: { width: "100%", height: 200, borderRadius: 12, marginBottom: 12 },
+  modalImage: {
+    width: "100%",
+    height: 200,
+    borderRadius: 12,
+    marginBottom: 12,
+  },
   closeButton: {
     backgroundColor: "#4caf50",
     padding: 10,
@@ -220,4 +329,21 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   closeButtonText: { color: "#fff", fontWeight: "bold" },
+  detailRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 12,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  detailLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  detailValue: {
+    fontSize: 16,
+    color: "#555",
+  },
 });

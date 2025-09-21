@@ -28,7 +28,8 @@ export default class AuthServiceJSON implements AuthService {
     async loginScanner(name: string, password: string): Promise<{ token: string }> {
         const scanner = await this.scannerRepository.getScanner(name);
         if (!scanner) throw new NotFoundError("Escáner no encontrado");
-        const valid = await bcrypt.compare(password, scanner.passwordHash);
+        /* const valid = await bcrypt.compare(password, scanner.passwordHash); */
+        const valid = password === scanner.accessCode; // Temporal mientras no se implemente el registro de escáneres
         if (!valid) throw new AuthorizationError("Credenciales inválidas");
         const token = jwt.sign({ placeId: scanner.place_id, scannerId: scanner.id }, JWT_SECRET, { expiresIn: "5h" });
         return { token };

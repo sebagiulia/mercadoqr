@@ -60,6 +60,11 @@ class ScannerRepositoryJSON {
     }
     addScanner(place_id, sc) {
         return __awaiter(this, void 0, void 0, function* () {
+            const newId = this.scanners.length > 0 ? Math.max(...this.scanners.map(s => s.id)) + 1 : 1;
+            const accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            sc.id = newId;
+            sc.place_id = place_id;
+            sc.accessCode = accessCode;
             createScanner(sc);
             return sc;
         });

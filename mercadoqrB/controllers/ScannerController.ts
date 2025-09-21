@@ -14,7 +14,6 @@ export default class ScannerController {
     }
 
     async getScanners(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
-        console.log("solicitud getScanners");
         const { placeId } = req;
         try {
             const scanners = await this.scannerService.getScanners(placeId || 0);
@@ -36,7 +35,7 @@ export default class ScannerController {
     }
 
     async removeScanner(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
-        const id = req.body.id;
+        const id = req.body.scannerId;
         try { 
             const result = await this.scannerService.removeScanner(id);
             sendSuccess(res, result);

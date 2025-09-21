@@ -1,5 +1,6 @@
 lo ultimo que hice fue: 17/09/2025
 
+-> Agregar el manejo de scanners
 -> Arreglar el tema del navigation.replace para cuando hay token invalido en almacenamiento
 -> Al hacer un cambio, hay que hacer automaticamente un refresco de la pagina. 
 -> Cuando hay un refresco, la aplicacion deberia volver a la pestaña donde se hizo este.

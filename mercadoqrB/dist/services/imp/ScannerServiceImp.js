@@ -21,7 +21,6 @@ class ScannerServiceImp {
     }
     addScanner(place_id, sc) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`Agregando escáner al lugar con ID ${place_id}`);
             const newScanner = Object.assign(Object.assign({}, sc), { place_id });
             this.scannerRepository.addScanner(place_id, newScanner);
             return newScanner;
@@ -29,13 +28,11 @@ class ScannerServiceImp {
     }
     removeScanner(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`Eliminando escáner con ID ${id}`);
             const scanner = yield this.scannerRepository.removeScanner(id);
         });
     }
     updateScanner(id, sc) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`Actualizando escáner con ID ${id}`);
             const updatedScanner = yield this.scannerRepository.updateScanner(id, sc);
             return updatedScanner;
         });

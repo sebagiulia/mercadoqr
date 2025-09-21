@@ -38,7 +38,8 @@ class AuthServiceJSON {
             const scanner = yield this.scannerRepository.getScanner(name);
             if (!scanner)
                 throw new errors_1.NotFoundError("Escáner no encontrado");
-            const valid = yield bcrypt_1.default.compare(password, scanner.passwordHash);
+            /* const valid = await bcrypt.compare(password, scanner.passwordHash); */
+            const valid = password === scanner.accessCode; // Temporal mientras no se implemente el registro de escáneres
             if (!valid)
                 throw new errors_1.AuthorizationError("Credenciales inválidas");
             const token = jsonwebtoken_1.default.sign({ placeId: scanner.place_id, scannerId: scanner.id }, JWT_SECRET, { expiresIn: "5h" });

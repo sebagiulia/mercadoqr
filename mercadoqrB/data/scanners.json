@@ -1,23 +1,16 @@
 [
-    {
-        "id": 1,
-        "place_id": 4,
-        "name": "Marcelo Gallo",
-        "level": 1,
-        "accessCode": "ABC123"
-    },
-    {
-        "id": 2,
-        "place_id": 4,
-        "name": "Luisa Fernanda",
-        "level": 1,
-        "accessCode": "DEF456"
-    },
-    {
-        "id": 3,
-        "place_id": 4,
-        "name": "Carlos Perez",
-        "level": 1,
-        "accessCode": "GHI789"
-    }
+  {
+    "name": "Marcio",
+    "category": 5,
+    "id": 1,
+    "accessCode": "QQF402",
+    "place_id": 4
+  },
+  {
+    "name": "Sofia",
+    "category": 1,
+    "id": 3,
+    "accessCode": "5GB3OY",
+    "place_id": 4
+  }
 ]
