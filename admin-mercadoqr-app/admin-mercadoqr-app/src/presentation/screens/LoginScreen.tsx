@@ -1,75 +1,58 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BackAuthRepository } from "../../infrastructure/auth/BackAuthRepository";
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, Pressable, StyleSheet, ActivityIndicator } from "react-native";
+import { useLogin } from "../../hooks/useLogin";
+import { useAuthToken } from "../../hooks/useAuthToken";
 
 export default function LoginScreen({ navigation }: any) {
+  const { token, setToken } = useAuthToken(navigation, ()=>{});
+  const { login, loading, error } = useLogin();
+
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  React.useEffect(() => {
-    const checkToken = async () => {
-      const token = await AsyncStorage.getItem('token');
-      if (token) {
-        navigation.replace("HomeTabs");
-      }
-    };
-    checkToken();
-  }, []);
+  useEffect(() => {
+    if (token) navigation.replace("HomeTabs");
+  }, [token]);
 
   const handleLogin = async () => {
-    const repo = new BackAuthRepository();
-    setLoading(true);
-    setError(null); // limpiar error previo
-    try {
-      const result = await repo.login(name, password);
-      if (result.success && result.data) {
-        await AsyncStorage.setItem('token', result.data.token);
-        navigation.replace("HomeTabs");
-      } else {
-        console.log("Login failed:", result.error);
-        setError("Credenciales inválidas o error en el servidor.");
-      }
-    } catch (err: any) {
-      setError("Error en llamada a login: " + (err.message || err.toString()));
-    } finally {
-      setLoading(false);
-    }
+    const t = await login(name, password);
+    if (t) setToken(t);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Iniciar sesión</Text>
 
-      <View style={{ height: 20 }} />
+      <View style={{ marginVertical: 8 }}>
+        <Text style={styles.label}>Nombre sucursal</Text>
+        <TextInput
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+          placeholder=""
+        />
+      </View>
 
-      <Text>Nombre sucursal</Text>
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-      />
+      <View style={{ marginVertical: 8 }}>
+        <Text style={styles.label}>Contraseña</Text>
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          placeholder=""
+        />
+      </View>
 
-      <View style={{ height: 20 }} />
-
-      <Text>Contraseña</Text>
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      {/* Error visible en pantalla */}
       {error && <Text style={styles.error}>{error}</Text>}
 
       <View style={{ marginTop: 20 }}>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#4caf50" />
         ) : (
-          <Button title="Ingresar" onPress={handleLogin} />
+          <Pressable style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Ingresar</Text>
+          </Pressable>
         )}
       </View>
     </View>
@@ -77,18 +60,26 @@ export default function LoginScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: { fontSize: 24, marginBottom: 20, textAlign: "center" },
+  container: { flex: 1, justifyContent: "center", padding: 16, backgroundColor: "#f2f2f2" },
+  title: { fontSize: 24, marginBottom: 24, textAlign: "center", fontWeight: "bold", color: "#333" },
+  label: { marginBottom: 4, color: "#555", fontWeight: "bold" },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: "#fff",
   },
+  button: {
+    backgroundColor: "#4caf50",
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  buttonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
   error: {
     color: "red",
-    marginTop: 10,
+    marginTop: 12,
     textAlign: "center",
   },
 });

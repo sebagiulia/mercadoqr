@@ -50,7 +50,7 @@ export class AppError extends Error {
     }
 
     export class TokenError extends AppError {
-      constructor(message = 'Token inválido', details?: unknown) {
+      constructor(message = 'Token inválido o expirado', details?: unknown) {
         super(message, 401, details);
     }
 

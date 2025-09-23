@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,291 +11,119 @@ import {
   Animated,
   ActivityIndicator,
   FlatList,
-  Alert,
 } from "react-native";
 import { Place } from "../../domain/entities/Place";
 import { BackPlaceRepository } from "../../infrastructure/place/BackPlaceRepository";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Scanner from "../../domain/entities/Scanner";
+
+import { CompositeNavigationProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RootStackParamList, HomeTabParamList } from "../navigation/types";
+
+import { useAuthToken } from "../../hooks/useAuthToken";
+import { usePlace } from "../../hooks/usePlace";
+import { useScanners } from "../../hooks/useScanners";
+import { useModalAnimation } from "../../hooks/useModalAnimation";
+
+type PlaceScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<HomeTabParamList, "Sucursal">,
+  NativeStackNavigationProp<RootStackParamList>
+>;
+
+type Props = {
+  navigation: PlaceScreenNavigationProp;
+};
 
 const repository = new BackPlaceRepository();
 
-type Scanner = {
-  id: number;
-  name: string;
-  category: number;
-  accessCode: string;
-};
-
-export default function PlaceScreen({ navigation }: any) {
-  const [place, setPlace] = useState<Place | null>(null);
-  const [scanners, setScanners] = useState<Scanner[]>([]);
-  const [form, setForm] = useState<Partial<Place>>({});
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [mpModalVisible, setMpModalVisible] = useState(false);
-  const [productModalVisible, setProductModalVisible] = useState(false);
-  const [scannerDetailModalVisible, setScannerDetailModalVisible] = useState(false);
-  const [selectedScanner, setSelectedScanner] = useState<Scanner | null>(null);
+  export default function PlaceScreen({ navigation }: Props) {
+    // Token y autenticación
+    const { token, logout } = useAuthToken(navigation, () => navigation.replace("Login"));
   
-  // Animaciones
-  const [animation] = useState(new Animated.Value(0));
-  const [mpAnimation] = useState(new Animated.Value(0));
-  const [productAnimation] = useState(new Animated.Value(0));
-  const [scannerDetailAnimation] = useState(new Animated.Value(0));
+    // Datos de la sucursal
+    const { place, loading, updatePlace } = usePlace(token, () => logout());
   
-  const [token, setToken] = useState<string>("");
-  const [mpToken, setMpToken] = useState<string>("");
+    // Scanners
+    const { scanners, addScanner, removeScanner } = useScanners(token, place?.id, () => logout());
   
-  // estado para scanner form
-  const [scannerName, setScannerName] = useState<string>("");
-  const [scannerCategory, setScannerCategory] = useState<string>("");
+    // Modales con animación
+    const placeModal = useModalAnimation();
+    const mpModal = useModalAnimation();
+    const scannerModal = useModalAnimation();
+    const scannerDetailModal = useModalAnimation();
 
-  useEffect(() => {
-    const fetchPlace = async () => {
-      setLoading(true);
-      let storedToken = token;
-      if (!storedToken) {
-        storedToken = (await AsyncStorage.getItem("token")) || "";
-        if (storedToken) {
-          setToken(storedToken);
-          return;
-        } else {
-          navigation.replace("Login");
-          return;
-        }
-      }
-
-      try {
-        const response = await repository.getPlaceData(storedToken);
-        if (response.success && response.data) {
-          setPlace(response.data);
-          setForm(response.data);
-          fetchScanners(storedToken, response.data.id);
-        } else {
-          console.error("Error en la respuesta del servidor:", response.error?.message || "Error desconocido");
-          if (response.message === "Token inválido") {
-            navigation.replace("Login");
-          }
-        }
-      } catch (err) {
-        console.error("Error cargando sucursal:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPlace();
-  }, [token]);
-
-  // 🚩 Handler para traer scanners del backend
-  const fetchScanners = async (authToken: string, placeId: number) => {
-    try {
-      const response = await repository.getScanners(authToken);
-      if (response.success && response.data) {
-        setScanners(response.data);
-      }
-    } catch (err) {
-      console.error("Error obteniendo scanners:", err);
-    }
-  };
-
-  // Animaciones para modales
-  const modalScale = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.8, 1],
-  });
-
-  const mpModalScale = mpAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.8, 1],
-  });
-
-  const productModalScale = productAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.8, 1],
-  });
-
-  const scannerDetailModalScale = scannerDetailAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.8, 1],
-  });
+      // Form states locales para inputs
+    const [form, setForm] = useState<Partial<Place>>({});
+    const [mpToken, setMpToken] = useState<string>("");
+    const [selectedScanner, setSelectedScanner] = useState<Scanner | null>(null);
+    const [scannerName, setScannerName] = useState<string>("");
+    const [scannerCategory, setScannerCategory] = useState<string>("");
+  
 
   // Funciones para abrir/cerrar modales
   const openModal = () => {
     setForm(place || {});
-    setModalVisible(true);
-    Animated.timing(animation, {
-      toValue: 1,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
+    placeModal.open();
   };
 
   const closeModal = () => {
-    Animated.timing(animation, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start(() => setModalVisible(false));
+    placeModal.close();
   };
 
   const openMpModal = () => {
-    setMpModalVisible(true);
-    Animated.timing(mpAnimation, {
-      toValue: 1,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
+    setMpToken(place?.mpToken || "");
+    mpModal.open();
   };
 
   const closeMpModal = () => {
-    Animated.timing(mpAnimation, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start(() => setMpModalVisible(false));
+    mpModal.close();
   };
 
   const openScannerModal = () => {
     setScannerName("");
     setScannerCategory("");
-    setProductModalVisible(true);
-    Animated.timing(productAnimation, {
-      toValue: 1,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
+    scannerModal.open();
   };
 
   const closeScannerModal = () => {
-    Animated.timing(productAnimation, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start(() => setProductModalVisible(false));
+    scannerModal.close();
   };
 
   const openScannerDetailModal = (scanner: Scanner) => {
     setSelectedScanner(scanner);
-    setScannerDetailModalVisible(true);
-    Animated.timing(scannerDetailAnimation, {
-      toValue: 1,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
+    scannerDetailModal.open();
   };
 
   const closeScannerDetailModal = () => {
-    Animated.timing(scannerDetailAnimation, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start(() => {
-      setScannerDetailModalVisible(false);
-      setSelectedScanner(null);
-    });
+    setSelectedScanner(null);
+    scannerDetailModal.close();
   };
 
   // Funciones para guardar datos
   const savePlace = async () => {
     if (!form.name || !form.address) return;
-    setSaving(true);
-    if (token === "") {
-      const storedToken = await AsyncStorage.getItem("token");
-      if (!storedToken) {
-        navigation.replace("Login");
-        setSaving(false);
-        return;
-      }
-      setToken(storedToken);
-    }
-
-    try {
-      const response = await repository.updatePlaceData(token, form as Place);
-      if (response.success && response.data) {
-        setPlace(response.data);
-        closeModal();
-      } else {
-        console.error("Error en la respuesta del servidor:", response.message);
-        if (response.message === "Token inválido o expirado") {
-          navigation.replace("Login");
-        }
-      }
-    } catch (err) {
-      console.error("Error guardando sucursal:", err);
-    } finally {
-      setSaving(false);
-      closeModal();
-    }
-  };
-
-  const logout = async () => {
-    await AsyncStorage.removeItem("token");
-    navigation.replace("Login");
+    await updatePlace(form);
+    placeModal.close();
   };
 
   const saveMpToken = async () => {
     if (!place) return;
-    const updatedForm = { ...form, mpToken };
-    setSaving(true);
-    try {
-      const response = await repository.updatePlaceData(token, updatedForm as Place);
-      if (response.success && response.data) {
-        setPlace(response.data);
-        setForm(response.data);
-        closeMpModal();
-      } else {
-        console.error("Error guardando token de MP:", response.error?.message || "Error del servidor");
-      }
-    } catch (err) {
-      console.error("Error guardando token de MP:", err);
-    } finally {
-      setSaving(false);
-    }
+    await updatePlace({ ...place, mpToken });
+    mpModal.close();
   };
 
   const saveScanner = async () => {
-    if (!place) return;
-    const scanner = {
-      name: scannerName,
-      category: parseInt(scannerCategory, 10),
-      id: 0,
-      accessCode: ""
-    };
-    setSaving(true);
-    try {
-      const response = await repository.createScanner(token, scanner);
-      if (response.success && response.data) {
-        console.log("Scanner creado");
-        setScanners([...scanners, response.data]);
-        closeScannerModal();
-      } else {
-        console.error("Error guardando scanner:", response.error?.message || "Error del servidor");
-      }
-    } catch (err) {
-      console.error("Error guardando scanner:", err);
-    } finally {
-      setSaving(false);
-    }
+    if (!scannerName || !scannerCategory) return;
+    await addScanner({ name: scannerName, category: parseInt(scannerCategory, 10) });
+    scannerModal.close();
   };
 
   // Función para eliminar scanner
   const deleteScanner = async (scannerId: number) => {
-    try {
-      const response = await repository.deleteScanner(token, scannerId);
-      if (response.success) {
-        // Actualizar lista de scanners
-        setScanners(scanners.filter(scanner => scanner.id !== scannerId));
-        closeScannerDetailModal();
-      } else {
-        console.error("Error eliminando scanner:", response.error?.message || "Error del servidor");
-        Alert.alert("Error", "No se pudo eliminar el scanner");
-      }
-    } catch (err) {
-      console.error("Error eliminando scanner:", err);
-      Alert.alert("Error", "Ocurrió un error al eliminar el scanner");
-    }
-  }
+    await removeScanner(scannerId);
+    scannerDetailModal.close();
+  };
 
   if (loading || !place) {
     return (
@@ -369,25 +197,22 @@ export default function PlaceScreen({ navigation }: any) {
       </Pressable>
 
       {/* Modal sucursal */}
-      <Modal transparent visible={modalVisible} animationType="none">
+      <Modal transparent visible={placeModal.visible} animationType="none">
         <View style={styles.modalBackground}>
-          <Animated.View style={[styles.modalContainer, { transform: [{ scale: modalScale }] }]}>
+          <Animated.View style={[styles.modalContainer, { transform: [{ scale: placeModal.scale }] }]}>
             <Text style={styles.modalTitle}>Editar Información</Text>
             {renderLabelInput("Nombre", form.name, (text) => setForm({ ...form, name: text }))}
             {renderLabelInput("Descripción", form.description, (text) => setForm({ ...form, description: text }))}
             {renderLabelInput("Dirección", form.address, (text) => setForm({ ...form, address: text }))}
             {renderLabelInput("Imagen (URL)", form.img, (text) => setForm({ ...form, img: text }))}
             
-            {saving && <ActivityIndicator size="large" color="#4caf50" style={{ marginVertical: 10 }} />}
-            
             <View style={styles.modalButtons}>
-              <Pressable style={styles.modalButton} onPress={savePlace} disabled={saving}>
+              <Pressable style={styles.modalButton} onPress={savePlace} >
                 <Text style={styles.modalButtonText}>Guardar</Text>
               </Pressable>
               <Pressable
                 style={[styles.modalButton, { backgroundColor: "#aaa" }]}
                 onPress={closeModal}
-                disabled={saving}
               >
                 <Text style={styles.modalButtonText}>Cancelar</Text>
               </Pressable>
@@ -397,9 +222,9 @@ export default function PlaceScreen({ navigation }: any) {
       </Modal>
 
       {/* Modal MP */}
-      <Modal transparent visible={mpModalVisible} animationType="none">
+      <Modal transparent visible={mpModal.visible} animationType="none">
         <View style={styles.modalBackground}>
-          <Animated.View style={[styles.modalContainer, { transform: [{ scale: mpModalScale }] }]}>
+          <Animated.View style={[styles.modalContainer, { transform: [{ scale: mpModal.scale }] }]}>
             <Text style={styles.modalTitle}>Actualizar Token de Mercado Pago</Text>
             {renderLabelInput("Token", mpToken, setMpToken)}
             
@@ -416,9 +241,9 @@ export default function PlaceScreen({ navigation }: any) {
       </Modal>
 
       {/* Modal Scanner */}
-      <Modal transparent visible={productModalVisible} animationType="none">
+      <Modal transparent visible={scannerModal.visible} animationType="none">
         <View style={styles.modalBackground}>
-          <Animated.View style={[styles.modalContainer, { transform: [{ scale: productModalScale }] }]}>
+          <Animated.View style={[styles.modalContainer, { transform: [{ scale: scannerModal.scale }] }]}>
             <Text style={styles.modalTitle}>Agregar Scanner</Text>
             {renderLabelInput("Nombre", scannerName, setScannerName)}
             {renderLabelInput("Categoría", scannerCategory, setScannerCategory)}
@@ -436,9 +261,9 @@ export default function PlaceScreen({ navigation }: any) {
       </Modal>
 
       {/* Modal Detalles Scanner */}
-      <Modal transparent visible={scannerDetailModalVisible} animationType="none">
+      <Modal transparent visible={scannerDetailModal.visible} animationType="none">
         <View style={styles.modalBackground}>
-          <Animated.View style={[styles.modalContainer, { transform: [{ scale: scannerDetailModalScale }] }]}>
+          <Animated.View style={[styles.modalContainer, { transform: [{ scale: scannerDetailModal.scale }] }]}>
             <Text style={styles.modalTitle}>Detalles del Scanner</Text>
             
             {selectedScanner && (

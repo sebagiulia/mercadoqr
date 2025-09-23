@@ -49,7 +49,7 @@ class AuthorizationError extends AppError {
 }
 exports.AuthorizationError = AuthorizationError;
 class TokenError extends AppError {
-    constructor(message = 'Token inválido', details) {
+    constructor(message = 'Token inválido o expirado', details) {
         super(message, 401, details);
     }
 }
