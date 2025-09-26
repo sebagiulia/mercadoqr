@@ -5,9 +5,10 @@ import { BackProductsRepository } from "../infrastructure/products/BackProductsR
 const repository = new BackProductsRepository();
 
 export function useProducts(token: string, onUnauthorized?: () => void) {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]|null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  
 
   const fetchProducts = async () => {
     if (!token) return;
@@ -19,11 +20,11 @@ export function useProducts(token: string, onUnauthorized?: () => void) {
         if (response.error?.code === "401" || response.error?.code === "403") {
           onUnauthorized?.();
         } else {
-          console.error("Error cargando productos:", response.error?.message || "Error desconocido");
+          throw new Error(response.error?.message || "Error cargando productos");
         }
       }
     } catch (e) {
-      console.error("Error en fetchProducts:", e);
+      throw new Error("Error cargando productos");
     } finally {
       setLoading(false);
     }
@@ -34,11 +35,17 @@ export function useProducts(token: string, onUnauthorized?: () => void) {
     try {
       if (isNew) {
         const response = await repository.create(token, product);
-        if (!response.success) console.error("Error creando producto:", response.error);
-      } else {
+        if (!response.success) {
+          console.error("Error creando producto:", response.error);
+          throw new Error(response.error?.message || "Error creando producto");
+        }
+        } else {
         const response = await repository.update(token, product.id, product);
-        if (!response.success) console.error("Error actualizando producto:", response.error);
-      }
+        if (!response.success) {
+          console.error("Error actualizando producto:", response.error);
+          throw new Error(response.error?.message || "Error actualizando producto");
+        }
+        }
       await fetchProducts();
     } finally {
       setSaving(false);
@@ -49,7 +56,10 @@ export function useProducts(token: string, onUnauthorized?: () => void) {
     setSaving(true);
     try {
       const response = await repository.delete(token, id);
-      if (!response.success) console.error("Error eliminando producto:", response.error);
+      if (!response.success) {
+        console.error("Error eliminando producto:", response.error);
+        throw new Error(response.error?.message || "Error eliminando producto");
+      }
       await fetchProducts();
     } finally {
       setSaving(false);

@@ -186,7 +186,6 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
     async createPlace(data: Place): Promise<PlaceResponse> {
         const placesString = fs.readFileSync(filePathPlace, 'utf-8');
         this.places = JSON.parse(placesString) as Place[];
-
         if(this.places.find(place => place.name === data.name)) {
             throw new RegistrationError('Sucursal ya existente');
         }
@@ -205,6 +204,10 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
         const placesString = fs.readFileSync(filePathPlace, 'utf-8');
         this.places = JSON.parse(placesString) as Place[];
 
+        if(this.places.find(place => place.name === data.name && place.id !== placeId)) {
+            throw new RegistrationError('Sucursal ya existente');
+        }
+        
         const placeIndex = this.places.findIndex(place => place.id === placeId)
         if (placeIndex === -1) throw new NotFoundError('Place not found')
         const updatedPlace = { ...this.places[placeIndex], ...data }

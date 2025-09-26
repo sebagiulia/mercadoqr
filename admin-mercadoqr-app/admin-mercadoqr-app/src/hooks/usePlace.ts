@@ -36,15 +36,17 @@ export function usePlace(token: string | null, onUnauthorized?: () => void) {
 
   const updatePlace = async (data: Partial<Place>) => {
     if (!token) return;
-    try {
       const response = await repository.updatePlaceData(token, data as Place);
       if (response.success && response.data) {
         setPlace(response.data);
+      } else {
+        if (response.error?.code === "401") {
+          onUnauthorized?.();
+        } else {
+          throw new Error(response.error?.message || "Error actualizando sucursal")
+        }
       }
-    } catch (err) {
-      setError("Error actualizando sucursal");
-    }
   };
 
-  return { place, loading, error, updatePlace };
+  return { place, loading, updatePlace};
 }

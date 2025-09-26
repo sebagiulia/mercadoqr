@@ -26,10 +26,7 @@ export function useAnalyticsReport(token: string, onUnauthorized?: () => void) {
         if (responseAn.error?.code === "401" || responseAn.error?.code === "403") {
           onUnauthorized?.();
         } else {
-          console.error(
-            "Error al obtener analytics",
-            responseAn.error?.message || "Error desconocido"
-          );
+          throw new Error(responseAn.error?.message || "Error desconocido");
         }
         return;
       }
@@ -39,7 +36,7 @@ export function useAnalyticsReport(token: string, onUnauthorized?: () => void) {
         if (responseProd.error?.code === "401" || responseProd.error?.code === "403") {
           onUnauthorized?.();
         } else {
-          console.error("Error al obtener productos", responseProd.error?.message);
+          throw new Error(responseProd.error?.message || "Error desconocido");
         }
         return;
       }

@@ -10,7 +10,7 @@ export function useModalAnimation() {
     setVisible(true);
     Animated.timing(animation, {
       toValue: 1,
-      duration: 250,
+      duration: 50,
       useNativeDriver: true,
     }).start();
   };
@@ -18,7 +18,7 @@ export function useModalAnimation() {
   const close = () => {
     Animated.timing(animation, {
       toValue: 0,
-      duration: 200,
+      duration: 50,
       useNativeDriver: true,
     }).start(() => setVisible(false));
   };

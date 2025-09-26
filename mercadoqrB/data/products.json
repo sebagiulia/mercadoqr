@@ -4,7 +4,7 @@
     "place_id": 4,
     "name": "Combo absolut",
     "price": 200,
-    "description": "Absolut + 4 speed",
+    "description": "Absolut + 4 speed ",
     "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrujTfJQItaRY2-gm4SaW1NzhiAUZ4-iu4OA&s",
     "category": "Combos",
     "start_date": "2025-11-01",
@@ -70,18 +70,6 @@
     "start_date": "2025-11-01",
     "end_date": "2025-11-30",
     "stock": 7
-  },
-  {
-    "id": 11,
-    "place_id": 4,
-    "name": "Combo Jaggermaister",
-    "price": 700,
-    "description": "Jagger 750ml + 4 speed",
-    "img": "https://http2.mlstatic.com/D_712218-MLA48482719970_122021-C.jpg",
-    "category": "Combos",
-    "start_date": "2025-11-01",
-    "end_date": "2025-11-30",
-    "stock": 0
   },
   {
     "id": 13,

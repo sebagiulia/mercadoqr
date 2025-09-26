@@ -53,12 +53,21 @@ export default function AnalyticsScreen({ navigation }: any) {
     modal.close();
   };
 
-  if (loading)
-    return (
-      <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
-        <ActivityIndicator size="large" color="#4caf50" />
-      </View>
-    );
+  if(!allProducts) {
+    if (loading) {
+      return (
+        <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
+          <ActivityIndicator size="large" color="#4caf50" />
+        </View>
+      );
+    } else {
+      return   (<View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
+                  <Text style={{ margin: 16 }}>Error cargando datos. Intente mas tarde.</Text>;
+                </View>)
+      
+    }
+
+  } 
 
   if (!report) return <Text style={{ margin: 16 }}>No hay datos disponibles.</Text>;
 

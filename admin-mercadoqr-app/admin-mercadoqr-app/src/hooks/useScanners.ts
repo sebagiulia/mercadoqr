@@ -8,6 +8,7 @@ const repository = new BackPlaceRepository();
 export function useScanners(token: string | null, placeId?: number, onUnauthorized?: () => void) {
   const [scanners, setScanners] = useState<Scanner[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!token || !placeId) return;
@@ -21,10 +22,13 @@ export function useScanners(token: string | null, placeId?: number, onUnauthoriz
           if (response.error?.code === "401" || response.error?.code === "403") {
             onUnauthorized?.();
           } else {
-            console.error("Error al obtener scanners", response.error?.message);
+            setError("Error cargando scanners");
           }
         }
-      } finally {
+      } catch (err) {
+            setError("Error cargando scanners");
+      }
+      finally {
         setLoading(false);
       }
     };
@@ -41,6 +45,8 @@ export function useScanners(token: string | null, placeId?: number, onUnauthoriz
     if (response.success && response.data) {
       const newScanner = response.data;
       setScanners((prev) => [...prev, newScanner]);
+    } else {
+      throw new Error(response.error?.message || "Error creando scanner");
     }
   };
 
@@ -49,8 +55,10 @@ export function useScanners(token: string | null, placeId?: number, onUnauthoriz
     const response = await repository.deleteScanner(token, scannerId);
     if (response.success) {
       setScanners((prev) => prev.filter((s) => s.id !== scannerId));
+    } else {
+      throw new Error(response.error?.message || "Error eliminando scanner");
     }
   };
 
-  return { scanners, loading, addScanner, removeScanner };
+  return { scanners, loading, addScanner, removeScanner};
 }

@@ -37,29 +37,36 @@ type Props = {
 
 const repository = new BackPlaceRepository();
 
-  export default function PlaceScreen({ navigation }: Props) {
-    // Token y autenticación
-    const { token, logout } = useAuthToken(navigation, () => navigation.replace("Login"));
-  
-    // Datos de la sucursal
-    const { place, loading, updatePlace } = usePlace(token, () => logout());
-  
-    // Scanners
-    const { scanners, addScanner, removeScanner } = useScanners(token, place?.id, () => logout());
-  
-    // Modales con animación
-    const placeModal = useModalAnimation();
-    const mpModal = useModalAnimation();
-    const scannerModal = useModalAnimation();
-    const scannerDetailModal = useModalAnimation();
+export default function PlaceScreen({ navigation }: Props) {
+  // Token y autenticación
+  const { token, logout } = useAuthToken(navigation, () => navigation.replace("Login"));
 
-      // Form states locales para inputs
-    const [form, setForm] = useState<Partial<Place>>({});
-    const [mpToken, setMpToken] = useState<string>("");
-    const [selectedScanner, setSelectedScanner] = useState<Scanner | null>(null);
-    const [scannerName, setScannerName] = useState<string>("");
-    const [scannerCategory, setScannerCategory] = useState<string>("");
-  
+  // Datos de la sucursal
+  const { place, loading, updatePlace } = usePlace(token, () => logout());
+
+  // Scanners
+  const { scanners, addScanner, removeScanner } = useScanners(token, place?.id, () => logout());
+
+  // Modales con animación
+  const placeModal = useModalAnimation();
+  const mpModal = useModalAnimation();
+  const scannerModal = useModalAnimation();
+  const scannerDetailModal = useModalAnimation();
+
+  // Form states locales para inputs
+  const [form, setForm] = useState<Partial<Place>>({});
+  const [mpToken, setMpToken] = useState<string>("");
+  const [selectedScanner, setSelectedScanner] = useState<Scanner | null>(null);
+  const [scannerName, setScannerName] = useState<string>("");
+  const [scannerCategory, setScannerCategory] = useState<string>("");
+
+  // Loading states para botones de guardado
+  const [savingPlace, setSavingPlace] = useState(false);
+  const [savingMpToken, setSavingMpToken] = useState(false);
+  const [savingScanner, setSavingScanner] = useState(false);
+  const [removingScanner, setRemovingScanner] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Funciones para abrir/cerrar modales
   const openModal = () => {
@@ -68,6 +75,7 @@ const repository = new BackPlaceRepository();
   };
 
   const closeModal = () => {
+    setErrorMessage(null);     
     placeModal.close();
   };
 
@@ -77,6 +85,7 @@ const repository = new BackPlaceRepository();
   };
 
   const closeMpModal = () => {
+    setErrorMessage(null);
     mpModal.close();
   };
 
@@ -87,6 +96,7 @@ const repository = new BackPlaceRepository();
   };
 
   const closeScannerModal = () => {
+    setErrorMessage(null);
     scannerModal.close();
   };
 
@@ -96,41 +106,82 @@ const repository = new BackPlaceRepository();
   };
 
   const closeScannerDetailModal = () => {
+    setErrorMessage(null);
     setSelectedScanner(null);
     scannerDetailModal.close();
   };
 
   // Funciones para guardar datos
   const savePlace = async () => {
-    if (!form.name || !form.address) return;
-    await updatePlace(form);
-    placeModal.close();
+    if (!form.name || !form.address) {
+      setErrorMessage("El nombre y la dirección son obligatorios.");
+      return;
+    } 
+    try {
+      setSavingPlace(true);
+      await updatePlace(form);
+      placeModal.close();
+    } catch (err: any) {
+      setErrorMessage("Error al actualizar la sucursal");
+    } finally {
+      setSavingPlace(false);
+    }
   };
 
   const saveMpToken = async () => {
     if (!place) return;
-    await updatePlace({ ...place, mpToken });
-    mpModal.close();
+    try {
+      setSavingMpToken(true);
+      await updatePlace({ ...place, mpToken });
+      mpModal.close();
+    } catch (err: any) {
+      setErrorMessage("Error al actualizar el token");
+    } finally {
+      setSavingMpToken(false);
+    }
   };
 
   const saveScanner = async () => {
     if (!scannerName || !scannerCategory) return;
-    await addScanner({ name: scannerName, category: parseInt(scannerCategory, 10) });
-    scannerModal.close();
+    try {
+      setSavingScanner(true);
+      await addScanner({ name: scannerName, category: parseInt(scannerCategory, 10) });
+      scannerModal.close();
+    } catch (err: any) {
+      setErrorMessage("Error al agregar el scanner"); 
+    } finally {
+      setSavingScanner(false);
+    }
   };
 
   // Función para eliminar scanner
   const deleteScanner = async (scannerId: number) => {
-    await removeScanner(scannerId);
-    scannerDetailModal.close();
+    try {
+      setRemovingScanner(true);
+      await removeScanner(scannerId);
+      scannerDetailModal.close();
+    } catch (err: any) {
+      setErrorMessage("Error al eliminar el scanner");
+    } finally {
+      setRemovingScanner(false);
+    }
   };
 
-  if (loading || !place) {
-    return (
-      <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
-        <ActivityIndicator size="large" color="#4caf50" />
-      </View>
-    );
+  if (!place) {
+    if (!loading) {
+      return (
+        <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
+          <Text style={{ color: "red", fontSize: 16 }}>Error desconocido, intente mas tarde.</Text>
+        </View>
+      );
+    }else{
+
+      return (
+        <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
+          <ActivityIndicator size="large" color="#4caf50" />
+        </View>
+      );
+    }
   }
 
   const renderLabelInput = (
@@ -169,13 +220,16 @@ const repository = new BackPlaceRepository();
       {/* Lista de Scanners */}
       <View style={styles.scannerSection}>
         <Text style={styles.sectionTitle}>Tus Scanners</Text>
-        {scanners.length === 0 ? (
+        {!scanners ? 
+          <Text style={styles.errorText}>Error cargando datos de Scanners</Text> 
+        :
+        scanners.length === 0 ? (
           <Text style={styles.noScanners}>No hay scanners registrados</Text>
         ) : (
           <FlatList
-            data={scanners}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
+          data={scanners}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
               <Pressable onPress={() => openScannerDetailModal(item)}>
                 <View style={styles.scannerItem}>
                   <Text style={styles.scannerName}>{item.name}</Text>
@@ -205,14 +259,23 @@ const repository = new BackPlaceRepository();
             {renderLabelInput("Descripción", form.description, (text) => setForm({ ...form, description: text }))}
             {renderLabelInput("Dirección", form.address, (text) => setForm({ ...form, address: text }))}
             {renderLabelInput("Imagen (URL)", form.img, (text) => setForm({ ...form, img: text }))}
-            
+
+            {errorMessage && (
+              <Text style={styles.errorText}>{errorMessage}</Text>
+            )}
+
             <View style={styles.modalButtons}>
-              <Pressable style={styles.modalButton} onPress={savePlace} >
-                <Text style={styles.modalButtonText}>Guardar</Text>
+              <Pressable style={styles.modalButton} onPress={savePlace} disabled={savingPlace}>
+                {savingPlace ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={styles.modalButtonText}>Guardar</Text>
+                )}
               </Pressable>
               <Pressable
                 style={[styles.modalButton, { backgroundColor: "#aaa" }]}
                 onPress={closeModal}
+                disabled={savingPlace}
               >
                 <Text style={styles.modalButtonText}>Cancelar</Text>
               </Pressable>
@@ -227,12 +290,23 @@ const repository = new BackPlaceRepository();
           <Animated.View style={[styles.modalContainer, { transform: [{ scale: mpModal.scale }] }]}>
             <Text style={styles.modalTitle}>Actualizar Token de Mercado Pago</Text>
             {renderLabelInput("Token", mpToken, setMpToken)}
+            {errorMessage && (
+              <Text style={styles.errorText}>{errorMessage}</Text>
+            )}
             
             <View style={styles.modalButtons}>
-              <Pressable style={styles.modalButton} onPress={saveMpToken}>
-                <Text style={styles.modalButtonText}>Guardar</Text>
+              <Pressable style={styles.modalButton} onPress={saveMpToken} disabled={savingMpToken}>
+                {savingMpToken ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={styles.modalButtonText}>Guardar</Text>
+                )}
               </Pressable>
-              <Pressable style={[styles.modalButton, { backgroundColor: "#aaa" }]} onPress={closeMpModal}>
+              <Pressable
+                style={[styles.modalButton, { backgroundColor: "#aaa" }]}
+                onPress={closeMpModal}
+                disabled={savingMpToken}
+              >
                 <Text style={styles.modalButtonText}>Cancelar</Text>
               </Pressable>
             </View>
@@ -247,12 +321,22 @@ const repository = new BackPlaceRepository();
             <Text style={styles.modalTitle}>Agregar Scanner</Text>
             {renderLabelInput("Nombre", scannerName, setScannerName)}
             {renderLabelInput("Categoría", scannerCategory, setScannerCategory)}
-            
+            {errorMessage && (
+              <Text style={styles.errorText}>{errorMessage}</Text>
+            )}
             <View style={styles.modalButtons}>
-              <Pressable style={styles.modalButton} onPress={saveScanner}>
-                <Text style={styles.modalButtonText}>Guardar</Text>
+              <Pressable style={styles.modalButton} onPress={saveScanner} disabled={savingScanner}>
+                {savingScanner ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={styles.modalButtonText}>Guardar</Text>
+                )}
               </Pressable>
-              <Pressable style={[styles.modalButton, { backgroundColor: "#aaa" }]} onPress={closeScannerModal}>
+              <Pressable
+                style={[styles.modalButton, { backgroundColor: "#aaa" }]}
+                onPress={closeScannerModal}
+                disabled={savingScanner}
+              >
                 <Text style={styles.modalButtonText}>Cancelar</Text>
               </Pressable>
             </View>
@@ -265,34 +349,41 @@ const repository = new BackPlaceRepository();
         <View style={styles.modalBackground}>
           <Animated.View style={[styles.modalContainer, { transform: [{ scale: scannerDetailModal.scale }] }]}>
             <Text style={styles.modalTitle}>Detalles del Scanner</Text>
-            
+
             {selectedScanner && (
               <View>
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Nombre:</Text>
                   <Text style={styles.detailValue}>{selectedScanner.name}</Text>
                 </View>
-                
+
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Categoría:</Text>
                   <Text style={styles.detailValue}>{selectedScanner.category}</Text>
                 </View>
-                
+
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Código de Acceso:</Text>
                   <Text style={styles.detailValue}>{selectedScanner.accessCode}</Text>
                 </View>
-                
+                {errorMessage && (
+                <Text style={styles.errorText}>{errorMessage}</Text>
+                )}
                 <View style={[styles.modalButtons, { marginTop: 20 }]}>
-                  <Pressable 
-                    style={[styles.modalButton, { backgroundColor: "red" }]} 
+                  <Pressable
+                    style={[styles.modalButton, { backgroundColor: "red" }]}
                     onPress={() => deleteScanner(selectedScanner.id)}
                   >
+                    {
+                      removingScanner ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                      ) : 
                     <Text style={styles.modalButtonText}>Eliminar</Text>
+                  }
                   </Pressable>
-                  
-                  <Pressable 
-                    style={[styles.modalButton, { backgroundColor: "#aaa" }]} 
+
+                  <Pressable
+                    style={[styles.modalButton, { backgroundColor: "#aaa" }]}
                     onPress={closeScannerDetailModal}
                   >
                     <Text style={styles.modalButtonText}>Cerrar</Text>
@@ -460,5 +551,12 @@ const styles = StyleSheet.create({
   detailValue: {
     fontSize: 16,
     color: "#555",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 14,
+    marginVertical: 8,
+    textAlign: "center",
+    fontWeight: "500",
   },
 });

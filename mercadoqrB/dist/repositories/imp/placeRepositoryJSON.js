@@ -235,6 +235,9 @@ class PlaceRepositoryJSON {
         return __awaiter(this, void 0, void 0, function* () {
             const placesString = fs.readFileSync(filePathPlace, 'utf-8');
             this.places = JSON.parse(placesString);
+            if (this.places.find(place => place.name === data.name && place.id !== placeId)) {
+                throw new errors_1.RegistrationError('Sucursal ya existente');
+            }
             const placeIndex = this.places.findIndex(place => place.id === placeId);
             if (placeIndex === -1)
                 throw new errors_1.NotFoundError('Place not found');
