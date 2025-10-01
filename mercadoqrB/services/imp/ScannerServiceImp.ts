@@ -9,6 +9,10 @@ export default class ScannerServiceImp implements ScannerService {
         this.scannerRepository = scannerRepository;
     }
 
+    async getScanner(place_id:number, scanner_id:number): Promise<Scanner> {
+        return this.scannerRepository.getScannerById(place_id, scanner_id); 
+    }
+
     async getScanners(place_id:number): Promise<Scanner[]> {
         return this.scannerRepository.getScanners(place_id); 
     }

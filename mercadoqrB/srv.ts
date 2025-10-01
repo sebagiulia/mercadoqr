@@ -104,6 +104,8 @@ app.get('/api/categories/:place', placeController.getCategories)
 app.post('/api/place/create', placeController.createPlace)
 
 // Scann
+app.get('/api/scann/place', authenticateScannerToken, adminPlaceController.getPlace)
+app.get('/api/scann/scanner', authenticateScannerToken, scannerController.getScanner)
 app.get('/api/scann/consume/:id', authenticateScannerToken, scannController.consumeQrByQrId)
 app.get('/api/scann/getprod/:id', authenticateScannerToken, qrController.getQrById)
 app.post('/api/scann/validate', authenticateScannerToken, scannController.validateScanner)

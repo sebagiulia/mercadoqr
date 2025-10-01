@@ -1,16 +1,15 @@
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BackAuthRepository } from "../infrastructure/auth/BackAuthRepository";
+import { login as Login } from "../services/authService";
 
 export function useLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const login = async (name: string, password: string): Promise<string | null> => {
-    const repo = new BackAuthRepository();
     setLoading(true);
     try {
-      const result = await repo.login(name, password);
+      const result = await Login(name, password);
       if (result.success && result.data) {
         await AsyncStorage.setItem("token", result.data.token);
         return result.data.token;

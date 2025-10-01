@@ -115,6 +115,8 @@ app.get('/api/categories/:place', placeController.getCategories);
 // Place
 app.post('/api/place/create', placeController.createPlace);
 // Scann
+app.get('/api/scann/place', tokenAuth_1.authenticateScannerToken, adminPlaceController.getPlace);
+app.get('/api/scann/scanner', tokenAuth_1.authenticateScannerToken, scannerController.getScanner);
 app.get('/api/scann/consume/:id', tokenAuth_1.authenticateScannerToken, scannController.consumeQrByQrId);
 app.get('/api/scann/getprod/:id', tokenAuth_1.authenticateScannerToken, qrController.getQrById);
 app.post('/api/scann/validate', tokenAuth_1.authenticateScannerToken, scannController.validateScanner);

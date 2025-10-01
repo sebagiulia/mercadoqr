@@ -14,6 +14,11 @@ class ScannerServiceImp {
         console.log("✅ Servicio de Scanner activo");
         this.scannerRepository = scannerRepository;
     }
+    getScanner(place_id, scanner_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.scannerRepository.getScannerById(place_id, scanner_id);
+        });
+    }
     getScanners(place_id) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.scannerRepository.getScanners(place_id);

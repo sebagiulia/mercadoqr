@@ -15,9 +15,22 @@ class ScannerController {
         this.scannerService = scannerService;
         console.log("✅ Servicio de Scanner activo");
         this.getScanners = this.getScanners.bind(this);
+        this.getScanner = this.getScanner.bind(this);
         this.addScanner = this.addScanner.bind(this);
         this.removeScanner = this.removeScanner.bind(this);
         this.updateScanner = this.updateScanner.bind(this);
+    }
+    getScanner(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { placeId, scannerId } = req;
+            try {
+                const scanners = yield this.scannerService.getScanner(placeId || 0, scannerId || 0);
+                (0, respondeUtil_1.sendSuccess)(res, scanners);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
     getScanners(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {

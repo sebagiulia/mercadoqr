@@ -8,10 +8,21 @@ export default class ScannerController {
         this.scannerService = scannerService;
         console.log("✅ Servicio de Scanner activo");
         this.getScanners = this.getScanners.bind(this);
+        this.getScanner = this.getScanner.bind(this);
         this.addScanner = this.addScanner.bind(this);
         this.removeScanner = this.removeScanner.bind(this);
         this.updateScanner = this.updateScanner.bind(this);
     }
+
+    async getScanner(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
+        const { placeId, scannerId } = req;
+            try {
+                const scanners = await this.scannerService.getScanner(placeId || 0, scannerId || 0);
+                sendSuccess(res, scanners);
+            } catch (error) {
+                next(error);
+            }
+        }
 
     async getScanners(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
         const { placeId } = req;

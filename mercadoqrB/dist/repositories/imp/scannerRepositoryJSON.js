@@ -58,6 +58,17 @@ class ScannerRepositoryJSON {
         const scannersString = fs.readFileSync(filePath, 'utf-8');
         this.scanners = JSON.parse(scannersString);
     }
+    getScannerById(place_id, scanner_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const scannersString = fs.readFileSync(filePath, 'utf-8');
+            this.scanners = JSON.parse(scannersString);
+            const scanner = this.scanners.find((scanner) => scanner.place_id === place_id && scanner.id === scanner_id);
+            if (!scanner) {
+                throw new errors_1.NotFoundError("Scanner not found");
+            }
+            return scanner;
+        });
+    }
     addScanner(place_id, sc) {
         return __awaiter(this, void 0, void 0, function* () {
             const newId = Math.random() * (100000 - 1) + 1;

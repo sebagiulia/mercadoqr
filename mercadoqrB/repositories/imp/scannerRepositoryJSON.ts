@@ -22,6 +22,18 @@ export default class ScannerRepositoryJSON implements ScannerRepository {
         const scannersString = fs.readFileSync(filePath, 'utf-8');
         this.scanners = JSON.parse(scannersString) as Scanner[];
     }
+
+    async getScannerById(place_id:number, scanner_id:number): Promise<Scanner> {
+        const scannersString = fs.readFileSync(filePath, 'utf-8');
+        this.scanners = JSON.parse(scannersString) as Scanner[];
+        const scanner = this.scanners.find((scanner:Scanner) => scanner.place_id === place_id && scanner.id === scanner_id);
+        if (!scanner) {
+            throw new NotFoundError("Scanner not found");
+        }
+        return scanner;
+    }
+
+
     async addScanner(place_id:number, sc: Scanner): Promise<Scanner> {
         const newId = Math.random() * (100000 - 1) + 1;
         const accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
