@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Place } from "../models/Place";
 import { getPlaceData } from "../services/placeService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export function usePlace(token: string | null, onUnauthorized?: () => void) {
@@ -18,11 +19,8 @@ export function usePlace(token: string | null, onUnauthorized?: () => void) {
         if (response.success && response.data) {
           setPlace(response.data);
         } else {
-          if (response.error?.code === "401" || response.error?.code === "403") {
+            await AsyncStorage.removeItem("token");
             onUnauthorized?.();
-          } else {
-            setError("Error cargando sucursal");
-          }
         }
       } catch (err) {
         setError("Error cargando sucursal");

@@ -1,6 +1,8 @@
 // services/qrService.ts
 import Product from "../models/Product";
+import { apiClient } from "../utils/apiClient";
 import endpoints from "../utils/endpoints";
+import ErrorType from "../utils/ErrorType";
 const example= {
     prod_name: "Chandone Decile",
     place_name: "Sucursal Central",
@@ -13,48 +15,25 @@ const example= {
     prod_cant:2
   }
   
-  export async function fetchQRData(qrCode: string): Promise<Product> {
-    try {
-       const res = await fetch(endpoints.GET_QR_DATA_API + qrCode);
-  
-      if (!res.ok) {
-        throw new Error(`Error HTTP: ${res.status}`);
-      }
-  
-      const result = await res.json();
-      const data = result.data as Product;
-      // Validación mínima
-      if (!data.prod_name) {
-        throw new Error("Respuesta inválida");
-      } 
-
-  
-      return data;
-    } catch (err) {
-      console.error("Error en fetchQRData:", err);
-      throw err;
-    }
+  export async function fetchQRData(token:string, qrCode: string): Promise<ErrorType<Product>> {
+    return apiClient<ErrorType<Product>>(endpoints.GET_QR_DATA_API, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ qr_code: qrCode })
+    });
   }
 
-  export async function consumeQrByQrId(qrCode:string): Promise<boolean>{
-    try {
-      const res = await fetch(endpoints.CONSUME_API + qrCode);
- 
-     if (!res.ok) {
-       throw new Error(`Error HTTP: ${res.status}`);
-     }
- 
-     const result = await res.json();
-     // Validación mínima
-     if (!result.success) {
-       throw new Error("Respuesta inválida");
-     } 
-
- 
-     return true;
-   } catch (err) {
-     console.error("Error en fetchQRData:", err);
-     throw err;
-   }
+  export async function consumeQrByQrId(token:string, qrCode:string): Promise<ErrorType<boolean>>{
+    return apiClient<ErrorType<boolean>>(endpoints.CONSUME_API, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+      ,body: JSON.stringify({ qr_code: qrCode })
+    });
   }
   

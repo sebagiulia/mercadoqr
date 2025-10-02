@@ -106,9 +106,8 @@ app.post('/api/place/create', placeController.createPlace)
 // Scann
 app.get('/api/scann/place', authenticateScannerToken, adminPlaceController.getPlace)
 app.get('/api/scann/scanner', authenticateScannerToken, scannerController.getScanner)
-app.get('/api/scann/consume/:id', authenticateScannerToken, scannController.consumeQrByQrId)
-app.get('/api/scann/getprod/:id', authenticateScannerToken, qrController.getQrById)
-app.post('/api/scann/validate', authenticateScannerToken, scannController.validateScanner)
+app.post('/api/scann/consume', authenticateScannerToken, scannController.consumeQrByQrId)
+app.post('/api/scann/getprod', authenticateScannerToken, scannController.getQRData)
 
 // MercadoPago
 app.post('/api/mp/getInitPoint', mercadoPagoController.getInitPoint)

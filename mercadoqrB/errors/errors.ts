@@ -61,3 +61,10 @@ export class RegistrationError extends AppError {
     super(message, 403, details);
   }
 }
+
+
+export class ScannError extends AppError {
+  constructor(message = 'Error en el escaneo', code=403,details?: unknown) {
+    super(message, code, details);
+  }
+}

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegistrationError = exports.TokenError = exports.AuthorizationError = exports.MercadoPagoError = exports.PaymentError = exports.InternalServerError = exports.NotFoundError = exports.ValidationError = exports.AppError = void 0;
+exports.ScannError = exports.RegistrationError = exports.TokenError = exports.AuthorizationError = exports.MercadoPagoError = exports.PaymentError = exports.InternalServerError = exports.NotFoundError = exports.ValidationError = exports.AppError = void 0;
 class AppError extends Error {
     constructor(message, statusCode, details) {
         super(message);
@@ -60,3 +60,9 @@ class RegistrationError extends AppError {
     }
 }
 exports.RegistrationError = RegistrationError;
+class ScannError extends AppError {
+    constructor(message = 'Error en el escaneo', code = 403, details) {
+        super(message, code, details);
+    }
+}
+exports.ScannError = ScannError;

@@ -10,9 +10,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import QRResult from "../components/QRResult";
-import { fetchQRData, consumeQrByQrId } from "../services/qrService";
 import Product from "../models/Product";
 import OverlayQR from "../components/OverlayQR";
+import { useValidator } from "../hooks/useValidator";
+import { useAuthToken } from "../hooks/useAuthToken";
 
 const { width } = Dimensions.get("window");
 
@@ -26,84 +27,79 @@ export default function App({ navigation }: any) {
   const [isScanning, setIsScanning] = useState(true);
   const [isConsumed, setIsConsumed] = useState(false);
 
+  const { token, logout } = useAuthToken(navigation, () => navigation.replace("Login"));
+  const { fetchProd, consumeQr } = useValidator(token, logout);
+
   if (!permission) return null;
 
   if (!permission.granted) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.centerContent}>
-          <Text style={styles.infoText}>
-            Necesitamos permiso para usar la cámara
-          </Text>
-          <Pressable style={styles.primaryButton} onPress={requestPermission}>
-            <Text style={styles.primaryButtonText}>Dar permiso</Text>
-          </Pressable>
+      <SafeAreaView style={styles.centerContent}>
+        <Text style={styles.infoText}>
+          Necesitamos permiso para usar la cámara
+        </Text>
+        <Pressable style={styles.primaryButton} onPress={requestPermission}>
+          <Text style={styles.primaryButtonText}>Dar permiso</Text>
+        </Pressable>
 
-          {/* Botón volver */}
-          <Pressable
-            style={styles.backButton}
-            onPress={() => navigation.replace("Home")}
-          >
-            <Text style={styles.backButtonText}>Volver</Text>
-          </Pressable>
-        </View>
+        {/* Botón volver */}
+        <Pressable
+          style={styles.secondaryButton}
+          onPress={() => navigation.replace("Home")}
+        >
+          <Text style={styles.secondaryButtonText}>Volver</Text>
+        </Pressable>
       </SafeAreaView>
     );
   }
 
   const handleBarcodeScanned = async ({ data }: { data: string }) => {
     if (!loading && !qrData) {
-      setLoading(true);
       setErrorMsg(null);
+      setLoading(true);
       setIsScanning(false); // Bloquea nuevas lecturas
-      try {
-        const result = await fetchQRData(data);
-        setQrData(result);
-      } catch (err) {
-        setErrorMsg("No se pudo obtener la información del QR.");
-      } finally {
-        setLoading(false);
+      const result = await fetchProd(data);
+      if (result?.success && result.data) {
+        setQrData(result.data);
+      } else {
+        setErrorMsg(result?.message || "QR inválido");
       }
+
+      setLoading(false);
     }
   };
 
   const handleConsume = async (data: string) => {
     setConsumeLoading(true);
     setErrorMsg(null);
-    try {
-      const result = await consumeQrByQrId(data);
-      if (result) setIsConsumed(true);
-      else setErrorMsg("No se pudo consumir el QR.");
-    } catch (err) {
-      setErrorMsg("Error al consumir el QR.");
-    } finally {
-      setConsumeLoading(false);
+    const result = await consumeQr(data);
+    if (result?.success) 
+      setIsConsumed(true);
+    else {
+      setErrorMsg(result?.message || "No se pudo consumir el QR.");
     }
-  };
+
+    setConsumeLoading(false);
+    }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.fullScreen}>
       {(loading || consumeLoading) && (
-        <ActivityIndicator size="large" color="#000" />
+        <ActivityIndicator size="large" color="#fff" style={styles.loading} />
       )}
 
       {errorMsg && (
         <View style={styles.centerContent}>
           <Text style={styles.errorText}>{errorMsg}</Text>
           <Pressable
-            style={styles.primaryButton}
+            style={styles.secondaryButton}
             onPress={() => {
               setErrorMsg(null);
               setIsScanning(true);
+              setQrData(null);
             }}
           >
-            <Text style={styles.primaryButtonText}>Seguir escaneando</Text>
-          </Pressable>
-          <Pressable
-            style={styles.backButton}
-            onPress={() => navigation.replace("Home")}
-          >
-            <Text style={styles.backButtonText}>Volver</Text>
+            <Text style={styles.secondaryButtonText}>Seguir escaneando</Text>
           </Pressable>
         </View>
       )}
@@ -111,24 +107,10 @@ export default function App({ navigation }: any) {
       {qrData && !loading && !errorMsg && (
         <View style={styles.centerContent}>
           {isConsumed ? (
-            <Text style={styles.successText}>
-              QR consumido exitosamente
-            </Text>
+            <Text style={styles.successText}>QR consumido exitosamente</Text>
           ) : (
             <QRResult data={qrData} />
           )}
-
-          <Pressable
-            style={styles.primaryButton}
-            onPress={() => {
-              setLoading(false);
-              setQrData(null);
-              setIsScanning(true);
-              setIsConsumed(false);
-            }}
-          >
-            <Text style={styles.primaryButtonText}>Seguir escaneando</Text>
-          </Pressable>
 
           {!isConsumed && (
             <Pressable
@@ -140,34 +122,43 @@ export default function App({ navigation }: any) {
           )}
 
           <Pressable
-            style={styles.backButton}
-            onPress={() => navigation.replace("Home")}
+            style={styles.secondaryButton}
+            onPress={() => {
+              setLoading(false);
+              setQrData(null);
+              setIsScanning(true);
+              setIsConsumed(false);
+            }}
           >
-            <Text style={styles.backButtonText}>Volver</Text>
+            <Text style={styles.secondaryButtonText}>Seguir escaneando</Text>
           </Pressable>
+
         </View>
       )}
 
       {!qrData && !loading && !errorMsg && (
-        <View style={styles.cameraContainer}>
+        <View style={styles.cameraWrapper}>
           <CameraView
-            style={styles.camera}
+            style={StyleSheet.absoluteFillObject}
             ref={ref}
-            facing={"back"}
+            facing="back"
             onBarcodeScanned={isScanning ? handleBarcodeScanned : undefined}
             barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
           />
 
-          <OverlayQR boxSize={width * 0.8} />
+          {/* Overlay */}
+          <View style={styles.overlayContainer}>
+            <OverlayQR boxSize={width * 0.75} />
+          </View>
 
           {/* Footer */}
           <View style={styles.footer}>
             <Text style={styles.footerText}>Escanee el QR</Text>
             <Pressable
-              style={styles.backButton}
+              style={styles.secondaryButton}
               onPress={() => navigation.replace("Home")}
             >
-              <Text style={styles.backButtonText}>Volver</Text>
+              <Text style={styles.secondaryButtonText}>Volver</Text>
             </Pressable>
           </View>
         </View>
@@ -177,24 +168,29 @@ export default function App({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  fullScreen: {
     flex: 1,
+    backgroundColor: "black",
   },
-  cameraContainer: {
+  cameraWrapper: {
     flex: 1,
+    backgroundColor: "black",
   },
-  camera: {
-    flex: 1,
+  overlayContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
   },
   centerContent: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
+    backgroundColor: "black",
   },
   infoText: {
     fontSize: 16,
-    color: "#333",
+    color: "white",
     marginBottom: 20,
     textAlign: "center",
   },
@@ -205,38 +201,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   successText: {
-    color: "green",
+    color: "limegreen",
     fontSize: 16,
     marginBottom: 12,
     textAlign: "center",
   },
   footer: {
-    paddingVertical: 15,
-    backgroundColor: "#fff",
+    position: "absolute",
+    bottom: 40,
+    width: "100%",
     alignItems: "center",
-    borderTopWidth: 1,
-    borderColor: "#ddd",
   },
   footerText: {
-    color: "#000",
+    color: "white",
     fontSize: 18,
-    marginBottom: 8,
+    marginBottom: 12,
   },
   primaryButton: {
-    backgroundColor: "#000",
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 10,
-    marginVertical: 8,
-    minWidth: 200,
-    alignItems: "center",
-  },
-  primaryButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  backButton: {
     backgroundColor: "#4CAF50",
     paddingVertical: 12,
     paddingHorizontal: 25,
@@ -244,10 +225,34 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     minWidth: 200,
     alignItems: "center",
+    width: "100%",
+    maxWidth: 330,
   },
-  backButtonText: {
-    color: "#fff",
+  primaryButtonText: {
+    color: "#000",
     fontSize: 16,
     fontWeight: "600",
+  },
+  secondaryButton: {
+    backgroundColor: "#fff",
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    marginVertical: 8,
+    minWidth: 200,
+    alignItems: "center",
+    width: "100%",
+    maxWidth: 330,
+  },
+  secondaryButtonText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  loading: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: -25 }, { translateY: -25 }],
   },
 });

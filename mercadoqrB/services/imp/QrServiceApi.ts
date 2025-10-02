@@ -25,8 +25,7 @@ export default class QrServiceImp implements QrService {
         const product = await this.placeRepository.getProductById(qr.place_id, qr.prod_id);
 
         if(!qr || !place || !product) {
-            console.error(`Qr not found for id: ${qrId}`);
-            throw new NotFoundError('Qr not found');
+            throw new NotFoundError('Qr inválido');
         } else {
             const qrResponse = {
                 id: qr.id,
