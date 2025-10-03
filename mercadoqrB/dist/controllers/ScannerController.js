@@ -53,6 +53,7 @@ class ScannerController {
                 (0, respondeUtil_1.sendSuccess)(res, newScanner);
             }
             catch (error) {
+                console.log("Entra a next");
                 next(error);
             }
         });

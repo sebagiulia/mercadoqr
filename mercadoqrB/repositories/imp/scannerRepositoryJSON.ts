@@ -1,4 +1,4 @@
-import { NotFoundError } from "../../errors/errors";
+import { NotFoundError, RegistrationError } from "../../errors/errors";
 import Scanner from "../../models/Scanner";
 import * as path from 'path';
 import * as fs from 'fs';
@@ -35,8 +35,19 @@ export default class ScannerRepositoryJSON implements ScannerRepository {
 
 
     async addScanner(place_id:number, sc: Scanner): Promise<Scanner> {
-        const newId = Math.random() * (100000 - 1) + 1;
-        const accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+        const scannersString = fs.readFileSync(filePath, 'utf-8');
+        this.scanners = JSON.parse(scannersString) as Scanner[];
+        if(this.scanners.find((scanner:Scanner) => scanner.name === sc.name && scanner.place_id === place_id)) {
+            throw new RegistrationError("El nombre del scanner ya existe en esta sucursal.");
+        }
+        let newId = Math.random() * (100000 - 1) + 1;
+        while (this.scanners.find((scanner:Scanner) => scanner.id === newId && scanner.place_id === place_id)) {
+            newId = Math.random() * (100000 - 1) + 1;
+        }
+        let accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+        while (this.scanners.find((scanner:Scanner) => scanner.accessCode === accessCode && scanner.place_id === place_id)) {
+            accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
         sc.id = newId;
         sc.place_id = place_id;
         sc.accessCode = accessCode;

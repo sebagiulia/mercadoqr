@@ -153,7 +153,7 @@ export default function App({ navigation }: any) {
 
           {/* Footer */}
           <View style={styles.footer}>
-            <Text style={styles.footerText}>Escanee el QR</Text>
+            <Text style={styles.footerText}>Enfoque el QR</Text>
             <Pressable
               style={styles.secondaryButton}
               onPress={() => navigation.replace("Home")}

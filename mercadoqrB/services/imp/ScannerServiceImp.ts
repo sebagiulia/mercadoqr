@@ -19,7 +19,7 @@ export default class ScannerServiceImp implements ScannerService {
 
     async addScanner(place_id: number, sc:Scanner): Promise<Scanner> {
         const newScanner = { ...sc, place_id };
-        this.scannerRepository.addScanner(place_id, newScanner);
+        await this.scannerRepository.addScanner(place_id, newScanner);
         return newScanner;
     }
 

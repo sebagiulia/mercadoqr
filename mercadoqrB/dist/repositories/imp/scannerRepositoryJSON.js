@@ -71,8 +71,19 @@ class ScannerRepositoryJSON {
     }
     addScanner(place_id, sc) {
         return __awaiter(this, void 0, void 0, function* () {
-            const newId = Math.random() * (100000 - 1) + 1;
-            const accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            const scannersString = fs.readFileSync(filePath, 'utf-8');
+            this.scanners = JSON.parse(scannersString);
+            if (this.scanners.find((scanner) => scanner.name === sc.name && scanner.place_id === place_id)) {
+                throw new errors_1.RegistrationError("El nombre del scanner ya existe en esta sucursal.");
+            }
+            let newId = Math.random() * (100000 - 1) + 1;
+            while (this.scanners.find((scanner) => scanner.id === newId && scanner.place_id === place_id)) {
+                newId = Math.random() * (100000 - 1) + 1;
+            }
+            let accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            while (this.scanners.find((scanner) => scanner.accessCode === accessCode && scanner.place_id === place_id)) {
+                accessCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            }
             sc.id = newId;
             sc.place_id = place_id;
             sc.accessCode = accessCode;

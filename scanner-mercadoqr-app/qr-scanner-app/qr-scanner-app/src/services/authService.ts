@@ -5,13 +5,13 @@ import { apiClient } from "../utils/apiClient"
 import endpoints from "../utils/endpoints"
 
 
-export async function login(name: string, password: string): Promise<ErrorType<AuthResponse>> {
+export async function login(name: string, password: string, place:string): Promise<ErrorType<AuthResponse>> {
   return apiClient(endpoints.LOGIN_API, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ name, password }),
+  body: JSON.stringify({ name, password, place }),
 });
 }
 

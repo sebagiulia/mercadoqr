@@ -6,10 +6,10 @@ export function useLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const login = async (name: string, password: string): Promise<string | null> => {
+  const login = async (name: string, password: string, place:string): Promise<string | null> => {
     setLoading(true);
     try {
-      const result = await Login(name, password);
+      const result = await Login(name, password, place);
       if (result.success && result.data) {
         await AsyncStorage.setItem("token", result.data.token);
         return result.data.token;

@@ -27,7 +27,7 @@ class ScannerServiceImp {
     addScanner(place_id, sc) {
         return __awaiter(this, void 0, void 0, function* () {
             const newScanner = Object.assign(Object.assign({}, sc), { place_id });
-            this.scannerRepository.addScanner(place_id, newScanner);
+            yield this.scannerRepository.addScanner(place_id, newScanner);
             return newScanner;
         });
     }

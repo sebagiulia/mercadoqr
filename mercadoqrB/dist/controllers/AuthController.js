@@ -31,9 +31,9 @@ class AuthController {
     }
     authScann(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { name, password } = req.body;
+            const { name, password, place } = req.body;
             try {
-                const result = yield this.authService.loginScanner(name, password);
+                const result = yield this.authService.loginScanner(name, password, place);
                 (0, respondeUtil_1.sendSuccess)(res, result);
             }
             catch (err) {

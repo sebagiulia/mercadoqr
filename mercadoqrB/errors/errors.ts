@@ -58,7 +58,7 @@ export class AppError extends Error {
 
 export class RegistrationError extends AppError {
   constructor(message = 'Registro inválido', details?: unknown) {
-    super(message, 403, details);
+    super(message, 400, details);
   }
 }
 

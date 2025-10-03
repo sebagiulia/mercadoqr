@@ -25,8 +25,11 @@ export default class AuthServiceJSON implements AuthService {
         return { token };
     }
 
-    async loginScanner(name: string, password: string): Promise<{ token: string }> {
-        const scanner = await this.scannerRepository.getScanner(name);
+    async loginScanner(name: string, password: string, place:string): Promise<{ token: string }> {
+        const placeData = await this.placeRepository.getPlace(place);
+        if (!placeData) throw new NotFoundError("Lugar no encontrado");
+        const scanners = await this.scannerRepository.getScanners(placeData.id);
+        const scanner = scanners.find((s) => s.name === name);
         if (!scanner) throw new NotFoundError("Escáner no encontrado");
         /* const valid = await bcrypt.compare(password, scanner.passwordHash); */
         const valid = password === scanner.accessCode; // Temporal mientras no se implemente el registro de escáneres

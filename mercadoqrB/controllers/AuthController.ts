@@ -23,9 +23,9 @@ export default class AuthController {
     }
 
     async authScann(req: Request, res: Response, next: NextFunction): Promise<void> {
-        const { name, password } = req.body;
+        const { name, password, place } = req.body;
         try {
-          const result = await this.authService.loginScanner(name, password);
+          const result = await this.authService.loginScanner(name, password, place);
           sendSuccess(res, result);
         } catch (err: any) {
           next(err);

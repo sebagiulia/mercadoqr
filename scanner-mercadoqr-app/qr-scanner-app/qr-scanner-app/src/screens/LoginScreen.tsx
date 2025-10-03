@@ -17,6 +17,7 @@ export default function LoginScreen({ navigation }: any) {
   const { token, setToken } = useAuthToken(navigation, () => {});
   const { login, loading, error } = useLogin();
 
+  const [place, setPlace] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,7 +26,7 @@ export default function LoginScreen({ navigation }: any) {
   }, [token]);
 
   const handleLogin = async () => {
-    const t = await login(name, password);
+    const t = await login(name, password, place);
     if (t) setToken(t);
   };
 
@@ -42,7 +43,17 @@ export default function LoginScreen({ navigation }: any) {
           <Text style={styles.title}>Iniciar sesión</Text>
 
           <View style={{ marginVertical: 8, width: "100%" }}>
-            <Text style={styles.label}>Nombre scanner</Text>
+            <Text style={styles.label}>Nombre de sucursal</Text>
+            <TextInput
+              style={styles.input}
+              value={place}
+              onChangeText={setPlace}
+              returnKeyType="next"
+            />
+          </View>
+
+          <View style={{ marginVertical: 8, width: "100%" }}>
+            <Text style={styles.label}>Nombre de scanner</Text>
             <TextInput
               style={styles.input}
               value={name}

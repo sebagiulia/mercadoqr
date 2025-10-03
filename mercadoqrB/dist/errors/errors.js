@@ -56,7 +56,7 @@ class TokenError extends AppError {
 exports.TokenError = TokenError;
 class RegistrationError extends AppError {
     constructor(message = 'Registro inválido', details) {
-        super(message, 403, details);
+        super(message, 400, details);
     }
 }
 exports.RegistrationError = RegistrationError;

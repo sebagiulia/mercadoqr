@@ -33,9 +33,13 @@ class AuthServiceJSON {
             return { token };
         });
     }
-    loginScanner(name, password) {
+    loginScanner(name, password, place) {
         return __awaiter(this, void 0, void 0, function* () {
-            const scanner = yield this.scannerRepository.getScanner(name);
+            const placeData = yield this.placeRepository.getPlace(place);
+            if (!placeData)
+                throw new errors_1.NotFoundError("Lugar no encontrado");
+            const scanners = yield this.scannerRepository.getScanners(placeData.id);
+            const scanner = scanners.find((s) => s.name === name);
             if (!scanner)
                 throw new errors_1.NotFoundError("Escáner no encontrado");
             /* const valid = await bcrypt.compare(password, scanner.passwordHash); */

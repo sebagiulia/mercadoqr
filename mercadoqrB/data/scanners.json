@@ -1,9 +1,16 @@
 [
-    {
-        "id": 0,
-        "place_id": 4,
-        "name": "Marce",
-        "level": 1,
-        "accessCode": "111111"
-    }
+  {
+    "name": "Marce",
+    "category": 1,
+    "id": 90894.51412754924,
+    "accessCode": "8SC4E2",
+    "place_id": 4
+  },
+  {
+    "name": "Luis",
+    "category": 2,
+    "id": 63525.52237167705,
+    "accessCode": "F7XLBF",
+    "place_id": 4
+  }
 ]
