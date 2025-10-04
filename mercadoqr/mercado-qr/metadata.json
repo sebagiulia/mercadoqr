@@ -1,0 +1,5 @@
+{
+  "name": "Mercado QR",
+  "description": "An application to browse businesses, view their product catalogs, and proceed to checkout using Mercado Pago. Users can search for businesses, select products, choose quantities, and initiate the payment process.",
+  "requestFramePermissions": []
+}

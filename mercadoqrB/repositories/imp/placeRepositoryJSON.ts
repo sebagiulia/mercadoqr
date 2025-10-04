@@ -80,7 +80,7 @@ export default class PlaceRepositoryJSON implements PlaceRepository {
     async getPlaces(placeName: string): Promise<Place[]> {
         const placesString = fs.readFileSync(filePathPlace, 'utf-8');
         this.places = JSON.parse(placesString) as Place[];
-
+        if (placeName === "-") return this.places
         const places = this.places.filter(place => place.name.includes(placeName))
         if (places.length > 0) return places.slice(0, 4)
         throw new NotFoundError('Places not found')

@@ -111,6 +111,8 @@ class PlaceRepositoryJSON {
         return __awaiter(this, void 0, void 0, function* () {
             const placesString = fs.readFileSync(filePathPlace, 'utf-8');
             this.places = JSON.parse(placesString);
+            if (placeName === "-")
+                return this.places;
             const places = this.places.filter(place => place.name.includes(placeName));
             if (places.length > 0)
                 return places.slice(0, 4);
