@@ -5,6 +5,7 @@ import PlaceRepository from '../../repositories/placeRepository'
 import Product from '../../schemas/ProductResponse'
 import PlaceResponse from '../../schemas/PlaceResponse'
 import bcrypt from 'bcrypt';
+import FormData from '../../schemas/FormData'
 
 export default class PlaceServiceImp implements PlaceService {
     private placeRepository: PlaceRepository
@@ -62,18 +63,23 @@ export default class PlaceServiceImp implements PlaceService {
     }
 
 
-    async createPlace(data: Place): Promise<PlaceResponse> {
+    async createPlace(data: FormData): Promise<PlaceResponse> {
         const SALT_ROUNDS = 10;
-        const hashedPassword = await bcrypt.hash(data.passwordHash, SALT_ROUNDS);
+        const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
 
-        const placeWithoutPassword = await this.placeRepository.createPlace({
-          id: data.id,
-          name: data.name,
-          description: data.description,
-          address: data.address,
-          img: data.img,
-          passwordHash: hashedPassword,
-          mpToken: data.mpToken || "",
+        const placeWithoutPassword = await this.placeRepository.createPlace(
+        {
+            id: 0, // The ID will be set by the repository
+            name: data.nombre,
+            fullName: data.nombreCompleto,
+            description: "",
+            address: data.direccion,
+            city: data.ciudad,
+            socialMedia: data.instagram,
+            img: data.imagen,
+            email: data.email,
+            passwordHash: hashedPassword,
+            mpToken: data.mercadopago
         });
       
         return placeWithoutPassword;

@@ -78,15 +78,19 @@ class PlaceServiceImp {
     createPlace(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const SALT_ROUNDS = 10;
-            const hashedPassword = yield bcrypt_1.default.hash(data.passwordHash, SALT_ROUNDS);
+            const hashedPassword = yield bcrypt_1.default.hash(data.password, SALT_ROUNDS);
             const placeWithoutPassword = yield this.placeRepository.createPlace({
-                id: data.id,
-                name: data.name,
-                description: data.description,
-                address: data.address,
-                img: data.img,
+                id: 0, // The ID will be set by the repository
+                name: data.nombre,
+                fullName: data.nombreCompleto,
+                description: "",
+                address: data.direccion,
+                city: data.ciudad,
+                socialMedia: data.instagram,
+                img: data.imagen,
+                email: data.email,
                 passwordHash: hashedPassword,
-                mpToken: data.mpToken || "",
+                mpToken: data.mercadopago
             });
             return placeWithoutPassword;
         });

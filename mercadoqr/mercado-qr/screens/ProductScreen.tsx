@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
-import { PlusIcon, MinusIcon } from "../components/Icons";
+import { PlusIcon, MinusIcon, EmailIcon, PhoneIcon } from "../components/Icons";
 import Product from "../models/product";
 
 interface ProductScreenProps {
@@ -41,6 +41,8 @@ const QuantitySelector: React.FC<{
   );
 };
 
+
+
 const ProductScreen: React.FC<ProductScreenProps> = ({
   product,
   placeName,
@@ -51,76 +53,89 @@ const ProductScreen: React.FC<ProductScreenProps> = ({
 
   const isOutOfStock = product.stock === 0;
 
+  const ProductDetails = () => (
+    <>
+        <div className="flex justify-between items-start">
+            <h2 className="text-3xl font-bold text-mercado-gray">{product.name}</h2>
+            <p className="text-3xl font-bold text-mercado-green">${product.price.toFixed(2)}</p>
+        </div>
+         {isOutOfStock && (
+            <div className="mt-2">
+                <span className="font-bold text-red-500 text-sm px-3 py-1 bg-red-100 rounded-full">Agotado</span>
+            </div>
+        )}
+        <p className="text-gray-600 mt-4">{product.description}</p>
+        {!isOutOfStock && <p className="text-sm text-gray-500 mt-2">Disponibles: {product.stock}</p>}
+    </>
+);
+
+  const PaymentForm = () => (
+        <>
+        {isOutOfStock ? (
+            <div className="my-6 text-center text-gray-500 font-semibold">
+                Este producto no está disponible.
+            </div>
+        ) : (
+            <div className="my-6">
+                <QuantitySelector quantity={quantity} setQuantity={setQuantity} stock={product.stock} />
+            </div>
+        )}
+        </>
+        );
+        
+
   return (
     <div className="flex flex-col h-screen">
-      <Header title={placeName} onBack={onBack} />
-      <div className="flex-grow overflow-y-auto">
-        <div className="p-4 bg-white">
-          <div className="relative w-full aspect-square bg-gray-100 rounded-xl overflow-hidden shadow-md">
-            <img
-              src={product.img}
-              alt={product.name}
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </div>
+            <Header title={placeName} onBack={onBack} />
+            <div className="flex-grow overflow-y-auto">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                     <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 lg:items-start py-8">
+                        {/* Image column */}
+                        <div className="lg:sticky lg:top-24">
+                           <div className="relative w-full aspect-square bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                                <img 
+                                    src={product.img} 
+                                    alt={product.name} 
+                                    className="w-full h-full object-contain"
+                                />
+                            </div>
+                        </div>
 
-        <div className="p-6">
-          <div className="flex justify-between items-start">
-            <h2 className="text-3xl font-bold text-mercado-gray">
-              {product.name}
-            </h2>
-            <p className="text-3xl font-bold text-mercado-green">
-              ${product.price.toFixed(2)}
-            </p>
-          </div>
-          {isOutOfStock && (
-            <div className="mt-2">
-              <span className="font-bold text-red-500 text-sm px-3 py-1 bg-red-100 rounded-full">
-                Agotado
-              </span>
+                        {/* Details column (mobile) */}
+                        <div className="mt-8 lg:hidden">
+                            <ProductDetails />
+                        </div>
+                        
+                        {/* Form and purchase button (mobile) */}
+                        <div className="lg:hidden">
+                            <PaymentForm />
+                        </div>
+
+                        {/* Details, form, and purchase button (desktop) */}
+                        <div className="hidden lg:flex lg:flex-col justify-between h-full">
+                            <div>
+                                <ProductDetails />
+                                <PaymentForm />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          )}
-          <p className="text-gray-600 mt-4">{product.description}</p>
-          {!isOutOfStock && (
-            <p className="text-sm text-gray-500 mt-2">
-              Disponibles: {product.stock}
-            </p>
-          )}
-        </div>
 
-        {isOutOfStock ? (
-          <div className="my-6 text-center text-gray-500 font-semibold">
-            Este producto no está disponible.
-          </div>
-        ) : (
-          <div className="my-6">
-            <QuantitySelector
-              quantity={quantity}
-              setQuantity={setQuantity}
-              stock={product.stock}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="p-4 border-t border-gray-200 bg-white">
-        <div className="flex justify-between items-center mb-4 text-xl">
-          <span className="text-gray-600">Total</span>
-          <span className="font-bold text-mercado-gray">
-            $
-            {isOutOfStock ? "0.00" : (product.price * quantity).toFixed(2)}
-          </span>
+             <div className="p-4 border-t border-gray-200 bg-white sticky bottom-0">
+                 <div className="flex justify-between items-center mb-4 text-xl">
+                    <span className="text-gray-600">Total</span>
+                    <span className="font-bold text-mercado-gray">${isOutOfStock ? '0.00' : (product.price * quantity).toFixed(2)}</span>
+                </div>
+                <button 
+                    onClick={() => onProceedToPayment(product, quantity)}
+                    disabled={isOutOfStock}
+                    className="w-full bg-mercado-blue text-white font-bold py-4 rounded-lg hover:bg-mercado-blue-light transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                    {isOutOfStock ? 'Producto Agotado' : 'Continuar al Pago'}
+                </button>
+            </div>
         </div>
-        <button
-          onClick={() => onProceedToPayment(product, quantity)}
-          disabled={isOutOfStock}
-          className="w-full bg-mercado-blue text-white font-bold py-4 rounded-lg hover:bg-mercado-blue-light transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          {isOutOfStock ? "Producto Agotado" : "Continuar al Pago"}
-        </button>
-      </div>
-    </div>
   );
 };
 

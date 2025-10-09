@@ -25,9 +25,9 @@ class PlaceController {
     }
     createPlace(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const place = req.body;
+            const formData = req.body;
             try {
-                const newPlace = yield this.placeService.createPlace(place);
+                const newPlace = yield this.placeService.createPlace(formData);
                 (0, respondeUtil_1.sendSuccess)(res, newPlace, 'Solicitud recibida');
             }
             catch (error) {

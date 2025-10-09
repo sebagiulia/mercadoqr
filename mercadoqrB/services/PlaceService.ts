@@ -1,4 +1,5 @@
 import Movement from '../models/Movement';
+import FormData from '../schemas/FormData';
 import Place from '../schemas/Place';
 import PlaceResponse from '../schemas/PlaceResponse';
 import Product from '../schemas/ProductResponse';
@@ -16,7 +17,7 @@ export default interface PlaceService {
     updateProduct(placeId: number, productId:number, product: Partial<Product>): Promise<Product>;
     deleteProduct(placeId: number, productId:number): Promise<void>;
 
-    createPlace(place: Place): Promise<PlaceResponse>;
+    createPlace(formData: FormData): Promise<PlaceResponse>;
     updatePlace(placeId: number, place: Partial<Place>): Promise<PlaceResponse>;
     deletePlace(placeId: number): Promise<void>;
 }

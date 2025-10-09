@@ -57,7 +57,7 @@ El QR se enviará a:
             Información de contacto
           </h3>
           <p className="text-sm text-gray-500 mb-3">
-            Te enviaremos el código QR a tu email y/o teléfono.
+            Te enviaremos el código QR a tu email y/o whatsapp.
           </p>
           <div className="bg-white p-4 rounded-lg shadow-sm space-y-4">
             <div className="relative">

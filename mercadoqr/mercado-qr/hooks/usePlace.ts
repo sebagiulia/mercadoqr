@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { places } from "../data/places";
 import PlaceService from "@/services/placeService";
 import Product from "@/models/product";
 import Place from "@/models/place";
 
 // Datos simulados (antes estaban en ../data/places)
-const mockPlaces: Place[] = places;
-
 export function usePlace(placeName: string) {
   const [place, setPlace] = useState<Place>();
   const [products, setProducts] = useState<Product[]>();

@@ -19,9 +19,9 @@ export default class PlaceController {
     }
 
     async createPlace(req: Request, res: Response, next:NextFunction): Promise<void> {
-        const place = req.body;
+        const formData = req.body;
         try {
-            const newPlace = await this.placeService.createPlace(place);
+            const newPlace = await this.placeService.createPlace(formData);
             sendSuccess(res, newPlace, 'Solicitud recibida');
         } catch (error) {
             next(error)

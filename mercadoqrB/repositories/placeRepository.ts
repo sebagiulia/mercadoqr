@@ -2,6 +2,7 @@ import Product from "../schemas/ProductResponse";
 import Place from "../schemas/Place";
 import PlaceResponse from "../schemas/PlaceResponse";
 import Movement from "../models/Movement";
+import FormData from "../schemas/FormData";
 
 export default interface PlaceRepository {
     getPlaceById(placeId: number): Promise<Place>;

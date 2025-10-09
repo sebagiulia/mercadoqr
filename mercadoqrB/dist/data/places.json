@@ -7,7 +7,11 @@
         "img": "https://static.vecteezy.com/system/resources/previews/010/628/580/non_2x/cocktail-logo-design-template-bar-logo-vector.jpg",
         "credential": "TUEVENTO",
         "passwordHash": "123456",
-        "mpToken": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272"
+        "mpToken": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272",
+        "fullName": "Lucas Store",
+        "city": "Rosario",
+        "socialMedia": "@coolstore",
+        "email": "lucasstore@gmail.com"
     },
     {
         "id": 2,
@@ -17,17 +21,11 @@
         "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVLFaaLr0HThIlCk_dLxbcLEdDn93lYTucew&s",
         "credential": "TUBIBLIO",
         "passwordHash": "123456",
-        "mpToken": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272"
-    },
-    {
-        "id": 5,
-        "name": "tubarberia",
-        "address": "Av. Pellegrini 1234",
-        "description": "Barberia de caballeros",
-        "img": "https://i.pinimg.com/736x/a9/40/92/a9409281fa230ecd40b7f6e5f0594159.jpg",
-        "credential": "TUBARBERIA",
-        "passwordHash": "123456",
-        "mpToken": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272"
+        "mpToken": "APP_USR-5448777090717317-013117-42fd553b67ae0e11f1b8e7a817f92e08-2242708272",
+        "fullName": "Sofia Corner",
+        "city": "Córdoba",
+        "socialMedia": "@mystore",
+        "email": "sofiacorner@yahoo.com"
     },
     {
         "id": 4,
@@ -37,6 +35,10 @@
         "img": "https://static.vecteezy.com/system/resources/previews/010/628/580/non_2x/cocktail-logo-design-template-bar-logo-vector.jpg",
         "credential": "TUEVENTO",
         "passwordHash": "$2b$10$jlKLsMN0vBFF.itx0FxtGOZ/Zn.7rMwy8H2gcZ952/FUN2bEzG4am",
-        "mpToken": "sdffeowifhwoiewoihf"
+        "mpToken": "sdffeowifhwoiewoihf",
+        "fullName": "Valentina House",
+        "city": "Mendoza",
+        "socialMedia": "@shoponline",
+        "email": "valentinahouse@outlook.com"
     }
 ]

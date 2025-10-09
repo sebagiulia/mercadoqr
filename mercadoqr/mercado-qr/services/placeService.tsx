@@ -3,6 +3,7 @@ import Product from "../models/product";
 import endpoints from "../utils/endpoints";
 import { apiClient } from "../utils/apiClient";
 import ErrorType from "../errors/errorType";
+import FormData from "../models/formData";
 
 export default class PlaceService {
     static async getPlace(placeName: string):Promise<ErrorType<Place>> {
@@ -25,7 +26,7 @@ export default class PlaceService {
         return apiClient(endpoints.places.getCategories(placeName))
     }
 
-    static async createPlace(form: Record<string, string>):Promise<ErrorType<Place>> {
+    static async createPlace(form: FormData):Promise<ErrorType<Place>> {
         return apiClient(endpoints.places.create, { 
             method: 'POST',
             body: JSON.stringify(form),
