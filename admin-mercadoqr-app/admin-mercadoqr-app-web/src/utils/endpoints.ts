@@ -1,4 +1,4 @@
-const EXTERNAL_API = 'http://192.168.0.100:8080';
+const EXTERNAL_API = 'http://192.168.0.101:8080';
 
 const ROUTER = {
     GET_PLACE_DATA: '/api/admin/place/',
