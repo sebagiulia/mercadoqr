@@ -105,7 +105,7 @@
     "category": "Espumantes",
     "start_date": "2025-11-01",
     "end_date": "2025-11-30",
-    "stock": 9
+    "stock": 0
   },
   {
     "id": 16,
@@ -166,42 +166,6 @@
     "start_date": "2025-11-01",
     "end_date": "2025-11-30",
     "stock": 0
-  },
-  {
-    "id": 21,
-    "place_id": 5,
-    "name": "Turno 09:00",
-    "price": 50,
-    "description": "",
-    "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
-    "category": "Martes",
-    "start_date": "2025-11-01",
-    "end_date": "2025-11-30",
-    "stock": 1
-  },
-  {
-    "id": 22,
-    "place_id": 5,
-    "name": "Turno 10:00",
-    "price": 50,
-    "description": "",
-    "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
-    "category": "Martes",
-    "start_date": "2025-11-01",
-    "end_date": "2025-11-30",
-    "stock": 1
-  },
-  {
-    "id": 23,
-    "place_id": 5,
-    "name": "Turno 11:00",
-    "price": 50,
-    "description": "",
-    "img": "https://i.pinimg.com/474x/f4/f9/d6/f4f9d61c63621bf87727b07603d8cfa9.jpg",
-    "category": "Martes",
-    "start_date": "2025-11-01",
-    "end_date": "2025-11-30",
-    "stock": 1
   },
   {
     "id": 24,

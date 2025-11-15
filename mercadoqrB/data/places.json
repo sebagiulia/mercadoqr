@@ -31,7 +31,7 @@
     "id": 4,
     "name": "bluevelvet",
     "description": "Tus noches de verano al aire libre",
-    "address": "Av. Columbres 17568a",
+    "address": "Av. Columbres 17568",
     "img": "https://static.vecteezy.com/system/resources/previews/010/628/580/non_2x/cocktail-logo-design-template-bar-logo-vector.jpg",
     "credential": "TUEVENTO",
     "passwordHash": "$2b$10$jlKLsMN0vBFF.itx0FxtGOZ/Zn.7rMwy8H2gcZ952/FUN2bEzG4am",
@@ -40,4 +40,5 @@
     "city": "Mendoza",
     "socialMedia": "@shoponline",
     "email": "valentinahouse@outlook.com"
-  }]
+  }
+]
